@@ -18,8 +18,8 @@
     "editorType": [
       "figma"
     ],
-    "id": "preact-rectangles",
-    "name": "Preact Rectangles",
+    "id": "summon.ai",
+    "name": "Summon.AI",
     "main": "src/main.ts",
     "ui": "src/ui.tsx"
   }

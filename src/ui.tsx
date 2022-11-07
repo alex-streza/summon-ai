@@ -180,7 +180,7 @@ const AboutTab = () => {
 			<VerticalSpace space="medium" />
 			<Text style={{ fontSize: 16, lineHeight: "24px", fontWeight: 500 }} as={"p"}>
 				Summon.AI is an open-source AI design tool allowing you to summon beautiful images, powered by{" "}
-				<Link target="_blank" href="https://openai.com/api/pricing/">
+				<Link target="_blank" href="https://openai.com/dall-e-2/">
 					DALL-E-2
 				</Link>
 				.
