@@ -1,10 +1,10 @@
 {
-  "name": "summon.ai",
-  "id": "1170303081442080045",
   "api": "1.0.0",
-  "main": "code.js",
   "editorType": [
     "figma"
   ],
-  "ui": "ui.html"
+  "id": "preact-rectangles",
+  "name": "Preact Rectangles",
+  "main": "build/main.js",
+  "ui": "build/ui.js"
 }
