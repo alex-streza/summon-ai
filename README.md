@@ -1,13 +1,19 @@
-# Preact Rectangles
+# Summon.AI
 
-## Development guide
+## About
 
-*This plugin is built with [Create Figma Plugin](https://yuanqing.github.io/create-figma-plugin/).*
+Summon.AI is an open-source AI design tool allowing you to generate beautiful images, powered by [DALL-E-2](https://openai.com/dall-e-2/)
 
-### Pre-requisites
+## Features
 
-- [Node.js](https://nodejs.org) – v16
-- [Figma desktop app](https://figma.com/downloads/)
+- ❤️ DALL-E-2 Text to Image Generation
+- ⭐️ Minimalist Figma based UI
+- 🧐 Supports count, resolution and prompt params
+- ⚡️ Free & open-source
+ 
+## Quick Start
+
+To get it running, follow the steps below:
 
 ### Build the plugin
 
@@ -46,3 +52,20 @@ Official docs and code samples from Figma:
 
 - [Plugin API docs](https://figma.com/plugin-docs/)
 - [`figma/plugin-samples`](https://github.com/figma/plugin-samples#readme)
+
+## Contributing
+
+Any help is appreciated, feel free to open an issue or a PR!
+- [ ] Edit image with mask + prompt
+- [ ] Generate variations for given image
+- [ ] Cleanup positioning logic
+
+## Development guide
+
+*This plugin is built with [Create Figma Plugin](https://yuanqing.github.io/create-figma-plugin/).*
+
+### Pre-requisites
+
+- [Node.js](https://nodejs.org) – v16
+- [Figma desktop app](https://figma.com/downloads/)
+
