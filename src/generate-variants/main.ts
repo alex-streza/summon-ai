@@ -36,7 +36,6 @@ export default function () {
 		Promise.all([
 			figma.loadFontAsync({ family: "Inter", style: "Regular" }),
 			figma.loadFontAsync({ family: "Inter", style: "Semi Bold" }),
-			figma.loadFontAsync({ family: "Inter", style: "Bold" }),
 		]).then(() => {
 			const nodes: SceneNode[] = [];
 
@@ -67,50 +66,6 @@ export default function () {
 			const nodesOffset = (IMAGE_SIZE / 2) * nodes.length;
 
 			if (figma.currentPage.selection.length > 0) {
-				const frames = figma.currentPage.selection.filter((node) => node.type === "FRAME") as FrameNode[];
-				const nonFrames = figma.currentPage.selection.filter((node) => node.type !== "FRAME") as SceneNode[];
-
-				if (frames.length > 0) {
-					const middleX = frames[0].width / 2 - nodesOffset - gapOffset;
-					const middleY = frames[0].height / 2 - IMAGE_SIZE / 2;
-
-					nodes.forEach((node, index) => {
-						node.x = middleX + (IMAGE_SIZE + GAP) * index;
-						node.y = middleY;
-
-						const text = figma.createText();
-						text.characters = "V" + (index + 1);
-						text.fontSize = TEXT_SIZE;
-						text.fontName = { family: "Inter", style: "Bold" };
-
-						text.x = node.x + node.width / 2 - text.width / 2;
-						text.y = node.y + node.height + 20;
-
-						frames[0].appendChild(node);
-						frames[0].appendChild(text);
-
-						nodes.push(text);
-					});
-				} else {
-					const middleX = nonFrames[0].x + nonFrames[0].width / 2 - nodesOffset - gapOffset;
-					const middleY = nonFrames[0].y + nonFrames[0].height / 2 - IMAGE_SIZE / 2;
-
-					nodes.forEach((node, index) => {
-						node.x = middleX + (IMAGE_SIZE + GAP) * index;
-						node.y = middleY;
-
-						const text = figma.createText();
-						text.characters = "V" + (index + 1);
-						text.fontSize = TEXT_SIZE;
-						text.fontName = { family: "Inter", style: "Bold" };
-
-						text.x = node.x + node.width / 2 - text.width / 2;
-						text.y = node.y + node.height + 20;
-
-						nodes.push(text);
-					});
-				}
-			} else {
 				const middleX = figma.viewport.center.x - nodesOffset - gapOffset;
 				const middleY = figma.viewport.center.y - IMAGE_SIZE / 2;
 
@@ -158,10 +113,26 @@ export default function () {
 		figma.closePlugin();
 	});
 
-	showUI: () => {
-		showUI({
-			height: 540,
-			width: 600,
-		});
-	};
+	let selection = figma.currentPage.selection[0];
+	let loaded = false;
+
+	setInterval(() => {
+		const currentSelection = figma.currentPage.selection[0];
+		if (currentSelection.id !== selection.id || !loaded) {
+			selection = currentSelection;
+			loaded = true;
+			convertToBytes(selection).then((image) => {
+				if (image) {
+					emit("SELECT_IMAGE", {
+						image: figma.base64Encode(image),
+					});
+				}
+			});
+		}
+	}, 500);
+
+	showUI({
+		height: 540,
+		width: 600,
+	});
 }

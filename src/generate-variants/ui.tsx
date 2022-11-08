@@ -14,68 +14,68 @@ import {
 	TextboxNumeric,
 	VerticalSpace,
 } from "@create-figma-plugin/ui";
-import { emit } from "@create-figma-plugin/utilities";
+import { emit, on } from "@create-figma-plugin/utilities";
 import { Fragment, h } from "preact";
-import { useCallback, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
 
 import { CloseHandler, GenerateHandler } from "./types";
 
 const convertDataURIToBinary = (dataURI: string) =>
 	Uint8Array.from(window.atob(dataURI.replace(/^data[^,]+,/, "")), (v) => v.charCodeAt(0));
 
+const urltoFile = (url: string, filename: string, mimeType: string) => {
+	return fetch(url)
+		.then(function (res) {
+			return res.arrayBuffer();
+		})
+		.then(function (buf) {
+			return new File([buf], filename, { type: mimeType });
+		});
+};
+
 const RESOLUTIONS = ["256x256", "512x512", "1024x1024"];
 
 // DEBUGGING
 const OPENAI_API_KEY = null;
 
-const GenerateTab = () => {
+const GenerateTab = ({ image }: { image: string }) => {
 	const [count, setCount] = useState<number | null>(1);
 	const [token, setToken] = useState("");
 	const [resolution, setResolution] = useState(RESOLUTIONS[0]);
 	const [loading, setLoading] = useState(false);
 	const [countString, setCountString] = useState("1");
 
-	const handleGenerateButtonClick = useCallback(
-		function () {
-			if (count !== null && token != null) {
-				setLoading(true);
+	const handleGenerateButtonClick = useCallback(async () => {
+		if (count !== null && token != null) {
+			setLoading(true);
+			const formData = new FormData();
 
-				const image = convertDataURIToBinary(
-					"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAApgAAAKYB3X3/OAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAANCSURBVEiJtZZPbBtFFMZ/M7ubXdtdb1xSFyeilBapySVU8h8OoFaooFSqiihIVIpQBKci6KEg9Q6H9kovIHoCIVQJJCKE1ENFjnAgcaSGC6rEnxBwA04Tx43t2FnvDAfjkNibxgHxnWb2e/u992bee7tCa00YFsffekFY+nUzFtjW0LrvjRXrCDIAaPLlW0nHL0SsZtVoaF98mLrx3pdhOqLtYPHChahZcYYO7KvPFxvRl5XPp1sN3adWiD1ZAqD6XYK1b/dvE5IWryTt2udLFedwc1+9kLp+vbbpoDh+6TklxBeAi9TL0taeWpdmZzQDry0AcO+jQ12RyohqqoYoo8RDwJrU+qXkjWtfi8Xxt58BdQuwQs9qC/afLwCw8tnQbqYAPsgxE1S6F3EAIXux2oQFKm0ihMsOF71dHYx+f3NND68ghCu1YIoePPQN1pGRABkJ6Bus96CutRZMydTl+TvuiRW1m3n0eDl0vRPcEysqdXn+jsQPsrHMquGeXEaY4Yk4wxWcY5V/9scqOMOVUFthatyTy8QyqwZ+kDURKoMWxNKr2EeqVKcTNOajqKoBgOE28U4tdQl5p5bwCw7BWquaZSzAPlwjlithJtp3pTImSqQRrb2Z8PHGigD4RZuNX6JYj6wj7O4TFLbCO/Mn/m8R+h6rYSUb3ekokRY6f/YukArN979jcW+V/S8g0eT/N3VN3kTqWbQ428m9/8k0P/1aIhF36PccEl6EhOcAUCrXKZXXWS3XKd2vc/TRBG9O5ELC17MmWubD2nKhUKZa26Ba2+D3P+4/MNCFwg59oWVeYhkzgN/JDR8deKBoD7Y+ljEjGZ0sosXVTvbc6RHirr2reNy1OXd6pJsQ+gqjk8VWFYmHrwBzW/n+uMPFiRwHB2I7ih8ciHFxIkd/3Omk5tCDV1t+2nNu5sxxpDFNx+huNhVT3/zMDz8usXC3ddaHBj1GHj/As08fwTS7Kt1HBTmyN29vdwAw+/wbwLVOJ3uAD1wi/dUH7Qei66PfyuRj4Ik9is+hglfbkbfR3cnZm7chlUWLdwmprtCohX4HUtlOcQjLYCu+fzGJH2QRKvP3UNz8bWk1qMxjGTOMThZ3kvgLI5AzFfo379UAAAAASUVORK5CYII="
-				);
+			formData.append("image", await urltoFile(image, "image", "image/png"));
+			formData.append("size", resolution);
+			formData.append("response_format", "b64_json");
+			formData.append("n", count + "");
 
-				// const images = [image, image];
-				// emit<GenerateHandler>("GENERATE", count, token, resolution, images);
+			fetch("https://api.openai.com/v1/images/variations", {
+				method: "POST",
+				headers: {
+					Authorization: "Bearer " + (OPENAI_API_KEY ?? token),
+				},
+				body: formData,
+			})
+				.then((response) => response.json())
+				.then(({ data }: { data: { b64_json: string }[] }) => {
+					const images: Uint8Array[] = [];
 
-				// fetch("https://api.openai.com/v1/images/variations", {
-				// 	method: "POST",
-				// 	headers: {
-				// 		"Content-Type": "application/json",
-				// 		Authorization: "Bearer " + (OPENAI_API_KEY ?? token),
-				// 	},
-				// 	body: JSON.stringify({
-				// 		prompt,
-				// 		size: resolution,
-				// 		response_format: "b64_json",
-				// 		n: count,
-				// 	}),
-				// })
-				// 	.then((response) => response.json())
-				// 	.then(({ data }: { data: { b64_json: string }[] }) => {
-				// 		const images: Uint8Array[] = [];
-
-				// 		data.forEach(({ b64_json }) => {
-				// 			const url = "data:image/png;base64," + b64_json;
-				// 			const image = convertDataURIToBinary(url);
-				// 			images.push(image);
-				// 		});
-				// 		emit<GenerateHandler>("GENERATE", prompt, count, token, resolution, images);
-				// 	})
-				// 	.finally(() => setLoading(false));
-			}
-		},
-		[count, token, resolution]
-	);
+					data.forEach(({ b64_json }) => {
+						const url = "data:image/png;base64," + b64_json;
+						const image = convertDataURIToBinary(url);
+						images.push(image);
+					});
+					emit<GenerateHandler>("GENERATE", count, token, resolution, images);
+				})
+				.finally(() => setLoading(false));
+		}
+	}, [count, token, resolution]);
 
 	const handleCloseButtonClick = useCallback(function () {
 		emit<CloseHandler>("CLOSE");
@@ -90,6 +90,8 @@ const GenerateTab = () => {
 			<VerticalSpace space="extraSmall" />
 			<Text as={"p"}>Time to summon some beautiful variants with AI</Text>
 			<VerticalSpace space="extraLarge" />
+			<img src={image} alt="image" width={100} height={100} />
+			<VerticalSpace space="medium" />
 			<Text>
 				<Muted>Count</Muted>
 			</Text>
@@ -195,6 +197,13 @@ const AboutTab = () => {
 
 function Plugin(data: any) {
 	const [value, setValue] = useState("Summon");
+	const [image, setImage] = useState<string>("");
+
+	useEffect(() => {
+		return on("SELECT_IMAGE", ({ image }: { image: string }) => {
+			setImage("data:image/png;base64," + image);
+		});
+	}, []);
 
 	return (
 		<Container space="medium">
@@ -204,7 +213,7 @@ function Plugin(data: any) {
 				options={[
 					{
 						value: "Summon",
-						children: <GenerateTab />,
+						children: <GenerateTab image={image} />,
 					},
 					{
 						value: "About",
