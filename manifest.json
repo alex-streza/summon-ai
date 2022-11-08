@@ -6,5 +6,18 @@
   "id": "summon.ai",
   "name": "Summon.AI",
   "main": "build/main.js",
-  "ui": "build/ui.js"
+  "ui": "build/ui.js",
+  "menu": [
+    {
+      "name": "Generate Images",
+      "command": "src/generate-images/main.ts--default"
+    },
+    {
+      "separator": true
+    },
+    {
+      "name": "Generate Variants",
+      "command": "src/generate-variants/main.ts--default"
+    }
+  ]
 }

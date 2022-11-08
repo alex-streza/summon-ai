@@ -15,12 +15,23 @@
     "watch": "build-figma-plugin --typecheck --watch"
   },
   "figma-plugin": {
+    "id": "summon.ai",
+    "name": "Summon.AI",
     "editorType": [
       "figma"
     ],
-    "id": "summon.ai",
-    "name": "Summon.AI",
-    "main": "src/main.ts",
-    "ui": "src/ui.tsx"
+    "menu": [
+      {
+        "name": "Generate Images",
+        "main": "src/generate-images/main.ts",
+        "ui": "src/generate-images/ui.tsx"
+      },
+      "-",
+      {
+        "name": "Generate Variants",
+        "main": "src/generate-variants/main.ts",
+        "ui": "src/generate-variants/ui.tsx"
+      }
+    ]
   }
 }
