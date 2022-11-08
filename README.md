@@ -69,4 +69,5 @@ Any help is appreciated, feel free to open an issue or a PR!
 
 - [Node.js](https://nodejs.org) – v16
 - [Figma desktop app](https://figma.com/downloads/)
+- [OpenAI Dall-E-2 Token](https://openai.com/dall-e-2/)
 
