@@ -6,8 +6,9 @@ Summon.AI is an open-source AI design tool allowing you to generate beautiful im
 
 ## Features
 
-- ❤️ DALL-E-2 Text to Image Generation
+- ❤️ Powered by OpenAI DALL-E-2 
 - ⭐️ Minimalist Figma based UI
+- 🪶 Generations + Variants API integration
 - 🧐 Supports count, resolution and prompt params
 - ⚡️ Free & open-source
  
