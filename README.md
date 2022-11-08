@@ -57,7 +57,7 @@ Official docs and code samples from Figma:
 
 Any help is appreciated, feel free to open an issue or a PR!
 - [ ] Edit image with mask + prompt
-- [ ] Generate variations for given image
+- [x] Generate variations for given image
 - [ ] Cleanup positioning logic
 
 ## Development guide
