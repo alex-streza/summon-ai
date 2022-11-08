@@ -1,6 +1,35 @@
-import { once, showUI } from "@create-figma-plugin/utilities";
+import { once, emit, showUI, on } from "@create-figma-plugin/utilities";
 
 import { CloseHandler, GenerateHandler } from "./types";
+
+async function convertToBytes(node: SceneNode) {
+	// Look for fills on node types that have fills.
+	// An alternative would be to do `if ('fills' in node) { ... }
+	switch (node.type) {
+		case "RECTANGLE":
+		case "ELLIPSE":
+		case "POLYGON":
+		case "STAR":
+		case "VECTOR":
+		case "TEXT": {
+			const paint = (node.fills as ImagePaint[])[0];
+			if (paint.type === "IMAGE" && paint.imageHash) {
+				const image = figma.getImageByHash(paint.imageHash);
+
+				if (image) {
+					const bytes = await image.getBytesAsync();
+
+					return bytes;
+				}
+			}
+			break;
+		}
+
+		default: {
+			// not supported, silently do nothing
+		}
+	}
+}
 
 export default function () {
 	once<GenerateHandler>("GENERATE", function (count, token, resolution, images) {
@@ -129,23 +158,10 @@ export default function () {
 		figma.closePlugin();
 	});
 
-	function showUI () {
-		const selection = figma.currentPage.selection[0];
-		console.log("frameaa", selection);
-		figma.closePlugin();
-
-		// if (selection.type === "FRAME") {
-		// 	showUI(
-		// 		{
-		// 			height: 540,
-		// 			width: 600,
-		// 		},
-		// 		{
-		// 			image: figma.base64Decode(selection),
-		// 		}
-		// 	);
-		} else {
-			figma.closePlugin();
-		}
+	showUI: () => {
+		showUI({
+			height: 540,
+			width: 600,
+		});
 	};
 }
