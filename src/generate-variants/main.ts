@@ -1,6 +1,7 @@
 import { emit, once, showUI } from "@create-figma-plugin/utilities";
 
 import { CloseHandler, GenerateHandler } from "./types";
+import { loadSettingsAsync, saveSettingsAsync } from "@create-figma-plugin/utilities";
 
 const RESOLUTIONS = [256, 512, 1024];
 
@@ -46,7 +47,7 @@ async function convertToBytes(node: SceneNode) {
 }
 
 export default function () {
-	once<GenerateHandler>("GENERATE", function (resolution, images) {
+	once<GenerateHandler>("GENERATE", function (resolution, images, token) {
 		Promise.all([
 			figma.loadFontAsync({ family: "Inter", style: "Regular" }),
 			figma.loadFontAsync({ family: "Inter", style: "Semi Bold" }),
@@ -117,6 +118,8 @@ export default function () {
 			figma.currentPage.selection = nodes;
 			figma.viewport.scrollAndZoomIntoView(nodes);
 
+			saveSettingsAsync({ token });
+
 			figma.notify("🎉 Generated " + images.length + " variants! 🎉");
 		});
 	});
@@ -144,6 +147,10 @@ export default function () {
 	}, 500);
 
 	if (selection && getImagePaint(selection)) {
+		loadSettingsAsync({}).then((settings) => {
+			emit("LOAD_SETTINGS", settings);
+		});
+
 		showUI({
 			height: 540,
 			width: 600,

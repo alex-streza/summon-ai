@@ -1,4 +1,4 @@
-import { once, showUI } from "@create-figma-plugin/utilities";
+import { emit, loadSettingsAsync, once, showUI } from "@create-figma-plugin/utilities";
 
 import { CloseHandler, GenerateHandler } from "./types";
 
@@ -171,6 +171,10 @@ export default function () {
 
 	once<CloseHandler>("CLOSE", function () {
 		figma.closePlugin();
+	});
+
+	loadSettingsAsync({}).then((settings) => {
+		emit("LOAD_SETTINGS", settings);
 	});
 
 	showUI({

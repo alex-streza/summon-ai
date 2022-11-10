@@ -1,4 +1,4 @@
-import { emit, once, showUI } from "@create-figma-plugin/utilities";
+import { emit, loadSettingsAsync, once, showUI } from "@create-figma-plugin/utilities";
 
 import { CloseHandler, ExportHandler } from "./types";
 
@@ -49,6 +49,7 @@ export default function () {
 		Promise.all([
 			figma.loadFontAsync({ family: "Inter", style: "Regular" }),
 			figma.loadFontAsync({ family: "Inter", style: "Semi Bold" }),
+			figma.loadFontAsync({ family: "Inter", style: "Bold" }),
 		]).then(() => {
 			const nodes: SceneNode[] = [];
 
@@ -141,6 +142,10 @@ export default function () {
 	}, 500);
 
 	if (selection && getImagePaint(selection)) {
+		loadSettingsAsync({}).then((settings) => {
+			emit("LOAD_SETTINGS", settings);
+		});
+
 		showUI({
 			height: 800,
 			width: 554,
