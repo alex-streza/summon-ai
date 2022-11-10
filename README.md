@@ -2,23 +2,20 @@
 
 ## About
 
-Summon.AI is an open-source AI design tool allowing you to generate beautiful images, powered by [DALL-E-2](https://openai.com/dall-e-2/)
+Summon.AI is an open-source AI design tool (Figma Plugin) allowing you to generate beautiful images, powered by [DALL-E-2](https://openai.com/dall-e-2/).
 
 ## Features
 
 - ❤️ Powered by OpenAI DALL-E-2 
 - ⭐️ Minimalist Figma based UI
-- 🪶 Generations + Variants API integration
+- 🪶 Generations + Variants API + Edit (mask) integration
 - 🧐 Supports count, resolution and prompt params
 - ⚡️ Free & open-source
  
 ## Quick Start
 
-To get it running, follow the steps below:
-
-### Build the plugin
-
-To build the plugin:
+To get it running, follow the steps API:
+https://beta.openai.com/docs/guides/images/introduction?lang=node.jsld the plugin:
 
 ```
 $ npm run build
@@ -54,12 +51,17 @@ Official docs and code samples from Figma:
 - [Plugin API docs](https://figma.com/plugin-docs/)
 - [`figma/plugin-samples`](https://github.com/figma/plugin-samples#readme)
 
+OpenAI API Docs for DALL-E-2
+
+- [OpenAI Dall-E-2 API](https://beta.openai.com/docs/guides/images/introduction?lang=node.js)
+
 ## Contributing
 
 Any help is appreciated, feel free to open an issue or a PR!
-- [ ] Edit image with mask + prompt
+- [x] Edit image with mask + prompt
 - [x] Generate variations for given image
 - [ ] Cleanup positioning logic
+- [ ] Cleanup styles, maybe Tailwind?
 
 ## Development guide
 
@@ -69,5 +71,5 @@ Any help is appreciated, feel free to open an issue or a PR!
 
 - [Node.js](https://nodejs.org) – v16
 - [Figma desktop app](https://figma.com/downloads/)
-- [OpenAI Dall-E-2 Token](https://openai.com/dall-e-2/)
+- [OpenAI DALL-E-2 Token](https://beta.openai.com/account/api-keys)
 
