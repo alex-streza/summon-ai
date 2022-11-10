@@ -1,8 +1,8 @@
 import { EventHandler } from "@create-figma-plugin/utilities";
 
-export interface GenerateHandler extends EventHandler {
-	name: "GENERATE";
-	handler: (prompt: string, resolution: string, images: Uint8Array[]) => void;
+export interface ExportHandler extends EventHandler {
+	name: "EXPORT";
+	handler: (image: Uint8Array) => void;
 }
 
 export interface CloseHandler extends EventHandler {

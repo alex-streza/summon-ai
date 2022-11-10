@@ -10,7 +10,6 @@ import {
 	Tabs,
 	Text,
 	Textbox,
-	TextboxMultiline,
 	TextboxNumeric,
 	VerticalSpace,
 } from "@create-figma-plugin/ui";
@@ -71,7 +70,7 @@ const GenerateTab = ({ image }: { image: string }) => {
 						const image = convertDataURIToBinary(url);
 						images.push(image);
 					});
-					emit<GenerateHandler>("GENERATE", count, token, resolution, images);
+					emit<GenerateHandler>("GENERATE", resolution, images);
 				})
 				.finally(() => setLoading(false));
 		}

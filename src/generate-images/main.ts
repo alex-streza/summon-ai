@@ -3,7 +3,7 @@ import { once, showUI } from "@create-figma-plugin/utilities";
 import { CloseHandler, GenerateHandler } from "./types";
 
 export default function () {
-	once<GenerateHandler>("GENERATE", function (prompt, count, token, resolution, images) {
+	once<GenerateHandler>("GENERATE", function (prompt, resolution, images) {
 		Promise.all([
 			figma.loadFontAsync({ family: "Inter", style: "Regular" }),
 			figma.loadFontAsync({ family: "Inter", style: "Semi Bold" }),
@@ -15,7 +15,6 @@ export default function () {
 			const GAP = IMAGE_SIZE / 8;
 			const TITLE_SIZE = IMAGE_SIZE / 12;
 			const TEXT_SIZE = IMAGE_SIZE / 16;
-			const IS_DARK_MODE = true;
 
 			images.forEach((img: Uint8Array) => {
 				const node = figma.createRectangle();
@@ -166,7 +165,7 @@ export default function () {
 			figma.currentPage.selection = nodes;
 			figma.viewport.scrollAndZoomIntoView(nodes);
 
-			figma.closePlugin();
+			figma.notify("🎉 Generated " + images.length + " images! 🎉");
 		});
 	});
 

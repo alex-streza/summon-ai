@@ -71,7 +71,7 @@ const GenerateTab = () => {
 							const image = convertDataURIToBinary(url);
 							images.push(image);
 						});
-						emit<GenerateHandler>("GENERATE", prompt, count, token, resolution, images);
+						emit<GenerateHandler>("GENERATE", prompt, resolution, images);
 					})
 					.finally(() => setLoading(false));
 			}
@@ -140,13 +140,7 @@ const GenerateTab = () => {
 			</Link>
 			<VerticalSpace space="extraLarge" />
 			<Columns space="extraSmall">
-				<Button
-					fullWidth
-					onClick={handleGenerateButtonClick}
-					disabled={
-						loading
-						// || !prompt || !count || !token
-					}>
+				<Button fullWidth onClick={handleGenerateButtonClick} disabled={loading || !prompt || !count || !token}>
 					{loading && <LoadingIndicator color="brand" />}
 					{!loading && "Generate " + (count && count > 1 ? `${count} images` : "image")}
 				</Button>

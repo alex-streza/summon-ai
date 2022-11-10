@@ -1,13 +1,12 @@
 import { emit, once, showUI } from "@create-figma-plugin/utilities";
 
-import { CloseHandler, GenerateHandler } from "./types";
-
-const RESOLUTIONS = [256, 512, 1024];
+import { CloseHandler, ExportHandler } from "./types";
 
 const getImagePaint = (node: any) => {
 	const paint = (node.fills as ImagePaint[])[0];
 	if (
-		RESOLUTIONS.some((resolution) => resolution === node.width && resolution === node.height) &&
+		node.width === 512 &&
+		node.height === 512 &&
 		paint.type === "IMAGE" &&
 		paint.scaleMode === "FILL" &&
 		paint.imageHash
@@ -46,33 +45,31 @@ async function convertToBytes(node: SceneNode) {
 }
 
 export default function () {
-	once<GenerateHandler>("GENERATE", function (resolution, images) {
+	once<ExportHandler>("EXPORT", function (img) {
 		Promise.all([
 			figma.loadFontAsync({ family: "Inter", style: "Regular" }),
 			figma.loadFontAsync({ family: "Inter", style: "Semi Bold" }),
 		]).then(() => {
 			const nodes: SceneNode[] = [];
 
-			const IMAGE_SIZE = resolution.split("x").map((x) => parseInt(x))[0];
+			const IMAGE_SIZE = 512;
 			const GAP = IMAGE_SIZE / 8;
 			const TEXT_SIZE = IMAGE_SIZE / 16;
 
-			images.forEach((img: Uint8Array) => {
-				const node = figma.createRectangle();
-				const image = figma.createImage(img);
+			const node = figma.createRectangle();
+			const image = figma.createImage(img);
 
-				node.resize(IMAGE_SIZE, IMAGE_SIZE);
-				node.fills = [
-					{
-						imageHash: image.hash,
-						scaleMode: "FILL",
-						scalingFactor: 0.5,
-						type: "IMAGE",
-					},
-				];
-				nodes.push(node);
-				figma.currentPage.appendChild(node);
-			});
+			node.resize(IMAGE_SIZE, IMAGE_SIZE);
+			node.fills = [
+				{
+					imageHash: image.hash,
+					scaleMode: "FILL",
+					scalingFactor: 0.5,
+					type: "IMAGE",
+				},
+			];
+			nodes.push(node);
+			figma.currentPage.appendChild(node);
 
 			const gapOffset = (GAP * (nodes.length - 1)) / 2;
 			const nodesOffset = (IMAGE_SIZE / 2) * nodes.length;
@@ -117,7 +114,7 @@ export default function () {
 			figma.currentPage.selection = nodes;
 			figma.viewport.scrollAndZoomIntoView(nodes);
 
-			figma.notify("🎉 Generated " + images.length + " variants! 🎉");
+			figma.notify("🎉 Edited image succesful! 🎉");
 		});
 	});
 
@@ -145,11 +142,11 @@ export default function () {
 
 	if (selection && getImagePaint(selection)) {
 		showUI({
-			height: 540,
-			width: 600,
+			height: 800,
+			width: 554,
 		});
 	} else {
-		figma.notify("Please select an image (256x256, 512x512, 1024x1024)");
+		figma.notify("Please select a 512x512 resolution image");
 		figma.closePlugin();
 	}
 }

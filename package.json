@@ -2,6 +2,7 @@
   "dependencies": {
     "@create-figma-plugin/ui": "^2.1.5",
     "@create-figma-plugin/utilities": "^2.1.5",
+    "konva": "8.3.14",
     "preact": "^10"
   },
   "devDependencies": {
@@ -31,6 +32,12 @@
         "name": "Generate Variants",
         "main": "src/generate-variants/main.ts",
         "ui": "src/generate-variants/ui.tsx"
+      },
+      "-",
+      {
+        "name": "Edit Image",
+        "main": "src/edit-image/main.ts",
+        "ui": "src/edit-image/ui.tsx"
       }
     ]
   }

@@ -18,6 +18,13 @@
     {
       "name": "Generate Variants",
       "command": "src/generate-variants/main.ts--default"
+    },
+    {
+      "separator": true
+    },
+    {
+      "name": "Edit Image",
+      "command": "src/edit-image/main.ts--default"
     }
   ]
 }
