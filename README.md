@@ -1,3 +1,5 @@
+![image](https://user-images.githubusercontent.com/72100849/201352774-9e52dc84-8ad1-433f-972f-343ffb828273.png)
+
 # Summon.AI
 
 ## About
@@ -61,8 +63,8 @@ Any help is appreciated, feel free to open an issue or a PR!
 
 - [x] Edit image with mask + prompt
 - [x] Generate variations for given image
-- [ ] Cleanup positioning logic
-- [ ] Cleanup styles, maybe Tailwind?
+- [x] Cleanup positioning logic
+- [x] Cleanup styles, maybe Tailwind?
 
 ## Development guide
 
