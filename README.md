@@ -6,12 +6,12 @@ Summon.AI is an open-source AI design tool (Figma Plugin) allowing you to genera
 
 ## Features
 
-- ❤️ Powered by OpenAI DALL-E-2 
+- ❤️ Powered by OpenAI DALL-E-2
 - ⭐️ Minimalist Figma based UI
 - 🪶 Generations + Variants API + Edit (mask) integration
 - 🧐 Supports count, resolution and prompt params
 - ⚡️ Free & open-source
- 
+
 ## Quick Start
 
 To get it running, follow the steps API:
@@ -58,6 +58,7 @@ OpenAI API Docs for DALL-E-2
 ## Contributing
 
 Any help is appreciated, feel free to open an issue or a PR!
+
 - [x] Edit image with mask + prompt
 - [x] Generate variations for given image
 - [ ] Cleanup positioning logic
@@ -65,11 +66,10 @@ Any help is appreciated, feel free to open an issue or a PR!
 
 ## Development guide
 
-*This plugin is built with [Create Figma Plugin](https://yuanqing.github.io/create-figma-plugin/).*
+_This plugin is built with [Create Figma Plugin](https://yuanqing.github.io/create-figma-plugin/)._
 
 ### Pre-requisites
 
 - [Node.js](https://nodejs.org) – v16
 - [Figma desktop app](https://figma.com/downloads/)
 - [OpenAI DALL-E-2 Token](https://beta.openai.com/account/api-keys)
-

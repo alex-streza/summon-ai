@@ -3,22 +3,29 @@
     "@create-figma-plugin/ui": "^2.1.5",
     "@create-figma-plugin/utilities": "^2.1.5",
     "konva": "8.3.14",
-    "preact": "^10",
-    "tailwindcss": "^3.2.3"
+    "preact": "^10"
   },
   "devDependencies": {
     "@create-figma-plugin/build": "^2.1.5",
     "@create-figma-plugin/tsconfig": "^2.1.5",
     "@figma/plugin-typings": "1.54.0",
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "@typescript-eslint/parser": "^5.42.1",
+    "eslint": "^8.27.0",
+    "prettier": "^2.7.1",
+    "prettier-plugin-tailwindcss": "^0.1.13",
+    "tailwindcss": "^3.2.3",
     "typescript": "^4"
   },
   "scripts": {
     "build": "build-figma-plugin --typecheck --minify",
     "watch": "build-figma-plugin --typecheck --watch",
-    "watch:css": "tailwindcss -i ./src/input.css -o ./src/styles.css --watch"
+    "watch:css": "tailwindcss -i ./src/input.css -o ./src/styles.css --watch",
+    "format": "prettier --write ./src",
+    "lint": "eslint ./src"
   },
   "figma-plugin": {
-    "id": "summon.ai",
+    "id": "1172891596048319817",
     "name": "Summon.AI",
     "editorType": [
       "figma"
