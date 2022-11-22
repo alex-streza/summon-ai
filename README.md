@@ -1,6 +1,13 @@
 ![image](https://user-images.githubusercontent.com/72100849/201352774-9e52dc84-8ad1-433f-972f-343ffb828273.png)
 
+
 # Summon.AI
+
+[<img align="left" alt="producthunt" src="https://img.shields.io/badge/producthunt-%23d55124.svg?&style=for-the-badge&logo=producthunt&logoColor=white" />](https://www.producthunt.com/posts/summon-ai)
+[<img align="left" alt="gumroad" src="https://img.shields.io/badge/gumroad-%23ff90e8.svg?&style=for-the-badge&logo=gumroad&logoColor=black" />](https://alexstreza.gumroad.com/l/summon-ai)
+[<img align="left" alt="figma" src="https://img.shields.io/badge/figma%20-%231ABCFE.svg?&style=for-the-badge&logo=figma&logoColor=white" />](https://www.figma.com/community/plugin/1172891596048319817/Summon.AI)
+
+<br>
 
 ## About
 
