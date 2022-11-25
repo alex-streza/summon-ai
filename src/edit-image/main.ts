@@ -63,11 +63,11 @@ export default function () {
     });
 
     showUI({
-      height: 800,
-      width: 554,
+      height: 1512,
+      width: 1064,
     });
   } else {
-    figma.notify("Please select a 512x512 resolution image");
+    figma.notify("Please select a square resolution image (ex. 1024x1024)");
     figma.closePlugin();
   }
 }

@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.loading-indicator {
+  @apply absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-1/2;
+}
+
+.cursor-follow {
+  @apply pointer-events-none absolute h-[100px] w-[100px] -translate-x-1/2 -translate-y-1/2 select-none rounded-full border-2 border-slate-300 bg-white bg-opacity-25 backdrop-blur-sm;
+}
+
+.btn {
+  @apply flex cursor-pointer items-center gap-2 rounded-md border px-4 py-2 outline-none transition-all duration-200;
+}
+
+.btn.secondary {
+  @apply bg-slate-50 text-black hover:bg-slate-200;
+}

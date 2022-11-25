@@ -22,16 +22,14 @@ import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import { CloseHandler, ExportHandler } from "./types";
 
 import "!../styles.css";
+import { Layer } from "konva/lib/Layer";
 import { AboutTab } from "../components/AboutTab";
 import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
 import { convertDataURIToBinary, urltoFile } from "../utils/image";
 
-const secondaryButtonClassName =
-  "bg-white px-4 py-2 text-black cursor-pointer outline-none border bg-white hover:bg-slate-500 rounded-lg";
-
 const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
   const [token, setToken] = useState("");
-  const [resolution, setResolution] = useState(RESOLUTIONS[1]);
+  const [resolution, setResolution] = useState(RESOLUTIONS[2]);
   const [loading, setLoading] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
   const [prompt, setPrompt] = useState("");
@@ -48,6 +46,7 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
   const size = parseInt(resolution.split("x")[0]);
 
   const stageRef = useRef<Stage>();
+  const transparentLayerRef = useRef<Layer>();
 
   const handleEdit = useCallback(async () => {
     // DEVUGGING
@@ -136,6 +135,26 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
       height: size,
     });
 
+    transparentLayerRef.current = new Konva.Layer({
+      visible: false,
+    });
+    stageRef.current.add(transparentLayerRef.current);
+
+    const transparentImageObj = new Image();
+    transparentImageObj.onload = function () {
+      const yoda = new Konva.Image({
+        x: 0,
+        y: 0,
+        image: transparentImageObj,
+        width: 1024,
+        height: 1024,
+      });
+
+      transparentLayerRef.current && transparentLayerRef.current.add(yoda);
+    };
+    transparentImageObj.src =
+      "https://imagedelivery.net/_X5WqasCPTrKkrSW6EvwJg/9765cfbc-c4dd-4ff1-eddf-c4fb64fd2300/public";
+
     const layer = new Konva.Layer();
     stageRef.current.add(layer);
 
@@ -160,11 +179,13 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
         canvasImage.image(canvas);
         layer.draw();
         setImageLoading(false);
+        transparentLayerRef.current &&
+          transparentLayerRef.current.visible(true);
       };
 
       context.strokeStyle = "#000000";
       context.lineJoin = "round";
-      context.lineWidth = 50;
+      context.lineWidth = 80;
 
       let isPaint = false;
       let lastPointerPosition: Vector2d | null = null;
@@ -182,7 +203,6 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
       stageRef.current.on("mousemove touchmove", function () {
         if (!isPaint) return;
 
-        // context.globalCompositeOperation = "source-over";
         context.globalCompositeOperation = "destination-out";
         context.beginPath();
 
@@ -208,8 +228,6 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
         }
       });
     }
-
-    stageRef.current.toDataURL();
   }, [image, reset]);
 
   return (
@@ -222,6 +240,8 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
         new image, not just the erased area.
       </Text>
       <VerticalSpace space="extraLarge" />
+      <Text as="span">Resolution: {resolution}</Text>
+      <VerticalSpace space="small" />
       <div
         className="relative border border-[#5f5f5f]"
         style={{
@@ -230,19 +250,20 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
         }}
       >
         {imageLoading && (
-          <div className="absolute -translate-x-1/2 translate-y-1/2 top-1/2 left-1/2">
+          <div className="loading-indicator">
             <LoadingIndicator />
           </div>
         )}
         {!generatedImage && (
           <div
             id="image-editor"
+            className="cursor-pointer"
             onMouseLeave={() => setShowCursor(false)}
             onMouseMove={handleMouseMove}
           >
             {showCursor && (
               <div
-                className="pointer-events-none absolute h-[50px] w-[50px] -translate-x-1/2 -translate-y-1/2 select-none rounded-full border-2 border-white"
+                className="cursor-follow"
                 style={{
                   top: cursorPosition.y,
                   left: cursorPosition.x,
@@ -251,17 +272,8 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
             )}
           </div>
         )}
-        <div
-          style={{
-            position: "absolute",
-            top: 20,
-            right: 20,
-          }}
-        >
-          <button
-            className={secondaryButtonClassName.replace("px-4", "px-2")}
-            onClick={handleReset}
-          >
+        <div className="absolute top-5 right-5">
+          <button className="btn secondary" onClick={handleReset}>
             <svg
               width="20"
               height="20"
@@ -295,70 +307,61 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
             />
             <div className="absolute flex gap-3 bottom-5 right-5">
               <button
-                className={secondaryButtonClassName}
+                className="btn secondary"
                 onClick={() => setViewOriginal(!viewOriginal)}
               >
-                <div className="flex items-center gap-2">
-                  <svg
-                    width="21"
-                    height="20"
-                    viewBox="0 0 21 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <g clip-path="url(#clip0_305_491)">
-                      <path
-                        d="M10.5 2.5C14.9933 2.5 18.7316 5.73333 19.5158 10C18.7325 14.2667 14.9933 17.5 10.5 17.5C6.00663 17.5 2.2683 14.2667 1.48413 10C2.26746 5.73333 6.00663 2.5 10.5 2.5ZM10.5 15.8333C12.1995 15.833 13.8486 15.2557 15.1773 14.196C16.5061 13.1363 17.4357 11.6569 17.8141 10C17.4343 8.34442 16.5041 6.86667 15.1755 5.80835C13.8469 4.75004 12.1986 4.17377 10.5 4.17377C8.80138 4.17377 7.15304 4.75004 5.82444 5.80835C4.49585 6.86667 3.5656 8.34442 3.1858 10C3.56421 11.6569 4.49386 13.1363 5.82259 14.196C7.15131 15.2557 8.80041 15.833 10.5 15.8333ZM10.5 13.75C9.5054 13.75 8.55158 13.3549 7.84832 12.6516C7.14505 11.9484 6.74997 10.9946 6.74997 10C6.74997 9.00544 7.14505 8.05161 7.84832 7.34835C8.55158 6.64509 9.5054 6.25 10.5 6.25C11.4945 6.25 12.4484 6.64509 13.1516 7.34835C13.8549 8.05161 14.25 9.00544 14.25 10C14.25 10.9946 13.8549 11.9484 13.1516 12.6516C12.4484 13.3549 11.4945 13.75 10.5 13.75ZM10.5 12.0833C11.0525 12.0833 11.5824 11.8638 11.9731 11.4731C12.3638 11.0824 12.5833 10.5525 12.5833 10C12.5833 9.44747 12.3638 8.91756 11.9731 8.52686C11.5824 8.13616 11.0525 7.91667 10.5 7.91667C9.94743 7.91667 9.41753 8.13616 9.02683 8.52686C8.63613 8.91756 8.41663 9.44747 8.41663 10C8.41663 10.5525 8.63613 11.0824 9.02683 11.4731C9.41753 11.8638 9.94743 12.0833 10.5 12.0833Z"
-                        fill="black"
+                <svg
+                  width="21"
+                  height="20"
+                  viewBox="0 0 21 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_305_491)">
+                    <path
+                      d="M10.5 2.5C14.9933 2.5 18.7316 5.73333 19.5158 10C18.7325 14.2667 14.9933 17.5 10.5 17.5C6.00663 17.5 2.2683 14.2667 1.48413 10C2.26746 5.73333 6.00663 2.5 10.5 2.5ZM10.5 15.8333C12.1995 15.833 13.8486 15.2557 15.1773 14.196C16.5061 13.1363 17.4357 11.6569 17.8141 10C17.4343 8.34442 16.5041 6.86667 15.1755 5.80835C13.8469 4.75004 12.1986 4.17377 10.5 4.17377C8.80138 4.17377 7.15304 4.75004 5.82444 5.80835C4.49585 6.86667 3.5656 8.34442 3.1858 10C3.56421 11.6569 4.49386 13.1363 5.82259 14.196C7.15131 15.2557 8.80041 15.833 10.5 15.8333ZM10.5 13.75C9.5054 13.75 8.55158 13.3549 7.84832 12.6516C7.14505 11.9484 6.74997 10.9946 6.74997 10C6.74997 9.00544 7.14505 8.05161 7.84832 7.34835C8.55158 6.64509 9.5054 6.25 10.5 6.25C11.4945 6.25 12.4484 6.64509 13.1516 7.34835C13.8549 8.05161 14.25 9.00544 14.25 10C14.25 10.9946 13.8549 11.9484 13.1516 12.6516C12.4484 13.3549 11.4945 13.75 10.5 13.75ZM10.5 12.0833C11.0525 12.0833 11.5824 11.8638 11.9731 11.4731C12.3638 11.0824 12.5833 10.5525 12.5833 10C12.5833 9.44747 12.3638 8.91756 11.9731 8.52686C11.5824 8.13616 11.0525 7.91667 10.5 7.91667C9.94743 7.91667 9.41753 8.13616 9.02683 8.52686C8.63613 8.91756 8.41663 9.44747 8.41663 10C8.41663 10.5525 8.63613 11.0824 9.02683 11.4731C9.41753 11.8638 9.94743 12.0833 10.5 12.0833Z"
+                      fill="black"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_305_491">
+                      <rect
+                        width="20"
+                        height="20"
+                        fill="white"
+                        transform="translate(0.5)"
                       />
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_305_491">
-                        <rect
-                          width="20"
-                          height="20"
-                          fill="white"
-                          transform="translate(0.5)"
-                        />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                  <span>
-                    {viewOriginal ? "View generated" : "View original"}
-                  </span>
-                </div>
+                    </clipPath>
+                  </defs>
+                </svg>
+                {viewOriginal ? "View generated" : "View original"}
               </button>
-              <button
-                className={secondaryButtonClassName}
-                onClick={handleExport}
-              >
-                <div className="flex items-center gap-2">
-                  <svg
-                    width="21"
-                    height="20"
-                    viewBox="0 0 21 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <g clip-path="url(#clip0_305_496)">
-                      <path
-                        d="M4.52329 17.5L4.50663 17.5167L4.48913 17.5H2.99329C2.77397 17.4998 2.56371 17.4125 2.4087 17.2573C2.25369 17.1022 2.16663 16.8918 2.16663 16.6725V3.3275C2.16815 3.10865 2.25571 2.89918 2.41039 2.74435C2.56506 2.58951 2.77444 2.50175 2.99329 2.5H18.0066C18.4633 2.5 18.8333 2.87083 18.8333 3.3275V16.6725C18.8318 16.8914 18.7442 17.1008 18.5895 17.2557C18.4349 17.4105 18.2255 17.4983 18.0066 17.5H4.52329ZM17.1666 12.5V4.16667H3.83329V15.8333L12.1666 7.5L17.1666 12.5ZM17.1666 14.8567L12.1666 9.85667L6.18996 15.8333H17.1666V14.8567ZM7.16663 9.16667C6.7246 9.16667 6.30067 8.99107 5.98811 8.67851C5.67555 8.36595 5.49996 7.94203 5.49996 7.5C5.49996 7.05797 5.67555 6.63405 5.98811 6.32149C6.30067 6.00893 6.7246 5.83333 7.16663 5.83333C7.60865 5.83333 8.03258 6.00893 8.34514 6.32149C8.6577 6.63405 8.83329 7.05797 8.83329 7.5C8.83329 7.94203 8.6577 8.36595 8.34514 8.67851C8.03258 8.99107 7.60865 9.16667 7.16663 9.16667Z"
-                        fill="black"
+              <button className="btn secondary" onClick={handleExport}>
+                <svg
+                  width="21"
+                  height="20"
+                  viewBox="0 0 21 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_305_496)">
+                    <path
+                      d="M4.52329 17.5L4.50663 17.5167L4.48913 17.5H2.99329C2.77397 17.4998 2.56371 17.4125 2.4087 17.2573C2.25369 17.1022 2.16663 16.8918 2.16663 16.6725V3.3275C2.16815 3.10865 2.25571 2.89918 2.41039 2.74435C2.56506 2.58951 2.77444 2.50175 2.99329 2.5H18.0066C18.4633 2.5 18.8333 2.87083 18.8333 3.3275V16.6725C18.8318 16.8914 18.7442 17.1008 18.5895 17.2557C18.4349 17.4105 18.2255 17.4983 18.0066 17.5H4.52329ZM17.1666 12.5V4.16667H3.83329V15.8333L12.1666 7.5L17.1666 12.5ZM17.1666 14.8567L12.1666 9.85667L6.18996 15.8333H17.1666V14.8567ZM7.16663 9.16667C6.7246 9.16667 6.30067 8.99107 5.98811 8.67851C5.67555 8.36595 5.49996 7.94203 5.49996 7.5C5.49996 7.05797 5.67555 6.63405 5.98811 6.32149C6.30067 6.00893 6.7246 5.83333 7.16663 5.83333C7.60865 5.83333 8.03258 6.00893 8.34514 6.32149C8.6577 6.63405 8.83329 7.05797 8.83329 7.5C8.83329 7.94203 8.6577 8.36595 8.34514 8.67851C8.03258 8.99107 7.60865 9.16667 7.16663 9.16667Z"
+                      fill="black"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_305_496">
+                      <rect
+                        width="20"
+                        height="20"
+                        fill="white"
+                        transform="translate(0.5)"
                       />
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_305_496">
-                        <rect
-                          width="20"
-                          height="20"
-                          fill="white"
-                          transform="translate(0.5)"
-                        />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                  <span>Export</span>
-                </div>
+                    </clipPath>
+                  </defs>
+                </svg>
+                Export
               </button>
             </div>
           </Fragment>
