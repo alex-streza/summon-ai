@@ -11,26 +11,23 @@ import { pasteImages } from "../utils/pasteImages";
 import { CloseHandler, GenerateHandler } from "./types";
 
 export default function () {
-  once<GenerateHandler>(
-    "GENERATE",
-    function (prompt, resolution, images, token) {
-      Promise.all([
-        figma.loadFontAsync({ family: "Inter", style: "Regular" }),
-        figma.loadFontAsync({ family: "Inter", style: "Semi Bold" }),
-        figma.loadFontAsync({ family: "Inter", style: "Bold" }),
-      ]).then(() => {
-        pasteImages({
-          prompt,
-          resolution,
-          images,
-        });
-
-        saveSettingsAsync({ token });
-
-        figma.notify("🎉 Generated " + images.length + " images! 🎉");
+  on<GenerateHandler>("GENERATE", function (prompt, resolution, images, token) {
+    Promise.all([
+      figma.loadFontAsync({ family: "Inter", style: "Regular" }),
+      figma.loadFontAsync({ family: "Inter", style: "Semi Bold" }),
+      figma.loadFontAsync({ family: "Inter", style: "Bold" }),
+    ]).then(() => {
+      pasteImages({
+        prompt,
+        resolution,
+        images,
       });
-    }
-  );
+
+      saveSettingsAsync({ token });
+
+      figma.notify("🎉 Generated " + images.length + " images! 🎉");
+    });
+  });
 
   once<CloseHandler>("CLOSE", function () {
     figma.closePlugin();
@@ -43,7 +40,7 @@ export default function () {
   });
 
   showUI({
-    height: 540,
+    height: 520,
     width: 600,
   });
 }

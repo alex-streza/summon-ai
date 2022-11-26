@@ -7,13 +7,21 @@
 }
 
 .cursor-follow {
-  @apply pointer-events-none absolute h-[100px] w-[100px] -translate-x-1/2 -translate-y-1/2 select-none rounded-full border-2 border-slate-300 bg-white bg-opacity-25 backdrop-blur-sm;
+  @apply pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 select-none rounded-full border-2 border-slate-300 bg-white bg-opacity-25 backdrop-blur-sm;
 }
 
 .btn {
-  @apply flex cursor-pointer items-center gap-2 rounded-md border px-4 py-2 outline-none transition-all duration-200;
+  @apply !flex cursor-pointer items-center gap-1 rounded-md py-1 pr-2 transition-all duration-200;
+}
+
+.btn.icon-only {
+  @apply p-1;
 }
 
 .btn.secondary {
-  @apply bg-slate-50 text-black hover:bg-slate-200;
+  @apply bg-slate-900 !bg-opacity-70 text-white backdrop-blur-sm hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-500;
+}
+
+.about {
+  @apply absolute right-0 bottom-0 mt-8 h-80 rounded-md;
 }

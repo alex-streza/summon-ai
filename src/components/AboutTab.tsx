@@ -4,7 +4,7 @@ import { Fragment, h } from "preact";
 const BuyMeACoffeeWidget = () => {
   return (
     <a
-      className="flex items-center gap-2 rounded-lg bg-green-400 px-4 py-3 text-xs font-semibold text-white no-underline"
+      className="flex items-center gap-2 rounded-md bg-green-500 px-4 py-3 text-xs font-semibold text-gray-900 no-underline transition-all duration-200 hover:bg-green-600"
       href="https://www.buymeacoffee.com/alex_streza"
       target="_blank"
     >
@@ -15,7 +15,7 @@ const BuyMeACoffeeWidget = () => {
 
 export const AboutTab = () => {
   return (
-    <Fragment>
+    <div className="relative h-full overflow-y-hidden">
       <VerticalSpace space="medium" />
       <h1 className="text-[28px] font-black leading-10">About Summon.AI</h1>
       <VerticalSpace space="medium" />
@@ -27,6 +27,7 @@ export const AboutTab = () => {
         </Link>
         .
         <br />
+        <br />
         P.S. The token you use is not saved anywhere other than Figma's local
         storage.
       </Text>
@@ -35,7 +36,7 @@ export const AboutTab = () => {
         Check out more of my work and maybe follow me on:
       </Text>
       <VerticalSpace space="extraLarge" />
-      <div className="flex gap-3">
+      <div className="flex items-center gap-3">
         <BuyMeACoffeeWidget />
         <Link target="_blank" href="https://github.com/alex-streza/summon-ai">
           <svg
@@ -80,6 +81,11 @@ export const AboutTab = () => {
           </svg>
         </Link>
       </div>
-    </Fragment>
+      <img
+        src="https://imagedelivery.net/_X5WqasCPTrKkrSW6EvwJg/9b8096c9-5cb0-49f2-01c1-dc1ce6575400/public"
+        alt="Summon AI"
+        className="about"
+      />
+    </div>
   );
 };

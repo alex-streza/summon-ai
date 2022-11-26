@@ -6,13 +6,14 @@ import {
   saveSettingsAsync,
   showUI,
 } from "@create-figma-plugin/utilities";
+import { RESOLUTIONS } from "../constants/config";
 import { convertToBytes, getImagePaint } from "../utils/image";
 import { pasteImages } from "../utils/pasteImages";
 
 import { CloseHandler, ExportHandler } from "./types";
 
 export default function () {
-  once<ExportHandler>("EXPORT", function (img, prompt, token) {
+  on<ExportHandler>("EXPORT", function (img, prompt, token) {
     Promise.all([
       figma.loadFontAsync({ family: "Inter", style: "Regular" }),
       figma.loadFontAsync({ family: "Inter", style: "Semi Bold" }),
@@ -21,6 +22,7 @@ export default function () {
       pasteImages({
         prompt,
         images: [img],
+        resolution: RESOLUTIONS[2],
         pasteCenterViewport: true,
       });
 
@@ -63,8 +65,8 @@ export default function () {
     });
 
     showUI({
-      height: 1512,
-      width: 1064,
+      width: 560,
+      height: 800,
     });
   } else {
     figma.notify("Please select a square resolution image (ex. 1024x1024)");
