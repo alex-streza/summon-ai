@@ -59,7 +59,7 @@ export default function () {
     }
   }, 500);
 
-  if (selection && getImagePaint(selection)) {
+  if (selection && getImagePaint(selection, 1024)) {
     loadSettingsAsync({}).then((settings) => {
       emit("LOAD_SETTINGS", settings);
     });
@@ -69,7 +69,7 @@ export default function () {
       height: 800,
     });
   } else {
-    figma.notify("Please select a square resolution image (ex. 1024x1024)");
+    figma.notify("Please select a 1024x1024 resolution image");
     figma.closePlugin();
   }
 }

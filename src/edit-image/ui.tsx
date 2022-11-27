@@ -26,10 +26,10 @@ import { CloseHandler, ExportHandler } from "./types";
 import "!../styles.css";
 import { AboutTab } from "../components/AboutTab";
 import { Editor } from "../components/Editor";
+import { FadeIn, SlideOver } from "../components/Transitions";
 import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
 import { convertDataURIToBinary, urltoFile } from "../utils/image";
 import { fadeInProps } from "../utils/transitions";
-import { Transition } from "@headlessui/react";
 
 const RESOLUTION = RESOLUTIONS[1];
 
@@ -146,7 +146,7 @@ const GenerateTab = ({
           height: size,
         }}
       >
-        <Transition show={!generatedImage} appear {...fadeInProps}>
+        <FadeIn show={!generatedImage}>
           <Editor
             image={image}
             reset={reset}
@@ -156,8 +156,8 @@ const GenerateTab = ({
             onReset={handleReset}
             onImageChange={setEditedImage}
           />
-        </Transition>
-        <Transition show={generatedImage != null} appear {...fadeInProps}>
+        </FadeIn>
+        <FadeIn {...fadeInProps} show={generatedImage != null}>
           <Fragment>
             <img
               src={viewOriginal ? image : generatedImage}
@@ -193,7 +193,7 @@ const GenerateTab = ({
               </button>
             </div>
           </Fragment>
-        </Transition>
+        </FadeIn>
       </div>
       <VerticalSpace space="large" />
       <Text>
@@ -286,11 +286,13 @@ function Plugin(data: unknown) {
           {
             value: "Edit",
             children: (
-              <GenerateTab
-                image={image}
-                saveImage={setImage}
-                settings={settings}
-              />
+              <SlideOver show>
+                <GenerateTab
+                  image={image}
+                  saveImage={setImage}
+                  settings={settings}
+                />
+              </SlideOver>
             ),
           },
           {

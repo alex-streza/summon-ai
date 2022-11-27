@@ -24,6 +24,7 @@ import "!../styles.css";
 import { AboutTab } from "../components/AboutTab";
 import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
 import { convertDataURIToBinary } from "../utils/image";
+import { SlideOver } from "../components/Transitions";
 
 const GenerateTab = ({ settings }: { settings: any }) => {
   const [count, setCount] = useState<number | null>(1);
@@ -215,7 +216,11 @@ function Plugin() {
         options={[
           {
             value: "Generate",
-            children: <GenerateTab settings={settings} />,
+            children: (
+              <SlideOver show>
+                <GenerateTab settings={settings} />
+              </SlideOver>
+            ),
           },
           // {
           // 	value: "Discover",

@@ -13,9 +13,10 @@ export const urltoFile = (url: string, filename: string, mimeType: string) => {
     });
 };
 
-export const getImagePaint = (node: any) => {
+export const getImagePaint = (node: any, size?: number) => {
   const paint = (node.fills as ImagePaint[])[0];
   if (
+    (!size || (size == node.width && size == node.height)) &&
     node.width === node.height &&
     paint.type === "IMAGE" &&
     paint.scaleMode === "FILL" &&

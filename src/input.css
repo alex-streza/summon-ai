@@ -27,5 +27,5 @@ body {
 }
 
 .about {
-  @apply absolute -right-16 top-48 mt-8 h-80 rounded-md;
+  @apply absolute -right-16 top-60 -z-10 mt-8 h-80 rounded-md;
 }

@@ -9,8 +9,7 @@ import { Stage } from "konva/lib/Stage";
 import { Vector2d } from "konva/lib/types";
 import { Fragment, h } from "preact";
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
-import { Transition } from "@headlessui/react";
-import { fadeInProps } from "../utils/transitions";
+import { FadeIn } from "./Transitions";
 
 interface EditorProps {
   image: string;
@@ -208,7 +207,7 @@ export const Editor = ({
         onMouseLeave={() => setShowCursor(false)}
         onMouseMove={handleMouseMove}
       >
-        <Transition show={showCursor} appear {...fadeInProps}>
+        <FadeIn show={showCursor}>
           <div
             className="cursor-follow"
             style={{
@@ -218,9 +217,9 @@ export const Editor = ({
               left: cursorPosition.x,
             }}
           />
-        </Transition>
+        </FadeIn>
       </div>
-      <Transition show={history.length > 0 && !loading} appear {...fadeInProps}>
+      <FadeIn show={history.length > 0 && !loading}>
         <div className="absolute top-3 right-3 flex gap-3">
           <button
             className="btn secondary icon-only"
@@ -233,7 +232,7 @@ export const Editor = ({
             <IconSwap32 />
           </button>
         </div>
-      </Transition>
+      </FadeIn>
     </Fragment>
   );
 };

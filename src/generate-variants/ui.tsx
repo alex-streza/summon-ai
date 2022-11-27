@@ -22,8 +22,9 @@ import { CloseHandler, GenerateHandler } from "./types";
 
 import "!../styles.css";
 import { AboutTab } from "../components/AboutTab";
-import { convertDataURIToBinary, urltoFile } from "../utils/image";
+import { SlideOver } from "../components/Transitions";
 import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
+import { convertDataURIToBinary, urltoFile } from "../utils/image";
 
 const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
   const [count, setCount] = useState<number | null>(1);
@@ -184,7 +185,11 @@ function Plugin() {
         options={[
           {
             value: "Generate",
-            children: <GenerateTab image={image} settings={settings} />,
+            children: (
+              <SlideOver show>
+                <GenerateTab image={image} settings={settings} />
+              </SlideOver>
+            ),
           },
           {
             value: "About",
