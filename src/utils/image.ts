@@ -1,5 +1,3 @@
-import { RESOLUTIONS_NUMBER } from "../constants/config";
-
 export const convertDataURIToBinary = (dataURI: string) =>
   Uint8Array.from(window.atob(dataURI.replace(/^data[^,]+,/, "")), (v) =>
     v.charCodeAt(0)
@@ -15,12 +13,11 @@ export const urltoFile = (url: string, filename: string, mimeType: string) => {
     });
 };
 
-export const getImagePaint = (node: any) => {
+export const getImagePaint = (node: any, size?: number) => {
   const paint = (node.fills as ImagePaint[])[0];
   if (
-    RESOLUTIONS_NUMBER.some(
-      (resolution) => resolution === node.width && resolution === node.height
-    ) &&
+    (!size || (size == node.width && size == node.height)) &&
+    node.width === node.height &&
     paint.type === "IMAGE" &&
     paint.scaleMode === "FILL" &&
     paint.imageHash

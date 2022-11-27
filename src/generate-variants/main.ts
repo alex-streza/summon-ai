@@ -9,7 +9,7 @@ import { pasteImages } from "../utils/pasteImages";
 import { CloseHandler, GenerateHandler } from "./types";
 
 export default function () {
-  once<GenerateHandler>("GENERATE", function (resolution, images, token) {
+  on<GenerateHandler>("GENERATE", function (resolution, images, token) {
     Promise.all([
       figma.loadFontAsync({ family: "Inter", style: "Regular" }),
       figma.loadFontAsync({ family: "Inter", style: "Semi Bold" }),
@@ -64,7 +64,7 @@ export default function () {
       width: 600,
     });
   } else {
-    figma.notify("Please select an image (256x256, 512x512, 1024x1024)");
+    figma.notify("Please select a square resolution image (ex. 1024x1024)");
     figma.closePlugin();
   }
 }
