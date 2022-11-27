@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply relative overflow-x-hidden;
+}
+
 .loading-indicator {
   @apply absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-1/2;
 }
@@ -23,5 +27,5 @@
 }
 
 .about {
-  @apply absolute right-0 bottom-0 mt-8 h-80 rounded-md;
+  @apply absolute -right-16 top-48 mt-8 h-80 rounded-md;
 }

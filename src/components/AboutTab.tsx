@@ -15,7 +15,7 @@ const BuyMeACoffeeWidget = () => {
 
 export const AboutTab = () => {
   return (
-    <div className="relative h-full overflow-y-hidden">
+    <Fragment>
       <VerticalSpace space="medium" />
       <h1 className="text-[28px] font-black leading-10">About Summon.AI</h1>
       <VerticalSpace space="medium" />
@@ -86,6 +86,6 @@ export const AboutTab = () => {
         alt="Summon AI"
         className="about"
       />
-    </div>
+    </Fragment>
   );
 };

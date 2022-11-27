@@ -1,5 +1,4 @@
 import {
-  IconArrowLeftCircle32,
   IconReturn32,
   IconSwap32,
   LoadingIndicator,
@@ -10,6 +9,8 @@ import { Stage } from "konva/lib/Stage";
 import { Vector2d } from "konva/lib/types";
 import { Fragment, h } from "preact";
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
+import { Transition } from "@headlessui/react";
+import { fadeInProps } from "../utils/transitions";
 
 interface EditorProps {
   image: string;
@@ -46,6 +47,10 @@ export const Editor = ({
     setHistoryIndex((historyIndex) => {
       setHistory((history) => {
         let newHistory = [...history];
+
+        if (historyIndex < history.length - 1) {
+          newHistory = history.slice(0, historyIndex + 1);
+        }
 
         if (newHistory.length > 5) {
           newHistory.shift();
@@ -159,15 +164,9 @@ export const Editor = ({
     stageRef.current?.destroy();
 
     reLoadCanvasLayer(history[historyIndex]);
+
+    setHistory(history.slice(0, historyIndex));
     setHistoryIndex(historyIndex - 1);
-  }, [history, historyIndex]);
-
-  const handleRedo = useCallback(() => {
-    stageRef.current?.destroy();
-
-    const newIndex = historyIndex + 1;
-    reLoadCanvasLayer(history[newIndex]);
-    setHistoryIndex(newIndex);
   }, [history, historyIndex]);
 
   const handleMouseMove = useCallback((event: MouseEvent) => {
@@ -194,20 +193,22 @@ export const Editor = ({
           <LoadingIndicator />
         </div>
       )}
-      <img
-        src="https://imagedelivery.net/_X5WqasCPTrKkrSW6EvwJg/9765cfbc-c4dd-4ff1-eddf-c4fb64fd2300/public"
-        alt="transparent mask"
-        className="absolute top-0 left-0"
-        width={512}
-        height={512}
-      />
+      {history.length > 0 && (
+        <img
+          src="https://imagedelivery.net/_X5WqasCPTrKkrSW6EvwJg/9765cfbc-c4dd-4ff1-eddf-c4fb64fd2300/public"
+          alt="transparent mask"
+          className="absolute top-0 left-0"
+          width={512}
+          height={512}
+        />
+      )}
       <div
         id="image-editor"
         className="cursor-pointer"
         onMouseLeave={() => setShowCursor(false)}
         onMouseMove={handleMouseMove}
       >
-        {showCursor && (
+        <Transition show={showCursor} appear {...fadeInProps}>
           <div
             className="cursor-follow"
             style={{
@@ -217,9 +218,9 @@ export const Editor = ({
               left: cursorPosition.x,
             }}
           />
-        )}
+        </Transition>
       </div>
-      {history.length > 0 && !loading && (
+      <Transition show={history.length > 0 && !loading} appear {...fadeInProps}>
         <div className="absolute top-3 right-3 flex gap-3">
           <button
             className="btn secondary icon-only"
@@ -228,18 +229,11 @@ export const Editor = ({
           >
             <IconReturn32 />
           </button>
-          {/* <button
-            className="btn secondary"
-            disabled={historyIndex == history.length - 1}
-            onClick={handleRedo}
-          >
-            <IconArrowRightCircle32 />
-          </button> */}
           <button className="btn secondary icon-only" onClick={onReset}>
             <IconSwap32 />
           </button>
         </div>
-      )}
+      </Transition>
     </Fragment>
   );
 };

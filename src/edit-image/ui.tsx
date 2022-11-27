@@ -28,6 +28,8 @@ import { AboutTab } from "../components/AboutTab";
 import { Editor } from "../components/Editor";
 import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
 import { convertDataURIToBinary, urltoFile } from "../utils/image";
+import { fadeInProps } from "../utils/transitions";
+import { Transition } from "@headlessui/react";
 
 const RESOLUTION = RESOLUTIONS[1];
 
@@ -138,13 +140,13 @@ const GenerateTab = ({
       </div>
       <VerticalSpace space="small" />
       <div
-        className="relative border border-[#5f5f5f]"
+        className="relative overflow-hidden rounded border border-gray-500"
         style={{
           width: size,
           height: size,
         }}
       >
-        {!generatedImage && (
+        <Transition show={!generatedImage} appear {...fadeInProps}>
           <Editor
             image={image}
             reset={reset}
@@ -154,8 +156,8 @@ const GenerateTab = ({
             onReset={handleReset}
             onImageChange={setEditedImage}
           />
-        )}
-        {generatedImage && (
+        </Transition>
+        <Transition show={generatedImage != null} appear {...fadeInProps}>
           <Fragment>
             <img
               src={viewOriginal ? image : generatedImage}
@@ -191,7 +193,7 @@ const GenerateTab = ({
               </button>
             </div>
           </Fragment>
-        )}
+        </Transition>
       </div>
       <VerticalSpace space="large" />
       <Text>
