@@ -1,6 +1,5 @@
 ![image](https://user-images.githubusercontent.com/72100849/201352774-9e52dc84-8ad1-433f-972f-343ffb828273.png)
 
-
 # Summon.AI
 
 [<img align="left" alt="producthunt" src="https://img.shields.io/badge/producthunt-%23d55124.svg?&style=for-the-badge&logo=producthunt&logoColor=white" />](https://www.producthunt.com/posts/summon-ai)
@@ -66,19 +65,16 @@ OpenAI API Docs for DALL-E-2
 
 ## Contributing
 
-Any help is appreciated, feel free to open an issue or a PR!
-
-- [x] Edit image with mask + prompt
-- [x] Generate variations for given image
-- [x] Cleanup positioning logic
-- [x] Cleanup styles, maybe Tailwind?
+Any help is appreciated, check open issues 🚀, also feel free to open another issue or a PR!
 
 ## Development guide
 
 _This plugin is built with [Create Figma Plugin](https://yuanqing.github.io/create-figma-plugin/)._
+_The API is built using [Go Fiber](https://gofiber.io/)._
 
 ### Pre-requisites
 
 - [Node.js](https://nodejs.org) – v16
+- [Go](https://go.dev/doc/install) – >1.16
 - [Figma desktop app](https://figma.com/downloads/)
 - [OpenAI DALL-E-2 Token](https://beta.openai.com/account/api-keys)
