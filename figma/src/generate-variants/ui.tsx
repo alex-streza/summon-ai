@@ -56,6 +56,7 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
       formData.append("size", resolution);
       formData.append("response_format", "b64_json");
       formData.append("n", count + "");
+
       fetch("https://api.openai.com/v1/images/variations", {
         method: "POST",
         headers: {

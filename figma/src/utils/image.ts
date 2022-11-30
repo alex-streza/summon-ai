@@ -54,3 +54,30 @@ export const convertToBytes = async (node: SceneNode) => {
     }
   }
 };
+
+export const uploadImages = async (
+  images: {
+    b64: string;
+    filename: string;
+  }[]
+) => {
+  const res = await fetch(
+    "http://localhost:3003/images/upload-url?count=" + images.length,
+    {
+      method: "GET",
+    }
+  );
+  const data = await res.json();
+
+  for (let i = 0; i < images.length; i++) {
+    const { b64, filename } = images[i];
+
+    const formData = new FormData();
+    formData.append("file", await urltoFile(b64, filename, "image/png"));
+
+    fetch(data.urls[0], {
+      method: "POST",
+      body: formData,
+    });
+  }
+};
