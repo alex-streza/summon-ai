@@ -30,6 +30,7 @@ import { FadeIn, SlideOver } from "../components/Transitions";
 import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
 import { convertDataURIToBinary, urltoFile } from "../utils/image";
 import { fadeInProps } from "../utils/transitions";
+import { SettingsTab } from "../components/SettingsTab";
 
 const RESOLUTION = RESOLUTIONS[1];
 
@@ -298,6 +299,10 @@ function Plugin(data: unknown) {
           {
             value: "About",
             children: <AboutTab />,
+          },
+          {
+            value: "Settings",
+            children: <SettingsTab />,
           },
         ]}
       />

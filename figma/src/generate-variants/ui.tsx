@@ -25,6 +25,7 @@ import { AboutTab } from "../components/AboutTab";
 import { SlideOver } from "../components/Transitions";
 import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
 import { convertDataURIToBinary, urltoFile } from "../utils/image";
+import { SettingsTab } from "../components/SettingsTab";
 
 const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
   const [count, setCount] = useState<number | null>(1);
@@ -195,6 +196,10 @@ function Plugin() {
           {
             value: "About",
             children: <AboutTab />,
+          },
+          {
+            value: "Settings",
+            children: <SettingsTab />,
           },
         ]}
       />

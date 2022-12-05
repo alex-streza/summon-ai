@@ -24,6 +24,8 @@
     "build": "build-figma-plugin --typecheck --minify",
     "watch": "build-figma-plugin --typecheck --watch",
     "watch:css": "tailwindcss -i ./src/input.css -o ./src/styles.css --watch",
+    "dev": "turbo run watch watch:css",
+    "clean": "rimraf .next .turbo node_modules",
     "format": "prettier --write ./src",
     "lint": "eslint ./src"
   },
