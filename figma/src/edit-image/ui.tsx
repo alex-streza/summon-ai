@@ -28,7 +28,11 @@ import { AboutTab } from "../components/AboutTab";
 import { Editor } from "../components/Editor";
 import { FadeIn, SlideOver } from "../components/Transitions";
 import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
-import { convertDataURIToBinary, urltoFile } from "../utils/image";
+import {
+  convertDataURIToBinary,
+  uploadImages,
+  urltoFile,
+} from "../utils/image";
 import { fadeInProps } from "../utils/transitions";
 import { SettingsTab } from "../components/SettingsTab";
 
@@ -47,8 +51,8 @@ const GenerateTab = ({
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [reset, setReset] = useState(0);
-  const [generatedImage, setGeneratedImage] = useState<string | null>();
-  const [editedImage, setEditedImage] = useState<string | null>();
+  const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [editedImage, setEditedImage] = useState<string | null>(null);
   const [viewOriginal, setViewOriginal] = useState(false);
   const [error, setError] = useState("");
 
@@ -89,6 +93,19 @@ const GenerateTab = ({
           if ("data" in res) {
             const url = "data:image/png;base64," + res.data[0].b64_json;
             setGeneratedImage(url);
+
+            uploadImages([
+              {
+                b64: url,
+                filename:
+                  prompt
+                    .toLowerCase()
+                    .replace(/[^a-zA-Z0-9 ]/g, "")
+                    .replace(/ /g, "_") +
+                  "-edit" +
+                  ".png",
+              },
+            ]);
           } else {
             emit("NOTIFY", res.error.message);
             setError(res.error.message);
@@ -135,13 +152,13 @@ const GenerateTab = ({
         new image, not just the erased area.
       </Text>
       <VerticalSpace space="extraLarge" />
-      <div className="flex w-full justify-between">
+      <div className="flex justify-between w-full">
         <Text as="span">Edit resolution: {RESOLUTION}</Text>
         <Text as="span">Output resolution: {RESOLUTIONS[2]}</Text>
       </div>
       <VerticalSpace space="small" />
       <div
-        className="relative overflow-hidden rounded border border-gray-500"
+        className="relative overflow-hidden border border-gray-500 rounded"
         style={{
           width: size,
           height: size,
@@ -161,20 +178,20 @@ const GenerateTab = ({
         <FadeIn {...fadeInProps} show={generatedImage != null}>
           <Fragment>
             <img
-              src={viewOriginal ? image : generatedImage}
+              src={viewOriginal ? image : (generatedImage as string)}
               width={size}
               height={size}
               style={{
                 border: "none !important",
               }}
             />
-            <div className="absolute bottom-3 right-3 flex gap-3">
+            <div className="absolute flex gap-3 bottom-3 right-3">
               <button
                 className="btn secondary"
                 onClick={() => {
                   setViewOriginal(!viewOriginal);
                   setEditedImage(generatedImage);
-                  saveImage(generatedImage);
+                  saveImage(generatedImage as string);
                   setGeneratedImage(null);
                 }}
               >

@@ -62,7 +62,7 @@ export const uploadImages = async (
   }[]
 ) => {
   const res = await fetch(
-    "http://localhost:3003/images/upload-url?count=" + images.length,
+    "http://localhost:3000/api/images/upload-url?count=" + images.length,
     {
       method: "GET",
     }
@@ -75,8 +75,9 @@ export const uploadImages = async (
     const formData = new FormData();
     formData.append("file", await urltoFile(b64, filename, "image/png"));
 
-    fetch(data.urls[0], {
+    fetch(data.urls[i], {
       method: "POST",
+      mode: "no-cors",
       body: formData,
     });
   }

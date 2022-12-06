@@ -10,6 +10,12 @@
     "dev": {
       "cache": false
     },
+    "watch": {
+      "cache": false
+    },
+    "watch:css": {
+      "cache": false
+    },
     "lint": {
       "outputs": []
     },

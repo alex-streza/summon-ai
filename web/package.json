@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "@summon-ai/web",
   "version": "0.1.0",
   "scripts": {
     "build": "next build",
@@ -14,11 +14,14 @@
     "@trpc/next": "^10.0.0",
     "@trpc/react-query": "^10.0.0",
     "@trpc/server": "^10.0.0",
+    "got": "^12.5.3",
     "next": "13.0.2",
     "next-auth": "4.17.0",
+    "nextjs-cors": "^2.1.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "superjson": "1.9.1",
+    "trpc-openapi": "^1.0.0",
     "zod": "^3.18.0"
   },
   "devDependencies": {

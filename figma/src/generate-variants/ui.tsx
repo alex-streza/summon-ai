@@ -24,7 +24,11 @@ import "!../styles.css";
 import { AboutTab } from "../components/AboutTab";
 import { SlideOver } from "../components/Transitions";
 import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
-import { convertDataURIToBinary, urltoFile } from "../utils/image";
+import {
+  convertDataURIToBinary,
+  uploadImages,
+  urltoFile,
+} from "../utils/image";
 import { SettingsTab } from "../components/SettingsTab";
 
 const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
@@ -68,13 +72,34 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
         .then((response) => response.json())
         .then((res: { data: { b64_json: string }[] } | { error: any }) => {
           if ("data" in res) {
-            const images: Uint8Array[] = [];
-            res.data.forEach(({ b64_json }) => {
+            const images: {
+              uintArray: Uint8Array;
+              b64: string;
+              filename: string;
+            }[] = [];
+            res.data.forEach(({ b64_json }, index) => {
               const url = "data:image/png;base64," + b64_json;
               const image = convertDataURIToBinary(url);
-              images.push(image);
+
+              images.push({
+                uintArray: image,
+                b64: url,
+                filename:
+                  Math.random().toString(36).substring(2, 15) +
+                  "-" +
+                  index +
+                  ".png",
+              });
             });
-            emit<GenerateHandler>("GENERATE", resolution, images, token);
+
+            uploadImages(images.map(({ uintArray, ...rest }) => ({ ...rest })));
+
+            emit<GenerateHandler>(
+              "GENERATE",
+              resolution,
+              images.map(({ uintArray }) => uintArray),
+              token
+            );
           } else {
             emit("NOTIFY", res.error.message);
             setError(res.error.message);

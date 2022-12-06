@@ -1,8 +1,8 @@
 {
   "name": "summon-ai",
-  "packageManager": "pnpm@7.13.0",
+  "packageManager": "pnpm@7.14.1",
   "scripts": {
-    "dev": "turbo dev --parallel",
+    "dev": "turbo run --parallel dev watch watch:css",
     "clean:workspaces": "turbo clean",
     "clean": "rimraf node_modules .turbo .vercel"
   },
