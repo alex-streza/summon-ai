@@ -35,8 +35,18 @@ export default function () {
 
   on("NOTIFY", figma.notify);
 
+  on("SAVE_SETTINGS", (settings) => {
+    saveSettingsAsync(settings);
+    figma.notify("Settings saved!");
+  });
+
+  on("CLEAR_SETTINGS", () => {
+    saveSettingsAsync({ user: figma.currentUser });
+    figma.notify("Settings cleared!");
+  });
+
   loadSettingsAsync({}).then((settings) => {
-    emit("LOAD_SETTINGS", settings);
+    emit("LOAD_SETTINGS", { ...settings, user: figma.currentUser });
   });
 
   showUI({

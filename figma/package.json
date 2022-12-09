@@ -4,6 +4,7 @@
     "@create-figma-plugin/ui": "^2.1.5",
     "@create-figma-plugin/utilities": "^2.1.5",
     "@headlessui/react": "^1.7.4",
+    "dotenv": "^16.0.3",
     "konva": "8.3.14",
     "preact": "^10"
   },
@@ -11,6 +12,7 @@
     "@create-figma-plugin/build": "^2.1.5",
     "@create-figma-plugin/tsconfig": "^2.1.5",
     "@figma/plugin-typings": "1.54.0",
+    "@types/node": "^18.0.0",
     "@types/react": "^18.0.25",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
@@ -34,6 +36,9 @@
     "name": "Summon.AI",
     "editorType": [
       "figma"
+    ],
+    "permissions": [
+      "currentuser"
     ],
     "menu": [
       {

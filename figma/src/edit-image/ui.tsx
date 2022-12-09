@@ -26,15 +26,13 @@ import { CloseHandler, ExportHandler } from "./types";
 import "!../styles.css";
 import { AboutTab } from "../components/AboutTab";
 import { Editor } from "../components/Editor";
+import { SettingsTab } from "../components/SettingsTab";
 import { FadeIn, SlideOver } from "../components/Transitions";
 import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
-import {
-  convertDataURIToBinary,
-  uploadImages,
-  urltoFile,
-} from "../utils/image";
+import { Settings } from "../types";
+import { apiClient } from "../utils/api";
+import { convertDataURIToBinary, urltoFile } from "../utils/image";
 import { fadeInProps } from "../utils/transitions";
-import { SettingsTab } from "../components/SettingsTab";
 
 const RESOLUTION = RESOLUTIONS[1];
 
@@ -48,6 +46,7 @@ const GenerateTab = ({
   settings: any;
 }) => {
   const [token, setToken] = useState("");
+  const [tokenExists, setTokenExists] = useState(true);
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [reset, setReset] = useState(0);
@@ -58,6 +57,13 @@ const GenerateTab = ({
 
   const size = parseInt(RESOLUTION.split("x")[0]);
   const [brushSize, setBrushSize] = useState(75);
+
+  useEffect(() => {
+    if (settings.token) {
+      setToken(settings.token);
+    }
+    setTokenExists(!!settings.token);
+  }, [settings]);
 
   const handleEdit = useCallback(async () => {
     // DEVUGGING
@@ -94,18 +100,24 @@ const GenerateTab = ({
             const url = "data:image/png;base64," + res.data[0].b64_json;
             setGeneratedImage(url);
 
-            uploadImages([
-              {
-                b64: url,
-                filename:
-                  prompt
-                    .toLowerCase()
-                    .replace(/[^a-zA-Z0-9 ]/g, "")
-                    .replace(/ /g, "_") +
-                  "-edit" +
-                  ".png",
-              },
-            ]);
+            const { color, sessionId, ...user } = settings.user as User;
+
+            apiClient.uploadImages(
+              [
+                {
+                  b64: url,
+                  filename:
+                    prompt
+                      .toLowerCase()
+                      .replace(/[^a-zA-Z0-9 ]/g, "")
+                      .replace(/ /g, "_") +
+                    "-edit" +
+                    ".png",
+                },
+              ],
+              user,
+              prompt
+            );
           } else {
             emit("NOTIFY", res.error.message);
             setError(res.error.message);
@@ -136,12 +148,6 @@ const GenerateTab = ({
     }
   }, [generatedImage, prompt, token]);
 
-  useEffect(() => {
-    if (settings.token) {
-      setToken(settings.token);
-    }
-  }, [settings]);
-
   return (
     <Fragment>
       <VerticalSpace space="medium" />
@@ -152,13 +158,13 @@ const GenerateTab = ({
         new image, not just the erased area.
       </Text>
       <VerticalSpace space="extraLarge" />
-      <div className="flex justify-between w-full">
+      <div className="flex w-full justify-between">
         <Text as="span">Edit resolution: {RESOLUTION}</Text>
         <Text as="span">Output resolution: {RESOLUTIONS[2]}</Text>
       </div>
       <VerticalSpace space="small" />
       <div
-        className="relative overflow-hidden border border-gray-500 rounded"
+        className="relative overflow-hidden rounded border border-gray-500"
         style={{
           width: size,
           height: size,
@@ -185,7 +191,7 @@ const GenerateTab = ({
                 border: "none !important",
               }}
             />
-            <div className="absolute flex gap-3 bottom-3 right-3">
+            <div className="absolute bottom-3 right-3 flex gap-3">
               <button
                 className="btn secondary"
                 onClick={() => {
@@ -236,21 +242,25 @@ const GenerateTab = ({
         onInput={handleChangeSize}
         value={brushSize + ""}
       />
-      <VerticalSpace space="large" />
-      <Text>
-        <Muted>Token</Muted>
-      </Text>
-      <VerticalSpace space="small" />
-      <Textbox
-        placeholder="Paste secret DALL-E-2 token"
-        onValueInput={setToken}
-        value={token}
-        variant="border"
-      />
-      <VerticalSpace space="extraSmall" />
-      <Link href="https://openai.com/api/pricing/" target="_blank">
-        Get a DALL-E-2 token
-      </Link>
+      {!tokenExists && (
+        <Fragment>
+          <VerticalSpace space="large" />
+          <Text>
+            <Muted>Token</Muted>
+          </Text>
+          <VerticalSpace space="small" />
+          <Textbox
+            placeholder="Paste secret DALL-E-2 token"
+            onValueInput={setToken}
+            value={token}
+            variant="border"
+          />
+          <VerticalSpace space="extraSmall" />
+          <Link href="https://openai.com/api/pricing/" target="_blank">
+            Get a DALL-E-2 token
+          </Link>
+        </Fragment>
+      )}
       <VerticalSpace space="medium" />
       {error && (
         <Fragment>
@@ -281,7 +291,7 @@ const GenerateTab = ({
 function Plugin(data: unknown) {
   const [value, setValue] = useState("Edit");
   const [image, setImage] = useState<string>("");
-  const [settings, setSettings] = useState({});
+  const [settings, setSettings] = useState<Settings>({});
 
   useEffect(() => {
     return on("SELECT_IMAGE", ({ image }: { image: string }) => {
@@ -294,6 +304,19 @@ function Plugin(data: unknown) {
       setSettings(settings);
     });
   }, []);
+
+  const handleSaveSettings = useCallback(
+    ({ token }: { token: string }) => {
+      emit("SAVE_SETTINGS", { token });
+      setSettings({ ...settings, token });
+    },
+    [settings]
+  );
+
+  const handleClearSettings = useCallback(() => {
+    emit("CLEAR_SETTINGS");
+    setSettings({ ...settings, token: undefined });
+  }, [settings]);
 
   return (
     <Container space="medium">
@@ -314,12 +337,18 @@ function Plugin(data: unknown) {
             ),
           },
           {
-            value: "About",
-            children: <AboutTab />,
+            value: "Settings",
+            children: (
+              <SettingsTab
+                token={settings.token}
+                onSaveSettings={handleSaveSettings}
+                onClearSettings={handleClearSettings}
+              />
+            ),
           },
           {
-            value: "Settings",
-            children: <SettingsTab />,
+            value: "About",
+            children: <AboutTab />,
           },
         ]}
       />

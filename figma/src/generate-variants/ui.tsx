@@ -22,18 +22,23 @@ import { CloseHandler, GenerateHandler } from "./types";
 
 import "!../styles.css";
 import { AboutTab } from "../components/AboutTab";
+import { SettingsTab } from "../components/SettingsTab";
 import { SlideOver } from "../components/Transitions";
 import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
-import {
-  convertDataURIToBinary,
-  uploadImages,
-  urltoFile,
-} from "../utils/image";
-import { SettingsTab } from "../components/SettingsTab";
+import { Settings } from "../types";
+import { apiClient } from "../utils/api";
+import { convertDataURIToBinary, urltoFile } from "../utils/image";
 
-const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
+const GenerateTab = ({
+  image,
+  settings,
+}: {
+  image: string;
+  settings: Settings;
+}) => {
   const [count, setCount] = useState<number | null>(1);
   const [token, setToken] = useState("");
+  const [tokenExists, setTokenExists] = useState(true);
   const [resolution, setResolution] = useState(RESOLUTIONS[0]);
   const [loading, setLoading] = useState(false);
   const [countString, setCountString] = useState("1");
@@ -43,6 +48,7 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
     if (settings.token) {
       setToken(settings.token);
     }
+    setTokenExists(!!settings.token);
   }, [settings]);
 
   const handleGenerateButtonClick = useCallback(async () => {
@@ -77,6 +83,7 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
               b64: string;
               filename: string;
             }[] = [];
+
             res.data.forEach(({ b64_json }, index) => {
               const url = "data:image/png;base64," + b64_json;
               const image = convertDataURIToBinary(url);
@@ -92,7 +99,12 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
               });
             });
 
-            uploadImages(images.map(({ uintArray, ...rest }) => ({ ...rest })));
+            const { color, sessionId, ...user } = settings.user as User;
+
+            apiClient.uploadImages(
+              images.map(({ uintArray, ...rest }) => ({ ...rest })),
+              user
+            );
 
             emit<GenerateHandler>(
               "GENERATE",
@@ -131,6 +143,8 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
         onValueInput={setCountString}
         value={countString}
         variant="border"
+        maximum={4}
+        minimum={1}
       />
       <VerticalSpace space="large" />
       <Text>
@@ -146,21 +160,25 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
         value={resolution}
         variant="border"
       />
-      <VerticalSpace space="large" />
-      <Text>
-        <Muted>Token</Muted>
-      </Text>
-      <VerticalSpace space="small" />
-      <Textbox
-        placeholder="Paste secret DALL-E-2 token"
-        onValueInput={setToken}
-        value={token}
-        variant="border"
-      />
-      <VerticalSpace space="extraSmall" />
-      <Link href="https://openai.com/api/pricing/" target="_blank">
-        Get a DALL-E-2 token
-      </Link>
+      {!tokenExists && (
+        <Fragment>
+          <VerticalSpace space="large" />
+          <Text>
+            <Muted>Token</Muted>
+          </Text>
+          <VerticalSpace space="small" />
+          <Textbox
+            placeholder="Paste secret DALL-E-2 token"
+            onValueInput={setToken}
+            value={token}
+            variant="border"
+          />
+          <VerticalSpace space="extraSmall" />
+          <Link href="https://openai.com/api/pricing/" target="_blank">
+            Get a DALL-E-2 token
+          </Link>
+        </Fragment>
+      )}
       <VerticalSpace space="medium" />
       {error && (
         <Fragment>
@@ -190,7 +208,7 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
 function Plugin() {
   const [value, setValue] = useState("Generate");
   const [image, setImage] = useState("");
-  const [settings, setSettings] = useState({});
+  const [settings, setSettings] = useState<Settings>({});
 
   useEffect(() => {
     return on("SELECT_IMAGE", ({ image }: { image: string }) => {
@@ -203,6 +221,19 @@ function Plugin() {
       setSettings(settings);
     });
   }, []);
+
+  const handleSaveSettings = useCallback(
+    ({ token }: { token: string }) => {
+      emit("SAVE_SETTINGS", { token });
+      setSettings({ ...settings, token });
+    },
+    [settings]
+  );
+
+  const handleClearSettings = useCallback(() => {
+    emit("CLEAR_SETTINGS");
+    setSettings({ ...settings, token: undefined });
+  }, [settings]);
 
   return (
     <Container space="medium">
@@ -219,12 +250,18 @@ function Plugin() {
             ),
           },
           {
-            value: "About",
-            children: <AboutTab />,
+            value: "Settings",
+            children: (
+              <SettingsTab
+                token={settings.token}
+                onSaveSettings={handleSaveSettings}
+                onClearSettings={handleClearSettings}
+              />
+            ),
           },
           {
-            value: "Settings",
-            children: <SettingsTab />,
+            value: "About",
+            children: <AboutTab />,
           },
         ]}
       />

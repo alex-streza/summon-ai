@@ -33,6 +33,16 @@ export default function () {
 
   on("NOTIFY", figma.notify);
 
+  on("SAVE_SETTINGS", (settings) => {
+    saveSettingsAsync(settings);
+    figma.notify("Settings saved!");
+  });
+
+  on("CLEAR_SETTINGS", () => {
+    saveSettingsAsync({ user: figma.currentUser });
+    figma.notify("Settings cleared!");
+  });
+
   let selection = figma.currentPage.selection[0];
   let loaded = false;
 
@@ -56,7 +66,7 @@ export default function () {
 
   if (selection && getImagePaint(selection)) {
     loadSettingsAsync({}).then((settings) => {
-      emit("LOAD_SETTINGS", settings);
+      emit("LOAD_SETTINGS", { ...settings, user: figma.currentUser });
     });
 
     showUI({
