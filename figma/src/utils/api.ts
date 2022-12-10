@@ -6,6 +6,8 @@ const API_URL =
     ? process.env.PRODUCTION_API_URL
     : process.env.LOCAL_API_URL;
 
+console.log("process.env.NODE_ENV ", process.env.NODE_ENV);
+
 const query = (config: Record<string, string | number | boolean | undefined>) =>
   Object.keys(config)
     .filter((key) => config[key] !== undefined)

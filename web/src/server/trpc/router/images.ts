@@ -31,7 +31,7 @@ export const images = router({
           .array(),
       })
     )
-    .query(async ({ input }) => {
+    .query(async ({ ctx, input }) => {
       const page = parseInt(input.page ?? "1") - 1;
       const pageSize = parseInt(input.page_size ?? "9");
 
@@ -63,11 +63,10 @@ export const images = router({
       const { count, error: countError } = await countQuery;
 
       if (error || countError) {
-        console.log("error", error);
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Images could not be retrieved",
-          cause: error,
+          cause: error ?? countError,
         });
       }
 
@@ -84,22 +83,26 @@ export const images = router({
     .meta({ openapi: { method: "GET", path: "/images/upload-url" } })
     .input(z.object({ count: z.string().optional() }))
     .output(z.object({ urls: z.string().array() }))
-    .query(async ({ input }) => {
+    .query(async ({ ctx, input }) => {
       const { count = 1 } = input;
 
       const urls = [];
 
-      for (let i = 0; i < count; i++) {
-        try {
+      try {
+        for (let i = 0; i < count; i++) {
           const {
             result: { uploadURL },
           } = await cloudflare.getDirectUploadURL<{
             result: { uploadURL: string };
           }>();
           urls.push(uploadURL);
-        } catch (error) {
-          console.log("error", error);
         }
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Direct upload URL could not be generated",
+          cause: error,
+        });
       }
 
       return { urls };
@@ -153,7 +156,6 @@ export const images = router({
       );
 
       if (error) {
-        console.log("error", error);
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Images could not be inserted",

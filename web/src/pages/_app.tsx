@@ -1,8 +1,9 @@
-import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
+import { type AppType } from "next/app";
 
 import { trpc } from "../utils/trpc";
+export { reportWebVitals } from "next-axiom";
 
 import "../styles/globals.css";
 

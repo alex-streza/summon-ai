@@ -61,3 +61,11 @@ body {
 .load-more {
   @apply !mx-auto !mb-5 !grid !place-content-center;
 }
+
+.not-found {
+  @apply mx-auto mb-5 flex flex-col items-center justify-center;
+}
+
+.not-found > svg {
+  @apply h-[256px] w-[256px];
+}

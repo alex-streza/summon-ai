@@ -24,6 +24,7 @@ import { apiClient } from "../utils/api";
 import { convertDataURIToBinary, urlToBase64 } from "../utils/image";
 import { FadeIn, SlideOver } from "./Transitions";
 import spacetime from "spacetime";
+import NotFound from "./NotFound";
 
 const Image = ({ url, prompt, avatar_url, created_at, name }: Image) => {
   const [copied, setCopied] = useState(false);
@@ -132,6 +133,11 @@ export const DiscoverTab = ({ userId }: DiscoverTabProps) => {
     getImages({ page: page + 1, initialLooading: false });
   }, [images, page]);
 
+  const handleResetSearch = useCallback(() => {
+    setSearch("");
+    setPage(1);
+  }, []);
+
   return (
     <SlideOver show>
       <Fragment>
@@ -148,9 +154,11 @@ export const DiscoverTab = ({ userId }: DiscoverTabProps) => {
         <VerticalSpace space="extraSmall" />
         <Text>
           {!loading
-            ? `Found ${count} ${
-                count === 1 ? "image" : "images"
-              } matching your search`
+            ? count > 0
+              ? `Found ${count} ${
+                  count === 1 ? "image" : "images"
+                } matching your search`
+              : "No images found"
             : "Searching..."}
         </Text>
         <VerticalSpace space="medium" />
@@ -169,12 +177,15 @@ export const DiscoverTab = ({ userId }: DiscoverTabProps) => {
             ))}
           </div>
         </FadeIn>
-        <FadeIn show={!loading}>
+        <FadeIn show={!loading && images.length > 0}>
           <div className="image-grid">
             {images.map((image) => (
               <Image key={image.url} {...image} />
             ))}
           </div>
+        </FadeIn>
+        <FadeIn show={!loading && images.length == 0}>
+          <NotFound onReset={handleResetSearch} />
         </FadeIn>
         {count > images.length && (
           <div className="flex mx-auto w-fit">

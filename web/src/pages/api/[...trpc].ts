@@ -4,6 +4,7 @@ import { createContext } from "../../server/trpc/context";
 import { appRouter } from "../../server/trpc/router/_app";
 import cors from "nextjs-cors";
 import { NextApiRequest, NextApiResponse } from "next";
+import { withAxiom } from "next-axiom";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   req.headers["Access-Control-Allow-Origin"] = "*";
@@ -21,11 +22,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     createContext,
     onError:
       env.NODE_ENV === "development"
-        ? ({ path, error }) => {
+        ? ({ ctx, path, error }) => {
+            if (ctx) ctx.log.error(error.message);
             console.error(`❌ tRPC failed on ${path}: ${error}`);
           }
         : undefined,
   })(req, res);
 };
 
-export default handler;
+export default withAxiom(handler);
