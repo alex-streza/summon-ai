@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "turbo run --parallel dev watch watch:css",
     "clean:workspaces": "turbo clean",
-    "clean": "rimraf node_modules .turbo .vercel"
+    "clean": "rimraf node_modules .turbo .vercel",
+    "lint": "turbo run lint"
   },
   "devDependencies": {
     "@manypkg/cli": "^0.19.2",

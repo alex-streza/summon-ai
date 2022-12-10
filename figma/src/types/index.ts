@@ -6,10 +6,10 @@ export type Settings = {
   user?: User | null;
 } & Record<string, unknown>;
 
-export type WriteSettings {
+export type WriteSettings = {
   token?: string;
   acceptSaveImage?: boolean;
-}
+};
 
 type BaseUser = {
   id: string | null;
