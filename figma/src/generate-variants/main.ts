@@ -1,4 +1,4 @@
-import { emit, on, once, showUI } from "@create-figma-plugin/utilities";
+import { emit, on, showUI } from "@create-figma-plugin/utilities";
 import { convertToBytes, getImagePaint } from "./../utils/image";
 
 import {
@@ -6,7 +6,9 @@ import {
   saveSettingsAsync,
 } from "@create-figma-plugin/utilities";
 import { pasteImages } from "../utils/pasteImages";
-import { CloseHandler, GenerateHandler } from "./types";
+import registerCommonEvents from "../utils/registerCommonEvents";
+import { GenerateHandler } from "./types";
+import { LoadSettingsHandler, SelectImageHandler } from "../types";
 
 export default function () {
   on<GenerateHandler>("GENERATE", function (resolution, images, token) {
@@ -27,11 +29,7 @@ export default function () {
     });
   });
 
-  once<CloseHandler>("CLOSE", function () {
-    figma.closePlugin();
-  });
-
-  on("NOTIFY", figma.notify);
+  registerCommonEvents();
 
   let selection = figma.currentPage.selection[0];
   let loaded = false;
@@ -46,9 +44,7 @@ export default function () {
       loaded = true;
       convertToBytes(selection).then((image) => {
         if (image) {
-          emit("SELECT_IMAGE", {
-            image: figma.base64Encode(image),
-          });
+          emit<SelectImageHandler>("SELECT_IMAGE", figma.base64Encode(image));
         }
       });
     }
@@ -56,7 +52,10 @@ export default function () {
 
   if (selection && getImagePaint(selection)) {
     loadSettingsAsync({}).then((settings) => {
-      emit("LOAD_SETTINGS", settings);
+      emit<LoadSettingsHandler>("LOAD_SETTINGS", {
+        ...settings,
+        user: figma.currentUser,
+      });
     });
 
     showUI({

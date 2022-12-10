@@ -1,15 +1,17 @@
-import { Link, Text, VerticalSpace } from "@create-figma-plugin/ui";
+import {
+  Button,
+  Link,
+  Muted,
+  Text,
+  VerticalSpace,
+} from "@create-figma-plugin/ui";
 import { Fragment, h } from "preact";
 import { SlideOver } from "./Transitions";
 
 const BuyMeACoffeeWidget = () => {
   return (
-    <a
-      className="flex items-center gap-2 rounded-md bg-green-500 px-4 py-3 text-xs font-semibold text-gray-900 no-underline transition-all duration-200 hover:bg-green-600"
-      href="https://www.buymeacoffee.com/alex_streza"
-      target="_blank"
-    >
-      📹 Buy me a streaming kit
+    <a href="https://www.buymeacoffee.com/alex_streza" target="_blank">
+      <Button>📹 Buy me a streaming kit</Button>
     </a>
   );
 };
@@ -28,10 +30,6 @@ export const AboutTab = () => {
             DALL-E-2
           </Link>
           .
-          <br />
-          <br />
-          P.S. The token you use is not saved anywhere other than Figma's local
-          storage.
         </Text>
         <VerticalSpace space="medium" />
         <Text className="text-base font-medium leading-6" as={"p"}>
@@ -88,6 +86,19 @@ export const AboutTab = () => {
             </svg>
           </Link>
         </div>
+        <VerticalSpace space="extraLarge" />
+        <Text>
+          <Muted>
+            P.S. The token you use is not saved anywhere other than Figma's
+            local storage.
+          </Muted>
+        </Text>
+        <VerticalSpace space="small" />
+        <Text>
+          <Muted>
+            P.S.S. You can disable image saving database in the settings menu.
+          </Muted>
+        </Text>
       </Fragment>
     </SlideOver>
   );

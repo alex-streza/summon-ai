@@ -9,8 +9,3 @@ export interface GenerateHandler extends EventHandler {
     token: string
   ) => void;
 }
-
-export interface CloseHandler extends EventHandler {
-  name: "CLOSE";
-  handler: () => void;
-}

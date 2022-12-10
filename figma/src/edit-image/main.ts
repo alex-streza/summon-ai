@@ -2,15 +2,16 @@ import {
   emit,
   loadSettingsAsync,
   on,
-  once,
   saveSettingsAsync,
   showUI,
 } from "@create-figma-plugin/utilities";
 import { RESOLUTIONS } from "../constants/config";
 import { convertToBytes, getImagePaint } from "../utils/image";
 import { pasteImages } from "../utils/pasteImages";
+import registerCommonEvents from "../utils/registerCommonEvents";
+import { LoadSettingsHandler, SelectImageHandler } from "./../types/index";
 
-import { CloseHandler, ExportHandler } from "./types";
+import { ExportHandler } from "./types";
 
 export default function () {
   on<ExportHandler>("EXPORT", function (img, prompt, token) {
@@ -32,11 +33,7 @@ export default function () {
     });
   });
 
-  once<CloseHandler>("CLOSE", function () {
-    figma.closePlugin();
-  });
-
-  on("NOTIFY", figma.notify);
+  registerCommonEvents();
 
   let selection = figma.currentPage.selection[0];
   let loaded = false;
@@ -51,9 +48,7 @@ export default function () {
       loaded = true;
       convertToBytes(selection).then((image) => {
         if (image) {
-          emit("SELECT_IMAGE", {
-            image: figma.base64Encode(image),
-          });
+          emit<SelectImageHandler>("SELECT_IMAGE", figma.base64Encode(image));
         }
       });
     }
@@ -61,7 +56,10 @@ export default function () {
 
   if (selection && getImagePaint(selection, 1024)) {
     loadSettingsAsync({}).then((settings) => {
-      emit("LOAD_SETTINGS", settings);
+      emit<LoadSettingsHandler>("LOAD_SETTINGS", {
+        ...settings,
+        user: figma.currentUser,
+      });
     });
 
     showUI({

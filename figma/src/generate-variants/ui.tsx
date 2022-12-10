@@ -18,17 +18,36 @@ import { emit, on } from "@create-figma-plugin/utilities";
 import { Fragment, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 
-import { CloseHandler, GenerateHandler } from "./types";
+import { GenerateHandler } from "./types";
 
 import "!../styles.css";
 import { AboutTab } from "../components/AboutTab";
+import { DiscoverTab } from "../components/DiscoverTab";
+import { SettingsTab } from "../components/SettingsTab";
 import { SlideOver } from "../components/Transitions";
 import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
+import {
+  ClearSettingsHandler,
+  CloseHandler,
+  NotifyHandler,
+  SaveSettingsHandler,
+  SelectImageHandler,
+  Settings,
+  WriteSettings,
+} from "../types";
+import { apiClient } from "../utils/api";
 import { convertDataURIToBinary, urltoFile } from "../utils/image";
 
-const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
+const GenerateTab = ({
+  image,
+  settings,
+}: {
+  image: string;
+  settings: Settings;
+}) => {
   const [count, setCount] = useState<number | null>(1);
   const [token, setToken] = useState("");
+  const [tokenExists, setTokenExists] = useState(true);
   const [resolution, setResolution] = useState(RESOLUTIONS[0]);
   const [loading, setLoading] = useState(false);
   const [countString, setCountString] = useState("1");
@@ -38,6 +57,7 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
     if (settings.token) {
       setToken(settings.token);
     }
+    setTokenExists(!!settings.token);
   }, [settings]);
 
   const handleGenerateButtonClick = useCallback(async () => {
@@ -56,6 +76,7 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
       formData.append("size", resolution);
       formData.append("response_format", "b64_json");
       formData.append("n", count + "");
+
       fetch("https://api.openai.com/v1/images/variations", {
         method: "POST",
         headers: {
@@ -66,21 +87,57 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
         .then((response) => response.json())
         .then((res: { data: { b64_json: string }[] } | { error: any }) => {
           if ("data" in res) {
-            const images: Uint8Array[] = [];
-            res.data.forEach(({ b64_json }) => {
+            const images: {
+              uintArray: Uint8Array;
+              b64: string;
+              filename: string;
+            }[] = [];
+
+            res.data.forEach(({ b64_json }, index) => {
               const url = "data:image/png;base64," + b64_json;
               const image = convertDataURIToBinary(url);
-              images.push(image);
+
+              images.push({
+                uintArray: image,
+                b64: url,
+                filename:
+                  Math.random().toString(36).substring(2, 15) +
+                  "-" +
+                  index +
+                  ".png",
+              });
             });
-            emit<GenerateHandler>("GENERATE", resolution, images, token);
+
+            const { color, sessionId, ...user } = settings.user as User;
+
+            if (settings.acceptSaveImage) {
+              apiClient.uploadImages(
+                images.map(({ uintArray, ...rest }) => ({ ...rest })),
+                user
+              );
+            }
+
+            emit<GenerateHandler>(
+              "GENERATE",
+              resolution,
+              images.map(({ uintArray }) => uintArray),
+              token
+            );
           } else {
-            emit("NOTIFY", res.error.message);
+            emit<NotifyHandler>("NOTIFY", res.error.message);
             setError(res.error.message);
           }
         })
         .finally(() => setLoading(false));
     }
-  }, [count, token, image, resolution]);
+  }, [
+    count,
+    token,
+    image,
+    resolution,
+    settings.user,
+    settings.acceptSaveImage,
+  ]);
 
   const handleCloseButtonClick = useCallback(function () {
     emit<CloseHandler>("CLOSE");
@@ -104,6 +161,8 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
         onValueInput={setCountString}
         value={countString}
         variant="border"
+        maximum={4}
+        minimum={1}
       />
       <VerticalSpace space="large" />
       <Text>
@@ -119,21 +178,25 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
         value={resolution}
         variant="border"
       />
-      <VerticalSpace space="large" />
-      <Text>
-        <Muted>Token</Muted>
-      </Text>
-      <VerticalSpace space="small" />
-      <Textbox
-        placeholder="Paste secret DALL-E-2 token"
-        onValueInput={setToken}
-        value={token}
-        variant="border"
-      />
-      <VerticalSpace space="extraSmall" />
-      <Link href="https://openai.com/api/pricing/" target="_blank">
-        Get a DALL-E-2 token
-      </Link>
+      {!tokenExists && (
+        <Fragment>
+          <VerticalSpace space="large" />
+          <Text>
+            <Muted>Token</Muted>
+          </Text>
+          <VerticalSpace space="small" />
+          <Textbox
+            placeholder="Paste secret DALL-E-2 token"
+            onValueInput={setToken}
+            value={token}
+            variant="border"
+          />
+          <VerticalSpace space="extraSmall" />
+          <Link href="https://openai.com/api/pricing/" target="_blank">
+            Get a DALL-E-2 token
+          </Link>
+        </Fragment>
+      )}
       <VerticalSpace space="medium" />
       {error && (
         <Fragment>
@@ -147,7 +210,7 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
           onClick={handleGenerateButtonClick}
           disabled={loading || !prompt || !count || !token}
         >
-          {loading && <LoadingIndicator color="brand" />}
+          {loading && <LoadingIndicator color="disabled" />}
           {!loading &&
             "Generate " +
               (count && count > 1 ? `${count} variants` : "variant")}
@@ -163,10 +226,10 @@ const GenerateTab = ({ image, settings }: { image: string; settings: any }) => {
 function Plugin() {
   const [value, setValue] = useState("Generate");
   const [image, setImage] = useState("");
-  const [settings, setSettings] = useState({});
+  const [settings, setSettings] = useState<Settings>({});
 
   useEffect(() => {
-    return on("SELECT_IMAGE", ({ image }: { image: string }) => {
+    return on<SelectImageHandler>("SELECT_IMAGE", (image) => {
       setImage("data:image/png;base64," + image);
     });
   }, []);
@@ -176,6 +239,19 @@ function Plugin() {
       setSettings(settings);
     });
   }, []);
+
+  const handleSaveSettings = useCallback(
+    ({ token, acceptSaveImage }: WriteSettings) => {
+      emit<SaveSettingsHandler>("SAVE_SETTINGS", { token, acceptSaveImage });
+      setSettings({ ...settings, token, acceptSaveImage });
+    },
+    [settings]
+  );
+
+  const handleClearSettings = useCallback(() => {
+    emit<ClearSettingsHandler>("CLEAR_SETTINGS");
+    setSettings({ ...settings, token: undefined });
+  }, [settings]);
 
   return (
     <Container space="medium">
@@ -189,6 +265,21 @@ function Plugin() {
               <SlideOver show>
                 <GenerateTab image={image} settings={settings} />
               </SlideOver>
+            ),
+          },
+          {
+            value: "Discover",
+            children: <DiscoverTab userId={settings.user?.id} />,
+          },
+          {
+            value: "Settings",
+            children: (
+              <SettingsTab
+                token={settings.token}
+                acceptSaveImage={settings.acceptSaveImage}
+                onSaveSettings={handleSaveSettings}
+                onClearSettings={handleClearSettings}
+              />
             ),
           },
           {

@@ -1,14 +1,8 @@
-import {
-  emit,
-  loadSettingsAsync,
-  on,
-  once,
-  saveSettingsAsync,
-  showUI,
-} from "@create-figma-plugin/utilities";
+import { on, saveSettingsAsync, showUI } from "@create-figma-plugin/utilities";
 import { pasteImages } from "../utils/pasteImages";
+import registerCommonEvents from "../utils/registerCommonEvents";
 
-import { CloseHandler, GenerateHandler } from "./types";
+import { GenerateHandler } from "./types";
 
 export default function () {
   on<GenerateHandler>("GENERATE", function (prompt, resolution, images, token) {
@@ -29,15 +23,7 @@ export default function () {
     });
   });
 
-  once<CloseHandler>("CLOSE", function () {
-    figma.closePlugin();
-  });
-
-  on("NOTIFY", figma.notify);
-
-  loadSettingsAsync({}).then((settings) => {
-    emit("LOAD_SETTINGS", settings);
-  });
+  registerCommonEvents();
 
   showUI({
     height: 520,

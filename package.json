@@ -1,0 +1,15 @@
+{
+  "name": "summon-ai",
+  "packageManager": "pnpm@7.14.1",
+  "scripts": {
+    "dev": "turbo run --parallel dev watch watch:css",
+    "clean:workspaces": "turbo clean",
+    "clean": "rimraf node_modules .turbo .vercel"
+  },
+  "devDependencies": {
+    "@manypkg/cli": "^0.19.2",
+    "prettier": "^2.8.0",
+    "rimraf": "^3.0.2",
+    "turbo": "^1.6.3"
+  }
+}

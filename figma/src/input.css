@@ -29,3 +29,35 @@ body {
 .about {
   @apply absolute -right-16 top-60 -z-10 mt-8 h-80 rounded-md;
 }
+
+.image-grid {
+  @apply !mb-3 !grid !grid-cols-3 !gap-5;
+}
+
+.image-grid > .image-container {
+  @apply !relative !h-[172px] !w-[172px] !overflow-hidden !rounded-md;
+}
+
+.image-grid > .image-container > img {
+  @apply !rounded !transition-transform !duration-300 hover:!scale-110;
+}
+
+.image-grid > .image-container > .image-actions {
+  @apply !absolute !top-2 !right-2 !z-10 !flex !flex-col !gap-1;
+}
+
+.image-grid > .image-container > .image-info {
+  @apply !absolute !bottom-0 !right-0 !z-20 !flex !w-full !items-center !justify-between !bg-opacity-10 !bg-gradient-to-b !from-gray-900/5 !via-gray-900/50 !to-gray-900/80 !p-2 !text-center !text-gray-300;
+}
+
+.image-grid > .image-container > .image-info > img {
+  @apply !h-6 !w-6 !rounded-full;
+}
+
+.image-grid > .image-skeleton {
+  @apply !flex !h-[172px] !w-[172px] animate-pulse !items-center !justify-center !rounded bg-[#5E5E5E] !text-slate-300;
+}
+
+.load-more {
+  @apply !mx-auto !mb-5 !grid !place-content-center;
+}

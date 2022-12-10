@@ -21,13 +21,25 @@ import { emit, on } from "@create-figma-plugin/utilities";
 import { Fragment, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 
-import { CloseHandler, ExportHandler } from "./types";
+import { ExportHandler } from "./types";
 
 import "!../styles.css";
 import { AboutTab } from "../components/AboutTab";
+import { DiscoverTab } from "../components/DiscoverTab";
 import { Editor } from "../components/Editor";
+import { SettingsTab } from "../components/SettingsTab";
 import { FadeIn, SlideOver } from "../components/Transitions";
 import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
+import {
+  ClearSettingsHandler,
+  CloseHandler,
+  NotifyHandler,
+  SaveSettingsHandler,
+  SelectImageHandler,
+  Settings,
+  WriteSettings,
+} from "../types";
+import { apiClient } from "../utils/api";
 import { convertDataURIToBinary, urltoFile } from "../utils/image";
 import { fadeInProps } from "../utils/transitions";
 
@@ -43,16 +55,24 @@ const GenerateTab = ({
   settings: any;
 }) => {
   const [token, setToken] = useState("");
+  const [tokenExists, setTokenExists] = useState(true);
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [reset, setReset] = useState(0);
-  const [generatedImage, setGeneratedImage] = useState<string | null>();
-  const [editedImage, setEditedImage] = useState<string | null>();
+  const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [editedImage, setEditedImage] = useState<string | null>(null);
   const [viewOriginal, setViewOriginal] = useState(false);
   const [error, setError] = useState("");
 
   const size = parseInt(RESOLUTION.split("x")[0]);
   const [brushSize, setBrushSize] = useState(75);
+
+  useEffect(() => {
+    if (settings.token) {
+      setToken(settings.token);
+    }
+    setTokenExists(!!settings.token);
+  }, [settings]);
 
   const handleEdit = useCallback(async () => {
     // DEVUGGING
@@ -88,8 +108,29 @@ const GenerateTab = ({
           if ("data" in res) {
             const url = "data:image/png;base64," + res.data[0].b64_json;
             setGeneratedImage(url);
+
+            const { color, sessionId, ...user } = settings.user as User;
+
+            if (settings.acceptSaveImage) {
+              apiClient.uploadImages(
+                [
+                  {
+                    b64: url,
+                    filename:
+                      prompt
+                        .toLowerCase()
+                        .replace(/[^a-zA-Z0-9 ]/g, "")
+                        .replace(/ /g, "_") +
+                      "-edit" +
+                      ".png",
+                  },
+                ],
+                user,
+                prompt
+              );
+            }
           } else {
-            emit("NOTIFY", res.error.message);
+            emit<NotifyHandler>("NOTIFY", res.error.message);
             setError(res.error.message);
           }
         })
@@ -116,13 +157,7 @@ const GenerateTab = ({
 
       emit<ExportHandler>("EXPORT", image, prompt, token);
     }
-  }, [generatedImage, prompt, token]);
-
-  useEffect(() => {
-    if (settings.token) {
-      setToken(settings.token);
-    }
-  }, [settings]);
+  }, [generatedImage, prompt, token, settings.user, settings.acceptSaveImage]);
 
   return (
     <Fragment>
@@ -134,13 +169,13 @@ const GenerateTab = ({
         new image, not just the erased area.
       </Text>
       <VerticalSpace space="extraLarge" />
-      <div className="flex w-full justify-between">
+      <div className="flex justify-between w-full">
         <Text as="span">Edit resolution: {RESOLUTION}</Text>
         <Text as="span">Output resolution: {RESOLUTIONS[2]}</Text>
       </div>
       <VerticalSpace space="small" />
       <div
-        className="relative overflow-hidden rounded border border-gray-500"
+        className="relative overflow-hidden border border-gray-500 rounded"
         style={{
           width: size,
           height: size,
@@ -160,20 +195,20 @@ const GenerateTab = ({
         <FadeIn {...fadeInProps} show={generatedImage != null}>
           <Fragment>
             <img
-              src={viewOriginal ? image : generatedImage}
+              src={viewOriginal ? image : (generatedImage as string)}
               width={size}
               height={size}
               style={{
                 border: "none !important",
               }}
             />
-            <div className="absolute bottom-3 right-3 flex gap-3">
+            <div className="absolute flex gap-3 bottom-3 right-3">
               <button
                 className="btn secondary"
                 onClick={() => {
                   setViewOriginal(!viewOriginal);
                   setEditedImage(generatedImage);
-                  saveImage(generatedImage);
+                  saveImage(generatedImage as string);
                   setGeneratedImage(null);
                 }}
               >
@@ -218,21 +253,25 @@ const GenerateTab = ({
         onInput={handleChangeSize}
         value={brushSize + ""}
       />
-      <VerticalSpace space="large" />
-      <Text>
-        <Muted>Token</Muted>
-      </Text>
-      <VerticalSpace space="small" />
-      <Textbox
-        placeholder="Paste secret DALL-E-2 token"
-        onValueInput={setToken}
-        value={token}
-        variant="border"
-      />
-      <VerticalSpace space="extraSmall" />
-      <Link href="https://openai.com/api/pricing/" target="_blank">
-        Get a DALL-E-2 token
-      </Link>
+      {!tokenExists && (
+        <Fragment>
+          <VerticalSpace space="large" />
+          <Text>
+            <Muted>Token</Muted>
+          </Text>
+          <VerticalSpace space="small" />
+          <Textbox
+            placeholder="Paste secret DALL-E-2 token"
+            onValueInput={setToken}
+            value={token}
+            variant="border"
+          />
+          <VerticalSpace space="extraSmall" />
+          <Link href="https://openai.com/api/pricing/" target="_blank">
+            Get a DALL-E-2 token
+          </Link>
+        </Fragment>
+      )}
       <VerticalSpace space="medium" />
       {error && (
         <Fragment>
@@ -247,7 +286,7 @@ const GenerateTab = ({
             onClick={handleEdit}
             disabled={loading || !prompt || !token}
           >
-            {loading && <LoadingIndicator color="brand" />}
+            {loading && <LoadingIndicator color="disabled" />}
             {!loading && "Edit image"}
           </Button>
           <Button fullWidth onClick={handleCloseButtonClick} secondary>
@@ -263,10 +302,10 @@ const GenerateTab = ({
 function Plugin(data: unknown) {
   const [value, setValue] = useState("Edit");
   const [image, setImage] = useState<string>("");
-  const [settings, setSettings] = useState({});
+  const [settings, setSettings] = useState<Settings>({});
 
   useEffect(() => {
-    return on("SELECT_IMAGE", ({ image }: { image: string }) => {
+    return on<SelectImageHandler>("SELECT_IMAGE", (image) => {
       setImage("data:image/png;base64," + image);
     });
   }, []);
@@ -276,6 +315,19 @@ function Plugin(data: unknown) {
       setSettings(settings);
     });
   }, []);
+
+  const handleSaveSettings = useCallback(
+    ({ token, acceptSaveImage }: WriteSettings) => {
+      emit<SaveSettingsHandler>("SAVE_SETTINGS", { token, acceptSaveImage });
+      setSettings({ ...settings, token, acceptSaveImage });
+    },
+    [settings]
+  );
+
+  const handleClearSettings = useCallback(() => {
+    emit<ClearSettingsHandler>("CLEAR_SETTINGS");
+    setSettings({ ...settings, token: undefined });
+  }, [settings]);
 
   return (
     <Container space="medium">
@@ -293,6 +345,21 @@ function Plugin(data: unknown) {
                   settings={settings}
                 />
               </SlideOver>
+            ),
+          },
+          {
+            value: "Discover",
+            children: <DiscoverTab userId={settings.user?.id} />,
+          },
+          {
+            value: "Settings",
+            children: (
+              <SettingsTab
+                token={settings.token}
+                acceptSaveImage={settings.acceptSaveImage}
+                onSaveSettings={handleSaveSettings}
+                onClearSettings={handleClearSettings}
+              />
             ),
           },
           {

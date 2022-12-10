@@ -1,15 +1,22 @@
 {
+  "name": "@summon-ai/figma",
   "dependencies": {
     "@create-figma-plugin/ui": "^2.1.5",
     "@create-figma-plugin/utilities": "^2.1.5",
     "@headlessui/react": "^1.7.4",
+    "@primer/octicons-react": "^17.9.0",
+    "@react-hookz/web": "^20.0.1",
+    "copy-to-clipboard": "^3.3.3",
+    "dotenv": "^16.0.3",
     "konva": "8.3.14",
-    "preact": "^10"
+    "preact": "^10",
+    "spacetime": "^7.3.0"
   },
   "devDependencies": {
     "@create-figma-plugin/build": "^2.1.5",
     "@create-figma-plugin/tsconfig": "^2.1.5",
     "@figma/plugin-typings": "1.54.0",
+    "@types/node": "^18.0.0",
     "@types/react": "^18.0.25",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
@@ -24,6 +31,7 @@
     "build": "build-figma-plugin --typecheck --minify",
     "watch": "build-figma-plugin --typecheck --watch",
     "watch:css": "tailwindcss -i ./src/input.css -o ./src/styles.css --watch",
+    "clean": "rimraf .next .turbo node_modules",
     "format": "prettier --write ./src",
     "lint": "eslint ./src"
   },
@@ -32,6 +40,9 @@
     "name": "Summon.AI",
     "editorType": [
       "figma"
+    ],
+    "permissions": [
+      "currentuser"
     ],
     "menu": [
       {

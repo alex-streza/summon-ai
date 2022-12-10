@@ -1,0 +1,29 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "build": {
+      "outputs": [
+        ".next/**",
+        ".expo/**"
+      ]
+    },
+    "dev": {
+      "cache": false
+    },
+    "watch": {
+      "cache": false
+    },
+    "watch:css": {
+      "cache": false
+    },
+    "lint": {
+      "outputs": []
+    },
+    "clean": {
+      "cache": false
+    },
+    "//#clean": {
+      "cache": false
+    }
+  }
+}
