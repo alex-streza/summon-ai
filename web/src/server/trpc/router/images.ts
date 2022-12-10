@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { cloudflare } from "../../../utils/client";
-import { supabase } from "../../../utils/supabase";
+import { supabase, getPagination } from "../../../utils/supabase";
 
 import { publicProcedure, router } from "../trpc";
 
@@ -10,12 +10,14 @@ export const images = router({
     .meta({ openapi: { method: "GET", path: "/images" } })
     .input(
       z.object({
-        count: z.string().optional(),
+        page: z.string().optional(),
+        page_size: z.string().optional(),
         search: z.string().optional(),
       })
     )
     .output(
       z.object({
+        count: z.number(),
         images: z
           .object({
             url: z.string(),
@@ -30,16 +32,25 @@ export const images = router({
       })
     )
     .query(async ({ input }) => {
+      const page = parseInt(input.page ?? "1") - 1;
+      const pageSize = parseInt(input.page_size ?? "9");
+
+      const { from, to } = getPagination(page, pageSize);
       const { data, error } = await supabase
         .from("images")
         .select(
           "url, prompt, figma_user_id, figma_users:figma_user_id (name, avatar_url)"
         )
+        .ilike("prompt", "*" + (input.search ?? "") + "*")
         .order("created_at", { ascending: false })
-        .limit(parseInt(input.count || "10"))
+        .range(from, to);
+
+      const { count, error: countError } = await supabase
+        .from("images")
+        .select("id", { count: "exact" })
         .ilike("prompt", "*" + (input.search ?? "") + "*");
 
-      if (error) {
+      if (error || countError) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Images could not be retrieved",
@@ -47,7 +58,8 @@ export const images = router({
         });
       }
 
-      return { images: data as any };
+      // TOOD: Get supabase types
+      return { images: data as any, count: count ?? 0 };
     }),
   getUploadImageURL: publicProcedure
     .meta({ openapi: { method: "GET", path: "/images/upload-url" } })

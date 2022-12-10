@@ -9,7 +9,7 @@ import {
 } from "@create-figma-plugin/ui";
 import { Fragment, h } from "preact";
 import { useCallback } from "preact/hooks";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "preact/hooks";
 import { SlideOver } from "./Transitions";
 
 type SettingsTabProps = {

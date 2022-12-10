@@ -4,6 +4,8 @@
     "@create-figma-plugin/ui": "^2.1.5",
     "@create-figma-plugin/utilities": "^2.1.5",
     "@headlessui/react": "^1.7.4",
+    "@primer/octicons-react": "^17.9.0",
+    "@react-hookz/web": "^20.0.1",
     "copy-to-clipboard": "^3.3.3",
     "dotenv": "^16.0.3",
     "konva": "8.3.14",

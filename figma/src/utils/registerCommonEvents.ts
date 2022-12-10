@@ -38,7 +38,10 @@ export default function () {
       figma.loadFontAsync({ family: "Inter", style: "Semi Bold" }),
       figma.loadFontAsync({ family: "Inter", style: "Bold" }),
     ]).then(() => {
-      pasteImages({ images: [image], pasteCenterViewport: true });
+      pasteImages({
+        images: [image],
+        hideVariant: true,
+      });
       figma.notify("Image exported!");
     });
   });

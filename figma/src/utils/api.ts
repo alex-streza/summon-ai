@@ -6,17 +6,34 @@ const API_URL =
     ? process.env.PRODUCTION_API_URL
     : process.env.LOCAL_API_URL;
 
+const query = (config: Record<string, string | number | boolean | undefined>) =>
+  Object.keys(config)
+    .filter((key) => config[key] !== undefined)
+    .map((key) => `${key}=${config[key]}`)
+    .join("&");
+
 export const apiClient = {
-  getImages: async ({ count, search }: { count: number; search?: string }) => {
+  getImages: async ({
+    page,
+    page_size = 9,
+    search,
+  }: {
+    page: number;
+    page_size?: number;
+    search?: string;
+  }) => {
     const res = await fetch(
-      `${API_URL}/images?count=${count}&search=${search}`,
+      `${API_URL}/images?${query({ page, page_size, search })}`,
       {
         method: "GET",
       }
     );
-    const data = await res.json();
+    const data = (await res.json()) as {
+      images: Image[];
+      count: number;
+    };
 
-    return data.images as Image[];
+    return data;
   },
   uploadImages: async (
     images: {

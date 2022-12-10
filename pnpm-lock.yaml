@@ -22,6 +22,8 @@ importers:
       '@create-figma-plugin/utilities': ^2.1.5
       '@figma/plugin-typings': 1.54.0
       '@headlessui/react': ^1.7.4
+      '@primer/octicons-react': ^17.9.0
+      '@react-hookz/web': ^20.0.1
       '@types/node': ^18.0.0
       '@types/react': ^18.0.25
       '@typescript-eslint/eslint-plugin': ^5.42.1
@@ -40,6 +42,8 @@ importers:
       '@create-figma-plugin/ui': 2.1.5_preact@10.11.3
       '@create-figma-plugin/utilities': 2.1.5
       '@headlessui/react': 1.7.4_react@18.2.0
+      '@primer/octicons-react': 17.9.0_react@18.2.0
+      '@react-hookz/web': 20.0.1_react@18.2.0
       copy-to-clipboard: 3.3.3
       dotenv: 16.0.3
       konva: 8.3.14
@@ -465,6 +469,33 @@ packages:
 
   /@panva/hkdf/1.0.2:
     resolution: {integrity: sha512-MSAs9t3Go7GUkMhpKC44T58DJ5KGk2vBo+h1cqQeqlMfdGkxaVB78ZWpv9gYi/g2fa4sopag9gJsNvS8XGgWJA==}
+    dev: false
+
+  /@primer/octicons-react/17.9.0_react@18.2.0:
+    resolution: {integrity: sha512-fx2abdGfzzHqB8DOSq6FqNgusjkeDHfPFTa8DjSaugCFccEO2vIfM2ZY1sg4c5SpOQEQAbOEC4/gqWDulIRHzA==}
+    engines: {node: '>=8'}
+    peerDependencies:
+      react: '>=15'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
+  /@react-hookz/deep-equal/1.0.3:
+    resolution: {integrity: sha512-lGZR5l3YRjzeIOHtJhiq96vQKrsq+9lsCyv+0fROMQeSNWtLLzX3R+psHNi6nsoP3XEhspiZ92nsiPmdNo8ztQ==}
+    dev: false
+
+  /@react-hookz/web/20.0.1_react@18.2.0:
+    resolution: {integrity: sha512-Khb2ytw9qknGAklFSTXEOTvS2cEAZ0uLgMvh2i4agWPneCvP5Et1FKffwxD0THU8R96+Ut9NDrGrQhg9lxJteQ==}
+    peerDependencies:
+      js-cookie: ^3.0.1
+      react: ^16.8 || ^17 || ^18
+      react-dom: ^16.8 || ^17 || ^18
+    peerDependenciesMeta:
+      js-cookie:
+        optional: true
+    dependencies:
+      '@react-hookz/deep-equal': 1.0.3
+      react: 18.2.0
     dev: false
 
   /@rushstack/eslint-patch/1.2.0:

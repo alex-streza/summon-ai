@@ -21,7 +21,7 @@ import { emit, on } from "@create-figma-plugin/utilities";
 import { Fragment, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 
-import { CloseHandler, ExportHandler } from "./types";
+import { ExportHandler } from "./types";
 
 import "!../styles.css";
 import { AboutTab } from "../components/AboutTab";
@@ -31,6 +31,7 @@ import { FadeIn, SlideOver } from "../components/Transitions";
 import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
 import {
   ClearSettingsHandler,
+  CloseHandler,
   NotifyHandler,
   SaveSettingsHandler,
   SelectImageHandler,
@@ -39,6 +40,7 @@ import {
 import { apiClient } from "../utils/api";
 import { convertDataURIToBinary, urltoFile } from "../utils/image";
 import { fadeInProps } from "../utils/transitions";
+import { DiscoverTab } from "../components/DiscoverTab";
 
 const RESOLUTION = RESOLUTIONS[1];
 
@@ -341,6 +343,10 @@ function Plugin(data: unknown) {
                 />
               </SlideOver>
             ),
+          },
+          {
+            value: "Discover",
+            children: <DiscoverTab />,
           },
           {
             value: "Settings",

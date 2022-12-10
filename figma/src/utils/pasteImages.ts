@@ -3,11 +3,13 @@ export const pasteImages = ({
   resolution = "256x256",
   images,
   pasteCenterViewport,
+  hideVariant,
 }: {
   prompt?: string;
   resolution?: string;
   images: Array<Uint8Array>;
   pasteCenterViewport?: boolean;
+  hideVariant?: boolean;
 }) => {
   const nodes: SceneNode[] = [];
 
@@ -52,18 +54,19 @@ export const pasteImages = ({
         node.x = middleX + (IMAGE_SIZE + GAP) * index;
         node.y = middleY;
 
-        const text = figma.createText();
-        text.characters = "V" + (index + 1);
-        text.fontSize = TEXT_SIZE;
-        text.fontName = { family: "Inter", style: "Bold" };
+        if (!hideVariant) {
+          const text = figma.createText();
+          text.characters = "V" + (index + 1);
+          text.fontSize = TEXT_SIZE;
+          text.fontName = { family: "Inter", style: "Bold" };
 
-        text.x = node.x + node.width / 2 - text.width / 2;
-        text.y = node.y + node.height + 20;
+          text.x = node.x + node.width / 2 - text.width / 2;
+          text.y = node.y + node.height + 20;
 
-        frames[0].appendChild(node);
-        frames[0].appendChild(text);
-
-        nodes.push(text);
+          frames[0].appendChild(node);
+          frames[0].appendChild(text);
+          nodes.push(text);
+        }
 
         if (index === 0 && prompt) {
           const promptText = figma.createText();
@@ -90,15 +93,16 @@ export const pasteImages = ({
         node.x = middleX + (IMAGE_SIZE + GAP) * index;
         node.y = middleY;
 
-        const text = figma.createText();
-        text.characters = "V" + (index + 1);
-        text.fontSize = TEXT_SIZE;
-        text.fontName = { family: "Inter", style: "Bold" };
+        if (!hideVariant) {
+          const text = figma.createText();
+          text.characters = "V" + (index + 1);
+          text.fontSize = TEXT_SIZE;
+          text.fontName = { family: "Inter", style: "Bold" };
 
-        text.x = node.x + node.width / 2 - text.width / 2;
-        text.y = node.y + node.height + 20;
-
-        nodes.push(text);
+          text.x = node.x + node.width / 2 - text.width / 2;
+          text.y = node.y + node.height + 20;
+          nodes.push(text);
+        }
 
         if (index === 0 && prompt) {
           const promptText = figma.createText();
@@ -130,18 +134,18 @@ export const pasteImages = ({
       node.x = middleX + (IMAGE_SIZE + GAP) * index;
       node.y = middleY;
 
-      const text = figma.createText();
-      text.characters = "V" + (index + 1);
-      text.fontSize = TEXT_SIZE;
-      text.fontName = { family: "Inter", style: "Bold" };
+      if (!hideVariant) {
+        const text = figma.createText();
+        text.characters = "V" + (index + 1);
+        text.fontSize = TEXT_SIZE;
+        text.fontName = { family: "Inter", style: "Bold" };
 
-      text.x = node.x + node.width / 2 - text.width / 2;
-      text.y = node.y + node.height + TEXT_SIZE;
-
-      nodes.push(text);
-
-      figma.currentPage.appendChild(node);
-      figma.currentPage.appendChild(text);
+        text.x = node.x + node.width / 2 - text.width / 2;
+        text.y = node.y + node.height + TEXT_SIZE;
+        nodes.push(text);
+        figma.currentPage.appendChild(node);
+        figma.currentPage.appendChild(text);
+      }
 
       if (index === 0 && prompt) {
         const promptText = figma.createText();

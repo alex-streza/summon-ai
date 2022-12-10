@@ -35,6 +35,7 @@ import {
 } from "../types";
 import { apiClient } from "../utils/api";
 import { convertDataURIToBinary, urltoFile } from "../utils/image";
+import { DiscoverTab } from "../components/DiscoverTab";
 
 const GenerateTab = ({
   image,
@@ -255,6 +256,10 @@ function Plugin() {
                 <GenerateTab image={image} settings={settings} />
               </SlideOver>
             ),
+          },
+          {
+            value: "Discover",
+            children: <DiscoverTab />,
           },
           {
             value: "Settings",
