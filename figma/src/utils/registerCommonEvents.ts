@@ -28,7 +28,7 @@ export default function () {
   });
 
   on<ClearSettingsHandler>("CLEAR_SETTINGS", () => {
-    saveSettingsAsync({ user: figma.currentUser });
+    saveSettingsAsync({ user: figma.currentUser, acceptSaveImage: false });
     figma.notify("Settings cleared!");
   });
 
@@ -48,6 +48,7 @@ export default function () {
 
   loadSettingsAsync({}).then((settings) => {
     emit<LoadSettingsHandler>("LOAD_SETTINGS", {
+      acceptSaveImage: true,
       ...settings,
       user: figma.currentUser,
     });

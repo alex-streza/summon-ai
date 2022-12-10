@@ -22,6 +22,7 @@ import { GenerateHandler } from "./types";
 
 import "!../styles.css";
 import { AboutTab } from "../components/AboutTab";
+import { DiscoverTab } from "../components/DiscoverTab";
 import { SettingsTab } from "../components/SettingsTab";
 import { SlideOver } from "../components/Transitions";
 import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
@@ -31,10 +32,10 @@ import {
   NotifyHandler,
   SaveSettingsHandler,
   Settings,
+  WriteSettings,
 } from "../types";
 import { apiClient } from "../utils/api";
 import { convertDataURIToBinary } from "../utils/image";
-import { DiscoverTab } from "../components/DiscoverTab";
 
 const GenerateTab = ({ settings }: { settings: Settings }) => {
   const [count, setCount] = useState<number | null>(1);
@@ -120,11 +121,13 @@ const GenerateTab = ({ settings }: { settings: Settings }) => {
                 });
               });
 
-              apiClient.uploadImages(
-                images.map(({ uintArray, ...rest }) => ({ ...rest })),
-                user,
-                prompt
-              );
+              if (settings.acceptSaveImage) {
+                apiClient.uploadImages(
+                  images.map(({ uintArray, ...rest }) => ({ ...rest })),
+                  user,
+                  prompt
+                );
+              }
 
               emit<GenerateHandler>(
                 "GENERATE",
@@ -141,7 +144,7 @@ const GenerateTab = ({ settings }: { settings: Settings }) => {
           .finally(() => setLoading(false));
       }
     },
-    [count, prompt, token, resolution, settings.user]
+    [count, prompt, token, resolution, settings.user, settings.acceptSaveImage]
   );
 
   const handleCloseButtonClick = useCallback(function () {
@@ -225,7 +228,7 @@ const GenerateTab = ({ settings }: { settings: Settings }) => {
           onClick={handleGenerateButtonClick}
           disabled={loading || !prompt || !count || !token}
         >
-          {loading && <LoadingIndicator color="brand" />}
+          {loading && <LoadingIndicator color="disabled" />}
           {!loading &&
             "Generate " + (count && count > 1 ? `${count} images` : "image")}
         </Button>
@@ -248,9 +251,9 @@ function Plugin() {
   }, []);
 
   const handleSaveSettings = useCallback(
-    ({ token }: { token: string }) => {
-      emit<SaveSettingsHandler>("SAVE_SETTINGS", { token });
-      setSettings({ ...settings, token });
+    ({ token, acceptSaveImage }: WriteSettings) => {
+      emit<SaveSettingsHandler>("SAVE_SETTINGS", { token, acceptSaveImage });
+      setSettings({ ...settings, token, acceptSaveImage });
     },
     [settings]
   );
@@ -276,13 +279,14 @@ function Plugin() {
           },
           {
             value: "Discover",
-            children: <DiscoverTab />,
+            children: <DiscoverTab userId={settings.user?.id} />,
           },
           {
             value: "Settings",
             children: (
               <SettingsTab
                 token={settings.token}
+                acceptSaveImage={settings.acceptSaveImage}
                 onSaveSettings={handleSaveSettings}
                 onClearSettings={handleClearSettings}
               />

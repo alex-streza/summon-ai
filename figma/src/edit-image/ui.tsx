@@ -25,6 +25,7 @@ import { ExportHandler } from "./types";
 
 import "!../styles.css";
 import { AboutTab } from "../components/AboutTab";
+import { DiscoverTab } from "../components/DiscoverTab";
 import { Editor } from "../components/Editor";
 import { SettingsTab } from "../components/SettingsTab";
 import { FadeIn, SlideOver } from "../components/Transitions";
@@ -36,11 +37,11 @@ import {
   SaveSettingsHandler,
   SelectImageHandler,
   Settings,
+  WriteSettings,
 } from "../types";
 import { apiClient } from "../utils/api";
 import { convertDataURIToBinary, urltoFile } from "../utils/image";
 import { fadeInProps } from "../utils/transitions";
-import { DiscoverTab } from "../components/DiscoverTab";
 
 const RESOLUTION = RESOLUTIONS[1];
 
@@ -110,22 +111,24 @@ const GenerateTab = ({
 
             const { color, sessionId, ...user } = settings.user as User;
 
-            apiClient.uploadImages(
-              [
-                {
-                  b64: url,
-                  filename:
-                    prompt
-                      .toLowerCase()
-                      .replace(/[^a-zA-Z0-9 ]/g, "")
-                      .replace(/ /g, "_") +
-                    "-edit" +
-                    ".png",
-                },
-              ],
-              user,
-              prompt
-            );
+            if (settings.acceptSaveImage) {
+              apiClient.uploadImages(
+                [
+                  {
+                    b64: url,
+                    filename:
+                      prompt
+                        .toLowerCase()
+                        .replace(/[^a-zA-Z0-9 ]/g, "")
+                        .replace(/ /g, "_") +
+                      "-edit" +
+                      ".png",
+                  },
+                ],
+                user,
+                prompt
+              );
+            }
           } else {
             emit<NotifyHandler>("NOTIFY", res.error.message);
             setError(res.error.message);
@@ -154,7 +157,7 @@ const GenerateTab = ({
 
       emit<ExportHandler>("EXPORT", image, prompt, token);
     }
-  }, [generatedImage, prompt, token]);
+  }, [generatedImage, prompt, token, settings.user, settings.acceptSaveImage]);
 
   return (
     <Fragment>
@@ -283,7 +286,7 @@ const GenerateTab = ({
             onClick={handleEdit}
             disabled={loading || !prompt || !token}
           >
-            {loading && <LoadingIndicator color="brand" />}
+            {loading && <LoadingIndicator color="disabled" />}
             {!loading && "Edit image"}
           </Button>
           <Button fullWidth onClick={handleCloseButtonClick} secondary>
@@ -314,9 +317,9 @@ function Plugin(data: unknown) {
   }, []);
 
   const handleSaveSettings = useCallback(
-    ({ token }: { token: string }) => {
-      emit<SaveSettingsHandler>("SAVE_SETTINGS", { token });
-      setSettings({ ...settings, token });
+    ({ token, acceptSaveImage }: WriteSettings) => {
+      emit<SaveSettingsHandler>("SAVE_SETTINGS", { token, acceptSaveImage });
+      setSettings({ ...settings, token, acceptSaveImage });
     },
     [settings]
   );
@@ -346,13 +349,14 @@ function Plugin(data: unknown) {
           },
           {
             value: "Discover",
-            children: <DiscoverTab />,
+            children: <DiscoverTab userId={settings.user?.id} />,
           },
           {
             value: "Settings",
             children: (
               <SettingsTab
                 token={settings.token}
+                acceptSaveImage={settings.acceptSaveImage}
                 onSaveSettings={handleSaveSettings}
                 onClearSettings={handleClearSettings}
               />

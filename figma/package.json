@@ -9,7 +9,8 @@
     "copy-to-clipboard": "^3.3.3",
     "dotenv": "^16.0.3",
     "konva": "8.3.14",
-    "preact": "^10"
+    "preact": "^10",
+    "spacetime": "^7.3.0"
   },
   "devDependencies": {
     "@create-figma-plugin/build": "^2.1.5",

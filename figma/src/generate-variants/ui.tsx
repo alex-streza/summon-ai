@@ -22,6 +22,7 @@ import { GenerateHandler } from "./types";
 
 import "!../styles.css";
 import { AboutTab } from "../components/AboutTab";
+import { DiscoverTab } from "../components/DiscoverTab";
 import { SettingsTab } from "../components/SettingsTab";
 import { SlideOver } from "../components/Transitions";
 import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
@@ -32,10 +33,10 @@ import {
   SaveSettingsHandler,
   SelectImageHandler,
   Settings,
+  WriteSettings,
 } from "../types";
 import { apiClient } from "../utils/api";
 import { convertDataURIToBinary, urltoFile } from "../utils/image";
-import { DiscoverTab } from "../components/DiscoverTab";
 
 const GenerateTab = ({
   image,
@@ -109,10 +110,12 @@ const GenerateTab = ({
 
             const { color, sessionId, ...user } = settings.user as User;
 
-            apiClient.uploadImages(
-              images.map(({ uintArray, ...rest }) => ({ ...rest })),
-              user
-            );
+            if (settings.acceptSaveImage) {
+              apiClient.uploadImages(
+                images.map(({ uintArray, ...rest }) => ({ ...rest })),
+                user
+              );
+            }
 
             emit<GenerateHandler>(
               "GENERATE",
@@ -127,7 +130,14 @@ const GenerateTab = ({
         })
         .finally(() => setLoading(false));
     }
-  }, [count, token, image, resolution]);
+  }, [
+    count,
+    token,
+    image,
+    resolution,
+    settings.user,
+    settings.acceptSaveImage,
+  ]);
 
   const handleCloseButtonClick = useCallback(function () {
     emit<CloseHandler>("CLOSE");
@@ -200,7 +210,7 @@ const GenerateTab = ({
           onClick={handleGenerateButtonClick}
           disabled={loading || !prompt || !count || !token}
         >
-          {loading && <LoadingIndicator color="brand" />}
+          {loading && <LoadingIndicator color="disabled" />}
           {!loading &&
             "Generate " +
               (count && count > 1 ? `${count} variants` : "variant")}
@@ -231,9 +241,9 @@ function Plugin() {
   }, []);
 
   const handleSaveSettings = useCallback(
-    ({ token }: { token: string }) => {
-      emit<SaveSettingsHandler>("SAVE_SETTINGS", { token });
-      setSettings({ ...settings, token });
+    ({ token, acceptSaveImage }: WriteSettings) => {
+      emit<SaveSettingsHandler>("SAVE_SETTINGS", { token, acceptSaveImage });
+      setSettings({ ...settings, token, acceptSaveImage });
     },
     [settings]
   );
@@ -259,13 +269,14 @@ function Plugin() {
           },
           {
             value: "Discover",
-            children: <DiscoverTab />,
+            children: <DiscoverTab userId={settings.user?.id} />,
           },
           {
             value: "Settings",
             children: (
               <SettingsTab
                 token={settings.token}
+                acceptSaveImage={settings.acceptSaveImage}
                 onSaveSettings={handleSaveSettings}
                 onClearSettings={handleClearSettings}
               />

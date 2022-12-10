@@ -5,33 +5,43 @@ import {
   Muted,
   Text,
   Textbox,
+  Toggle,
   VerticalSpace,
 } from "@create-figma-plugin/ui";
 import { Fragment, h } from "preact";
-import { useCallback } from "preact/hooks";
-import { useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
+import { WriteSettings } from "../types";
 import { SlideOver } from "./Transitions";
 
 type SettingsTabProps = {
   token?: string;
-  onSaveSettings: (settings: { token: string }) => void;
+  acceptSaveImage?: boolean;
+  onSaveSettings: (settings: WriteSettings) => void;
   onClearSettings: () => void;
 };
 
 export const SettingsTab = ({
   token: defaultToken,
+  acceptSaveImage: defaultAcceptSaveImage,
   onSaveSettings,
   onClearSettings,
 }: SettingsTabProps) => {
   const [token, setToken] = useState("");
+  const [acceptSaveImage, setAcceptSaveImage] = useState(
+    defaultAcceptSaveImage ?? false
+  );
 
   useEffect(() => {
     setToken(defaultToken ?? "");
   }, [defaultToken]);
 
   const handleSaveSettings = useCallback(() => {
-    onSaveSettings({ token });
-  }, [token]);
+    onSaveSettings({ token, acceptSaveImage });
+  }, [token, acceptSaveImage]);
+
+  const handleToggleAcceptSaveImage = useCallback(() => {
+    setAcceptSaveImage(!acceptSaveImage);
+  }, [acceptSaveImage]);
 
   return (
     <SlideOver show>
@@ -54,9 +64,30 @@ export const SettingsTab = ({
           Get a DALL-E-2 token
         </Link>
         <VerticalSpace space="medium" />
+        <Text>
+          <Muted>Permissions</Muted>
+        </Text>
+        <VerticalSpace space="small" />
+        <Toggle
+          value={acceptSaveImage}
+          onClick={handleToggleAcceptSaveImage}
+          size={48}
+        >
+          <Text size={14}>
+            <Muted>Save images to storage & showcase in discover</Muted>
+          </Text>
+        </Toggle>
+        <VerticalSpace space="small" />
+        <Text>
+          <Muted>
+            {acceptSaveImage
+              ? "Generated images will be saved in cloud storage and be publicly accessible in the discover tab as well personal history."
+              : "No images will be saved and history will not be accessible."}
+          </Muted>
+        </Text>
+        <VerticalSpace space="large" />
         <Columns space="extraSmall">
           <Button onClick={handleSaveSettings} disabled={!token} fullWidth>
-            {/* {loading && <LoadingIndicator color="brand" />} */}
             Save settings
           </Button>
           <Button onClick={onClearSettings} disabled={!token} fullWidth danger>

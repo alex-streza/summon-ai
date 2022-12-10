@@ -16,14 +16,16 @@ export const apiClient = {
   getImages: async ({
     page,
     page_size = 9,
+    user_id,
     search,
   }: {
     page: number;
     page_size?: number;
     search?: string;
+    user_id?: string;
   }) => {
     const res = await fetch(
-      `${API_URL}/images?${query({ page, page_size, search })}`,
+      `${API_URL}/images?${query({ page, page_size, search, user_id })}`,
       {
         method: "GET",
       }

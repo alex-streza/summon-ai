@@ -13,6 +13,7 @@ export const images = router({
         page: z.string().optional(),
         page_size: z.string().optional(),
         search: z.string().optional(),
+        user_id: z.string().optional(),
       })
     )
     .output(
@@ -22,11 +23,10 @@ export const images = router({
           .object({
             url: z.string(),
             prompt: z.string(),
+            created_at: z.string().optional(),
             figma_user_id: z.string(),
-            figma_users: z.object({
-              name: z.string(),
-              avatar_url: z.string(),
-            }),
+            name: z.string(),
+            avatar_url: z.string(),
           })
           .array(),
       })
@@ -36,21 +36,34 @@ export const images = router({
       const pageSize = parseInt(input.page_size ?? "9");
 
       const { from, to } = getPagination(page, pageSize);
-      const { data, error } = await supabase
+      let query = supabase
         .from("images")
         .select(
-          "url, prompt, figma_user_id, figma_users:figma_user_id (name, avatar_url)"
+          "url, prompt, figma_user_id, created_at, figma_users:figma_user_id (name, avatar_url)"
         )
-        .ilike("prompt", "*" + (input.search ?? "") + "*")
+        .ilike("prompt", "*" + (input.search ?? "") + "*");
+
+      if (input.user_id) {
+        query = query.eq("figma_user_id", input.user_id);
+      }
+
+      const { data, error } = await query
         .order("created_at", { ascending: false })
         .range(from, to);
 
-      const { count, error: countError } = await supabase
+      let countQuery = supabase
         .from("images")
         .select("id", { count: "exact" })
         .ilike("prompt", "*" + (input.search ?? "") + "*");
 
+      if (input.user_id) {
+        countQuery = countQuery.eq("figma_user_id", input.user_id);
+      }
+
+      const { count, error: countError } = await countQuery;
+
       if (error || countError) {
+        console.log("error", error);
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Images could not be retrieved",
@@ -58,8 +71,14 @@ export const images = router({
         });
       }
 
-      // TOOD: Get supabase types
-      return { images: data as any, count: count ?? 0 };
+      // TODO: Get supabase types
+      return {
+        images: data.map(({ figma_users, ...image }) => ({
+          ...image,
+          ...figma_users,
+        })) as any,
+        count: count ?? 0,
+      };
     }),
   getUploadImageURL: publicProcedure
     .meta({ openapi: { method: "GET", path: "/images/upload-url" } })

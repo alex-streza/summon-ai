@@ -2,8 +2,14 @@ import { EventHandler } from "@create-figma-plugin/utilities";
 
 export type Settings = {
   token?: string;
+  acceptSaveImage?: boolean;
   user?: User | null;
 } & Record<string, unknown>;
+
+export type WriteSettings {
+  token?: string;
+  acceptSaveImage?: boolean;
+}
 
 type BaseUser = {
   id: string | null;
@@ -20,7 +26,8 @@ export type Image = {
   url: string;
   prompt: string;
   name: string;
-  photo_url: string;
+  avatar_url: string;
+  created_at: string;
 };
 
 export interface CloseHandler extends EventHandler {
@@ -35,7 +42,7 @@ export interface NotifyHandler extends EventHandler {
 
 export interface SaveSettingsHandler extends EventHandler {
   name: "SAVE_SETTINGS";
-  handler: (settings: Settings) => void;
+  handler: (settings: WriteSettings) => void;
 }
 
 export interface ClearSettingsHandler extends EventHandler {
