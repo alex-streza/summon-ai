@@ -1,14 +1,8 @@
-import {
-  emit,
-  loadSettingsAsync,
-  on,
-  once,
-  saveSettingsAsync,
-  showUI,
-} from "@create-figma-plugin/utilities";
+import { on, saveSettingsAsync, showUI } from "@create-figma-plugin/utilities";
 import { pasteImages } from "../utils/pasteImages";
+import registerCommonEvents from "../utils/registerCommonEvents";
 
-import { CloseHandler, GenerateHandler } from "./types";
+import { GenerateHandler } from "./types";
 
 export default function () {
   on<GenerateHandler>("GENERATE", function (prompt, resolution, images, token) {
@@ -29,25 +23,7 @@ export default function () {
     });
   });
 
-  once<CloseHandler>("CLOSE", function () {
-    figma.closePlugin();
-  });
-
-  on("NOTIFY", figma.notify);
-
-  on("SAVE_SETTINGS", (settings) => {
-    saveSettingsAsync(settings);
-    figma.notify("Settings saved!");
-  });
-
-  on("CLEAR_SETTINGS", () => {
-    saveSettingsAsync({ user: figma.currentUser });
-    figma.notify("Settings cleared!");
-  });
-
-  loadSettingsAsync({}).then((settings) => {
-    emit("LOAD_SETTINGS", { ...settings, user: figma.currentUser });
-  });
+  registerCommonEvents();
 
   showUI({
     height: 520,

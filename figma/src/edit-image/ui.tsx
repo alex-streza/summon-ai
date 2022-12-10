@@ -29,7 +29,13 @@ import { Editor } from "../components/Editor";
 import { SettingsTab } from "../components/SettingsTab";
 import { FadeIn, SlideOver } from "../components/Transitions";
 import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
-import { Settings } from "../types";
+import {
+  ClearSettingsHandler,
+  NotifyHandler,
+  SaveSettingsHandler,
+  SelectImageHandler,
+  Settings,
+} from "../types";
 import { apiClient } from "../utils/api";
 import { convertDataURIToBinary, urltoFile } from "../utils/image";
 import { fadeInProps } from "../utils/transitions";
@@ -119,7 +125,7 @@ const GenerateTab = ({
               prompt
             );
           } else {
-            emit("NOTIFY", res.error.message);
+            emit<NotifyHandler>("NOTIFY", res.error.message);
             setError(res.error.message);
           }
         })
@@ -158,13 +164,13 @@ const GenerateTab = ({
         new image, not just the erased area.
       </Text>
       <VerticalSpace space="extraLarge" />
-      <div className="flex w-full justify-between">
+      <div className="flex justify-between w-full">
         <Text as="span">Edit resolution: {RESOLUTION}</Text>
         <Text as="span">Output resolution: {RESOLUTIONS[2]}</Text>
       </div>
       <VerticalSpace space="small" />
       <div
-        className="relative overflow-hidden rounded border border-gray-500"
+        className="relative overflow-hidden border border-gray-500 rounded"
         style={{
           width: size,
           height: size,
@@ -191,7 +197,7 @@ const GenerateTab = ({
                 border: "none !important",
               }}
             />
-            <div className="absolute bottom-3 right-3 flex gap-3">
+            <div className="absolute flex gap-3 bottom-3 right-3">
               <button
                 className="btn secondary"
                 onClick={() => {
@@ -294,7 +300,7 @@ function Plugin(data: unknown) {
   const [settings, setSettings] = useState<Settings>({});
 
   useEffect(() => {
-    return on("SELECT_IMAGE", ({ image }: { image: string }) => {
+    return on<SelectImageHandler>("SELECT_IMAGE", (image) => {
       setImage("data:image/png;base64," + image);
     });
   }, []);
@@ -307,14 +313,14 @@ function Plugin(data: unknown) {
 
   const handleSaveSettings = useCallback(
     ({ token }: { token: string }) => {
-      emit("SAVE_SETTINGS", { token });
+      emit<SaveSettingsHandler>("SAVE_SETTINGS", { token });
       setSettings({ ...settings, token });
     },
     [settings]
   );
 
   const handleClearSettings = useCallback(() => {
-    emit("CLEAR_SETTINGS");
+    emit<ClearSettingsHandler>("CLEAR_SETTINGS");
     setSettings({ ...settings, token: undefined });
   }, [settings]);
 

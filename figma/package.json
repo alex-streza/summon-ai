@@ -4,6 +4,7 @@
     "@create-figma-plugin/ui": "^2.1.5",
     "@create-figma-plugin/utilities": "^2.1.5",
     "@headlessui/react": "^1.7.4",
+    "copy-to-clipboard": "^3.3.3",
     "dotenv": "^16.0.3",
     "konva": "8.3.14",
     "preact": "^10"

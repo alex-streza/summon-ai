@@ -134,8 +134,16 @@
   position: absolute
 }
 
+.\!absolute {
+  position: absolute !important
+}
+
 .relative {
   position: relative
+}
+
+.\!relative {
+  position: relative !important
 }
 
 .top-1\/2 {
@@ -152,6 +160,14 @@
 
 .top-60 {
   top: 15rem
+}
+
+.\!top-3 {
+  top: 0.75rem !important
+}
+
+.\!right-3 {
+  right: 0.75rem !important
 }
 
 .top-48 {
@@ -182,6 +198,10 @@
   z-index: -10
 }
 
+.\!z-10 {
+  z-index: 10 !important
+}
+
 .z-10 {
   z-index: 10
 }
@@ -198,8 +218,28 @@
   display: flex
 }
 
+.\!grid {
+  display: grid !important
+}
+
 .h-80 {
   height: 20rem
+}
+
+.\!h-\[180px\] {
+  height: 180px !important
+}
+
+.h-\[180px\] {
+  height: 180px
+}
+
+.\!w-\[180px\] {
+  width: 180px !important
+}
+
+.w-\[180px\] {
+  width: 180px
 }
 
 .w-full {
@@ -252,6 +292,18 @@
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
 }
 
+.scale-110 {
+  --tw-scale-x: 1.1;
+  --tw-scale-y: 1.1;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+}
+
+.\!scale-110 {
+  --tw-scale-x: 1.1 !important;
+  --tw-scale-y: 1.1 !important;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) !important
+}
+
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
 }
@@ -274,6 +326,14 @@
   resize: both
 }
 
+.\!grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important
+}
+
+.\!flex-col {
+  flex-direction: column !important
+}
+
 .items-center {
   align-items: center
 }
@@ -294,6 +354,10 @@
   gap: 0.75rem
 }
 
+.\!overflow-hidden {
+  overflow: hidden !important
+}
+
 .overflow-hidden {
   overflow: hidden
 }
@@ -304,6 +368,10 @@
 
 .rounded-md {
   border-radius: 0.375rem
+}
+
+.\!rounded {
+  border-radius: 0.25rem !important
 }
 
 .rounded {
@@ -475,6 +543,12 @@
   transition-duration: 150ms
 }
 
+.\!transition-transform {
+  transition-property: transform !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition-duration: 150ms !important
+}
+
 .transition-opacity {
   transition-property: opacity;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -487,6 +561,20 @@
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms
+}
+
+.transition-transform {
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms
+}
+
+.\!duration-300 {
+  transition-duration: 300ms !important
+}
+
+.\!duration-200 {
+  transition-duration: 200ms !important
 }
 
 .duration-200 {
@@ -596,10 +684,59 @@ body {
   border-radius: 0.375rem
 }
 
+.image-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 1.25rem !important
+}
+
+.image-grid > .image-container {
+  position: relative !important;
+  height: 180px !important;
+  width: 180px !important;
+  overflow: hidden !important;
+  border-radius: 0.375rem !important
+}
+
+.image-grid > .image-container > img {
+  border-radius: 0.25rem !important;
+  transition-property: transform !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition-duration: 300ms !important
+}
+
+.image-grid > .image-container > img:hover {
+  --tw-scale-x: 1.1 !important;
+  --tw-scale-y: 1.1 !important;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) !important
+}
+
+.image-grid > .image-container > .image-actions {
+  position: absolute !important;
+  top: 0.75rem !important;
+  right: 0.75rem !important;
+  z-index: 10 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem !important
+}
+
 .hover\:border-spacing-1:hover {
   --tw-border-spacing-x: 0.25rem;
   --tw-border-spacing-y: 0.25rem;
   border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y)
+}
+
+.hover\:scale-110:hover {
+  --tw-scale-x: 1.1;
+  --tw-scale-y: 1.1;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+}
+
+.hover\:\!scale-110:hover {
+  --tw-scale-x: 1.1 !important;
+  --tw-scale-y: 1.1 !important;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) !important
 }
 
 .hover\:border:hover {

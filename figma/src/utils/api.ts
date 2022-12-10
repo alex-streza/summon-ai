@@ -16,7 +16,7 @@ export const apiClient = {
     );
     const data = await res.json();
 
-    return data as Image[];
+    return data.images as Image[];
   },
   uploadImages: async (
     images: {

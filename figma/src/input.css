@@ -29,3 +29,19 @@ body {
 .about {
   @apply absolute -right-16 top-60 -z-10 mt-8 h-80 rounded-md;
 }
+
+.image-grid {
+  @apply !grid !grid-cols-3 !gap-5;
+}
+
+.image-grid > .image-container {
+  @apply !relative !h-[180px] !w-[180px] !overflow-hidden !rounded-md;
+}
+
+.image-grid > .image-container > img {
+  @apply !rounded !transition-transform !duration-300 hover:!scale-110;
+}
+
+.image-grid > .image-container > .image-actions {
+  @apply !absolute !top-3 !right-3 !z-10 !flex !flex-col !gap-2;
+}

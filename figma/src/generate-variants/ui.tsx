@@ -18,14 +18,21 @@ import { emit, on } from "@create-figma-plugin/utilities";
 import { Fragment, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 
-import { CloseHandler, GenerateHandler } from "./types";
+import { GenerateHandler } from "./types";
 
 import "!../styles.css";
 import { AboutTab } from "../components/AboutTab";
 import { SettingsTab } from "../components/SettingsTab";
 import { SlideOver } from "../components/Transitions";
 import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
-import { Settings } from "../types";
+import {
+  ClearSettingsHandler,
+  CloseHandler,
+  NotifyHandler,
+  SaveSettingsHandler,
+  SelectImageHandler,
+  Settings,
+} from "../types";
 import { apiClient } from "../utils/api";
 import { convertDataURIToBinary, urltoFile } from "../utils/image";
 
@@ -113,7 +120,7 @@ const GenerateTab = ({
               token
             );
           } else {
-            emit("NOTIFY", res.error.message);
+            emit<NotifyHandler>("NOTIFY", res.error.message);
             setError(res.error.message);
           }
         })
@@ -211,7 +218,7 @@ function Plugin() {
   const [settings, setSettings] = useState<Settings>({});
 
   useEffect(() => {
-    return on("SELECT_IMAGE", ({ image }: { image: string }) => {
+    return on<SelectImageHandler>("SELECT_IMAGE", (image) => {
       setImage("data:image/png;base64," + image);
     });
   }, []);
@@ -224,14 +231,14 @@ function Plugin() {
 
   const handleSaveSettings = useCallback(
     ({ token }: { token: string }) => {
-      emit("SAVE_SETTINGS", { token });
+      emit<SaveSettingsHandler>("SAVE_SETTINGS", { token });
       setSettings({ ...settings, token });
     },
     [settings]
   );
 
   const handleClearSettings = useCallback(() => {
-    emit("CLEAR_SETTINGS");
+    emit<ClearSettingsHandler>("CLEAR_SETTINGS");
     setSettings({ ...settings, token: undefined });
   }, [settings]);
 
