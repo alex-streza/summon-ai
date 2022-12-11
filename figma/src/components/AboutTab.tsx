@@ -96,7 +96,7 @@ export const AboutTab = () => {
         <VerticalSpace space="small" />
         <Text>
           <Muted>
-            P.S.S. You can disable image saving database in the settings menu.
+            P.S.S. You can disable image saving to database in the settings menu.
           </Muted>
         </Text>
       </Fragment>

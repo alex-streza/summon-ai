@@ -188,7 +188,7 @@ export const DiscoverTab = ({ userId }: DiscoverTabProps) => {
           <NotFound onReset={handleResetSearch} />
         </FadeIn>
         {count > images.length && (
-          <div className="flex mx-auto w-fit">
+          <div className="mx-auto flex w-fit">
             <Button
               onClick={handleLoadMore}
               disabled={loadingMore}

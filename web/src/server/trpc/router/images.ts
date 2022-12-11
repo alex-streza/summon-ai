@@ -86,6 +86,13 @@ export const images = router({
     .query(async ({ ctx, input }) => {
       const { count = 1 } = input;
 
+      if (count > 4) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You can only upload up to 4 images at a time.",
+        });
+      }
+
       const urls = [];
 
       try {
@@ -127,6 +134,13 @@ export const images = router({
         prompt,
         user: { photoUrl, ...user },
       } = input;
+
+      if (image_urls.length > 4) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You can only save up to 4 images at a time.",
+        });
+      }
 
       const { data: userExists } = await supabase
         .from("figma_users")

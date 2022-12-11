@@ -31,7 +31,7 @@ body {
 }
 
 .image-grid {
-  @apply !mb-3 !grid !grid-cols-3 !gap-5;
+  @apply !mb-3 !grid !grid-cols-3 !gap-4;
 }
 
 .image-grid > .image-container {
@@ -68,4 +68,8 @@ body {
 
 .not-found > svg {
   @apply h-[256px] w-[256px];
+}
+
+.edit-image-container {
+  @apply max-w-[512px];
 }

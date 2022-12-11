@@ -160,7 +160,7 @@ const GenerateTab = ({
   }, [generatedImage, prompt, token, settings.user, settings.acceptSaveImage]);
 
   return (
-    <Fragment>
+    <div className="edit-image-container">
       <VerticalSpace space="medium" />
       <h1 className="text-[28px] font-black leading-10">Edit image</h1>
       <VerticalSpace space="extraSmall" />
@@ -295,7 +295,7 @@ const GenerateTab = ({
         </Columns>
       )}
       <VerticalSpace space="medium" />
-    </Fragment>
+    </div>
   );
 };
 

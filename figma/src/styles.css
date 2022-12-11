@@ -297,6 +297,18 @@
   width: fit-content
 }
 
+.max-w-\[512px\] {
+  max-width: 512px
+}
+
+.max-w-\[560px\] {
+  max-width: 560px
+}
+
+.\!max-w-\[560px\] {
+  max-width: 560px !important
+}
+
 .border-spacing-1 {
   --tw-border-spacing-x: 0.25rem;
   --tw-border-spacing-y: 0.25rem;
@@ -783,7 +795,7 @@ body {
   margin-bottom: 0.75rem !important;
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 1.25rem !important
+  gap: 1rem !important
 }
 
 .image-grid > .image-container {
@@ -889,6 +901,10 @@ body {
 .not-found > svg {
   height: 256px;
   width: 256px
+}
+
+.edit-image-container {
+  max-width: 512px
 }
 
 .hover\:border-spacing-1:hover {

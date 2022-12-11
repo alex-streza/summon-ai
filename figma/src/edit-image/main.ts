@@ -63,7 +63,7 @@ export default function () {
     });
 
     showUI({
-      width: 560,
+      width: 600,
       height: 800,
     });
   } else {
