@@ -13,6 +13,13 @@ export const urltoFile = (url: string, filename: string, mimeType: string) => {
     });
 };
 
+export const urlToBlob = async (url: string) => {
+  const data = await fetch(url);
+  const blob = await data.blob();
+
+  return blob;
+};
+
 export const urlToBase64 = async (url: string) => {
   const data = await fetch(url);
   const blob = await data.blob();

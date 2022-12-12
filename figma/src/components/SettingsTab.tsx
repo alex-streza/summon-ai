@@ -27,13 +27,15 @@ export const SettingsTab = ({
   onClearSettings,
 }: SettingsTabProps) => {
   const [token, setToken] = useState("");
-  const [acceptSaveImage, setAcceptSaveImage] = useState(
-    defaultAcceptSaveImage ?? false
-  );
+  const [acceptSaveImage, setAcceptSaveImage] = useState(false);
 
   useEffect(() => {
     setToken(defaultToken ?? "");
   }, [defaultToken]);
+
+  useEffect(() => {
+    setAcceptSaveImage(defaultAcceptSaveImage ?? false);
+  }, [defaultAcceptSaveImage]);
 
   const handleSaveSettings = useCallback(() => {
     onSaveSettings({ token, acceptSaveImage });
@@ -41,7 +43,8 @@ export const SettingsTab = ({
 
   const handleToggleAcceptSaveImage = useCallback(() => {
     setAcceptSaveImage(!acceptSaveImage);
-  }, [acceptSaveImage]);
+    onSaveSettings({ token, acceptSaveImage: !acceptSaveImage });
+  }, [token, acceptSaveImage]);
 
   return (
     <SlideOver show>

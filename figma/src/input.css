@@ -73,3 +73,7 @@ body {
 .edit-image-container {
   @apply max-w-[512px];
 }
+
+.tooltip {
+  @apply absolute -left-[4px] w-[86px] -translate-x-full rounded-md bg-slate-900 bg-opacity-70 p-2 text-[11px] opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100;
+}

@@ -169,13 +169,13 @@ const GenerateTab = ({
         new image, not just the erased area.
       </Text>
       <VerticalSpace space="extraLarge" />
-      <div className="flex justify-between w-full">
+      <div className="flex w-full justify-between">
         <Text as="span">Edit resolution: {RESOLUTION}</Text>
         <Text as="span">Output resolution: {RESOLUTIONS[2]}</Text>
       </div>
       <VerticalSpace space="small" />
       <div
-        className="relative overflow-hidden border border-gray-500 rounded"
+        className="relative overflow-hidden rounded border border-gray-500"
         style={{
           width: size,
           height: size,
@@ -202,7 +202,7 @@ const GenerateTab = ({
                 border: "none !important",
               }}
             />
-            <div className="absolute flex gap-3 bottom-3 right-3">
+            <div className="absolute bottom-3 right-3 flex gap-3">
               <button
                 className="btn secondary"
                 onClick={() => {
@@ -275,7 +275,7 @@ const GenerateTab = ({
       <VerticalSpace space="medium" />
       {error && (
         <Fragment>
-          <span class="text-red-500">{error}</span>
+          <span className="text-red-500">{error}</span>
           <VerticalSpace space="small" />
         </Fragment>
       )}
@@ -311,10 +311,13 @@ function Plugin(data: unknown) {
   }, []);
 
   useEffect(() => {
-    return on("LOAD_SETTINGS", (settings) => {
-      setSettings(settings);
+    return on("LOAD_SETTINGS", (newSettings) => {
+      setSettings({
+        ...settings,
+        ...newSettings,
+      });
     });
-  }, []);
+  }, [settings]);
 
   const handleSaveSettings = useCallback(
     ({ token, acceptSaveImage }: WriteSettings) => {

@@ -50,8 +50,8 @@ export interface ClearSettingsHandler extends EventHandler {
   handler: () => void;
 }
 
-export interface DownloadHandler extends EventHandler {
-  name: "DOWNLOAD";
+export interface ExportHandler extends EventHandler {
+  name: "EXPORT";
   handler: (image: Uint8Array) => void;
 }
 

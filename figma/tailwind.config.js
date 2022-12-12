@@ -14,6 +14,9 @@ module.exports = {
       },
     },
   },
+  variants: {
+    opacity: ["group-hover"],
+  },
   corePlugins: {
     preflight: false,
   },

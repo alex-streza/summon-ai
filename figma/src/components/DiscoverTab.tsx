@@ -12,50 +12,61 @@ import { emit } from "@create-figma-plugin/utilities";
 import {
   CheckIcon,
   CopyIcon,
-  DownloadIcon,
   ImageIcon,
+  NoteIcon,
 } from "@primer/octicons-react";
 import { useDebouncedEffect } from "@react-hookz/web";
 import copy from "copy-to-clipboard";
 import { Fragment, h } from "preact";
 import { useCallback, useState } from "preact/hooks";
-import { DownloadHandler, Image } from "../types";
+import spacetime from "spacetime";
+import { ExportHandler, Image, NotifyHandler } from "../types";
 import { apiClient } from "../utils/api";
 import { convertDataURIToBinary, urlToBase64 } from "../utils/image";
-import { FadeIn, SlideOver } from "./Transitions";
-import spacetime from "spacetime";
 import NotFound from "./NotFound";
+import { Tooltip } from "./Tooltip";
+import { FadeIn, SlideOver } from "./Transitions";
 
 const Image = ({ url, prompt, avatar_url, created_at, name }: Image) => {
   const [copied, setCopied] = useState(false);
+  const [exported, setExported] = useState(false);
 
   const handleCopy = useCallback(() => {
     copy(prompt);
     setCopied(true);
 
+    emit<NotifyHandler>("NOTIFY", "Prompt copied to clipboard.");
+
     setTimeout(() => setCopied(false), 2000);
   }, [prompt]);
 
-  const handleDownload = useCallback(async () => {
+  const handleExport = useCallback(async () => {
     const base64 = await urlToBase64(url);
     const image = await convertDataURIToBinary(base64);
 
-    emit<DownloadHandler>("DOWNLOAD", image);
+    emit<ExportHandler>("EXPORT", image);
+    setExported(true);
+
+    setTimeout(() => setExported(false), 2000);
   }, [url]);
 
   return (
     <div key={url} className="image-container">
       <div className="image-actions">
-        <button className="btn secondary icon-only" onClick={handleDownload}>
-          <DownloadIcon size={16} />
-        </button>
-        <button
-          data-tooltip-target="tooltip-default"
-          className="btn secondary icon-only"
-          onClick={handleCopy}
-        >
-          {copied ? <CheckIcon size={16} /> : <CopyIcon size={16} />}
-        </button>
+        <Tooltip message="Copy prompt to clipboard">
+          <button
+            id="copy-button"
+            className="btn secondary icon-only"
+            onClick={handleCopy}
+          >
+            {copied ? <CheckIcon size={16} /> : <NoteIcon size={16} />}
+          </button>
+        </Tooltip>
+        <Tooltip message="Export image to Figma">
+          <button className="btn secondary icon-only" onClick={handleExport}>
+            {exported ? <CheckIcon size={16} /> : <CopyIcon size={16} />}
+          </button>
+        </Tooltip>
       </div>
       <img src={url} alt={prompt} width="172" height="172" />
       <div className="image-info">
@@ -92,10 +103,12 @@ export const DiscoverTab = ({ userId }: DiscoverTabProps) => {
       page,
       reset,
       initialLooading = true,
+      showHistory,
     }: {
       page: number;
       reset?: boolean;
       initialLooading?: boolean;
+      showHistory?: boolean;
     }) => {
       setLoading(initialLooading);
       apiClient
@@ -113,7 +126,7 @@ export const DiscoverTab = ({ userId }: DiscoverTabProps) => {
           setLoadingMore(false);
         });
     },
-    [page, search, showHistory, images, userId]
+    [images, userId, search]
   );
 
   const handleSearch = useCallback((search: string) => {
@@ -124,7 +137,7 @@ export const DiscoverTab = ({ userId }: DiscoverTabProps) => {
   const handleToggleShowHistory = useCallback(() => {
     setShowHistory(!showHistory);
     setPage(1);
-    getImages({ page: 1, reset: true });
+    getImages({ page: 1, reset: true, showHistory: !showHistory });
   }, [showHistory]);
 
   const handleLoadMore = useCallback(() => {
@@ -188,7 +201,7 @@ export const DiscoverTab = ({ userId }: DiscoverTabProps) => {
           <NotFound onReset={handleResetSearch} />
         </FadeIn>
         {count > images.length && (
-          <div className="mx-auto flex w-fit">
+          <div className="flex mx-auto w-fit">
             <Button
               onClick={handleLoadMore}
               disabled={loadingMore}

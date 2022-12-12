@@ -218,7 +218,7 @@ const GenerateTab = ({ settings }: { settings: Settings }) => {
       <VerticalSpace space="medium" />
       {error && (
         <Fragment>
-          <span class="text-red-500">{error}</span>
+          <span className="text-red-500">{error}</span>
           <VerticalSpace space="small" />
         </Fragment>
       )}
@@ -245,10 +245,13 @@ function Plugin() {
   const [settings, setSettings] = useState<Settings>({});
 
   useEffect(() => {
-    return on("LOAD_SETTINGS", (settings) => {
-      setSettings(settings);
+    return on("LOAD_SETTINGS", (newSettings) => {
+      setSettings({
+        ...settings,
+        ...newSettings,
+      });
     });
-  }, []);
+  }, [settings]);
 
   const handleSaveSettings = useCallback(
     ({ token, acceptSaveImage }: WriteSettings) => {

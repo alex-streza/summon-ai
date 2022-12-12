@@ -1,4 +1,10 @@
-import { on, saveSettingsAsync, showUI } from "@create-figma-plugin/utilities";
+import {
+  on,
+  emit,
+  saveSettingsAsync,
+  showUI,
+} from "@create-figma-plugin/utilities";
+import { LoadSettingsHandler } from "../types";
 import { pasteImages } from "../utils/pasteImages";
 import registerCommonEvents from "../utils/registerCommonEvents";
 
@@ -18,6 +24,10 @@ export default function () {
       });
 
       saveSettingsAsync({ token });
+
+      emit<LoadSettingsHandler>("LOAD_SETTINGS", {
+        token,
+      });
 
       figma.notify("🎉 Generated " + images.length + " images! 🎉");
     });

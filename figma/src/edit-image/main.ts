@@ -29,6 +29,10 @@ export default function () {
 
       saveSettingsAsync({ token });
 
+      emit<LoadSettingsHandler>("LOAD_SETTINGS", {
+        token,
+      });
+
       figma.notify("🎉 Edited image succesful! 🎉");
     });
   });

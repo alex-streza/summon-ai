@@ -8,10 +8,11 @@ import {
 import {
   ClearSettingsHandler,
   CloseHandler,
-  DownloadHandler,
+  ExportHandler,
   LoadSettingsHandler,
   NotifyHandler,
   SaveSettingsHandler,
+  Settings,
 } from "../types";
 import { pasteImages } from "../utils/pasteImages";
 
@@ -24,15 +25,27 @@ export default function () {
 
   on<SaveSettingsHandler>("SAVE_SETTINGS", (settings) => {
     saveSettingsAsync(settings);
+
+    emit<LoadSettingsHandler>("LOAD_SETTINGS", {
+      ...settings,
+      user: figma.currentUser,
+    });
     figma.notify("Settings saved!");
   });
 
   on<ClearSettingsHandler>("CLEAR_SETTINGS", () => {
     saveSettingsAsync({ user: figma.currentUser, acceptSaveImage: false });
+
+    emit<LoadSettingsHandler>("LOAD_SETTINGS", {
+      user: figma.currentUser,
+      acceptSaveImage: false,
+      token: undefined,
+    });
+
     figma.notify("Settings cleared!");
   });
 
-  on<DownloadHandler>("DOWNLOAD", (image) => {
+  on<ExportHandler>("EXPORT", (image) => {
     Promise.all([
       figma.loadFontAsync({ family: "Inter", style: "Regular" }),
       figma.loadFontAsync({ family: "Inter", style: "Semi Bold" }),
@@ -46,7 +59,7 @@ export default function () {
     });
   });
 
-  loadSettingsAsync({}).then((settings) => {
+  loadSettingsAsync<Settings>({}).then((settings) => {
     emit<LoadSettingsHandler>("LOAD_SETTINGS", {
       acceptSaveImage: true,
       ...settings,

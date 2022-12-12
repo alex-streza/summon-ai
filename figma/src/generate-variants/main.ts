@@ -25,6 +25,10 @@ export default function () {
 
       saveSettingsAsync({ token });
 
+      emit<LoadSettingsHandler>("LOAD_SETTINGS", {
+        token,
+      });
+
       figma.notify("🎉 Generated " + images.length + " variants! 🎉");
     });
   });
