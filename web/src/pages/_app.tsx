@@ -4,17 +4,33 @@ import { type AppType } from "next/app";
 
 import { trpc } from "../utils/trpc";
 export { reportWebVitals } from "next-axiom";
+import { EB_Garamond, Inter } from "@next/font/google";
 
 import "../styles/globals.css";
+import { Layout } from "../components/Layout";
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["600", "900"],
+  style: ["normal"],
+  variable: "--font-inter",
+});
+const ebGaramond = EB_Garamond({
+  subsets: ["latin"],
+  weight: ["600"],
+  variable: "--font-eb-garamond",
+});
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <SessionProvider session={session}>
-      <Component {...pageProps} />
-    </SessionProvider>
+    <Layout className={[inter.variable, ebGaramond.variable].join(" ")}>
+      <SessionProvider session={session}>
+        <Component {...pageProps} />
+      </SessionProvider>
+    </Layout>
   );
 };
 
