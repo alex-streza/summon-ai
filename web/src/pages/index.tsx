@@ -1,4 +1,5 @@
 import { type NextPage } from "next";
+import { NextSeo } from "next-seo";
 import Head from "next/head";
 import Image from "next/image";
 import CircleButton from "../components/buttons/CircleButton";
@@ -6,11 +7,52 @@ import CircleButton from "../components/buttons/CircleButton";
 const Home: NextPage = () => {
   return (
     <>
-      <Head>
-        <title> Summon AI - coming soon</title>
-        <meta name="description" content="Summon AI - coming soon" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <NextSeo
+        title="Summon AI - coming soon"
+        description="Summon AI is a Figma plugin that uses AI to generate imagery for your designs."
+        canonical="https://www.summon-ai.com"
+        openGraph={{
+          type: "website",
+          locale: "en_IE",
+          url: "https://www.summon-ai.com",
+          siteName: "Summon AI",
+        }}
+        additionalLinkTags={[
+          {
+            rel: "icon",
+            href: "/favicons/favicon.ico",
+          },
+          {
+            rel: "apple-touch-icon",
+            href: "/favicons/apple-touch-icon.png",
+            sizes: "76x76",
+          },
+          {
+            rel: "icon",
+            href: "/favicons/android-chrome-192x192.png",
+            sizes: "192x192",
+          },
+          {
+            rel: "icon",
+            href: "/favicons/android-chrome-512x512.png",
+            sizes: "512x512",
+          },
+          {
+            rel: "apple-touch-icon",
+            href: "/favicons/favicon-16x16.png",
+            sizes: "16x16",
+          },
+          {
+            rel: "apple-touch-icon",
+            href: "/favicons/favicon-32x32.png",
+            sizes: "32x32",
+          },
+          {
+            rel: "manifest",
+            href: "/site.webmanifest",
+          },
+        ]}
+      />
       <h1 className="mt-16 mb-12 text-4xl md:text-7xl">
         <div>
           <span className="mr-3 font-serif text-5xl italic font-bold md:mr-12 md:text-8xl">

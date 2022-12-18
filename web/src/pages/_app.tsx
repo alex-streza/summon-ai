@@ -8,6 +8,7 @@ import { EB_Garamond, Inter } from "@next/font/google";
 
 import "../styles/globals.css";
 import { Layout } from "../components/Layout";
+import { DefaultSeo } from "next-seo";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,6 +28,14 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <Layout className={[inter.variable, ebGaramond.variable].join(" ")}>
+      <DefaultSeo
+        openGraph={{
+          type: "website",
+          locale: "en_IE",
+          url: "https://www.summon-ai.com",
+          siteName: "Summon AI",
+        }}
+      />
       <SessionProvider session={session}>
         <Component {...pageProps} />
       </SessionProvider>

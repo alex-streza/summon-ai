@@ -89,6 +89,7 @@ importers:
       next: 13.0.2
       next-auth: 4.17.0
       next-axiom: ^0.16.0
+      next-seo: ^5.15.0
       nextjs-cors: ^2.1.2
       node-fetch: ^3.3.0
       postcss: ^8.4.14
@@ -116,6 +117,7 @@ importers:
       next: 13.0.2_biqbaboplfbrettd7655fr4n2y
       next-auth: 4.17.0_pknogjuzx4bv7zxtatcb2ahtsq
       next-axiom: 0.16.0_next@13.0.2
+      next-seo: 5.15.0_pknogjuzx4bv7zxtatcb2ahtsq
       nextjs-cors: 2.1.2_next@13.0.2
       node-fetch: 3.3.0
       react: 18.2.0
@@ -3280,6 +3282,18 @@ packages:
     dependencies:
       next: 13.0.2_biqbaboplfbrettd7655fr4n2y
       whatwg-fetch: 3.6.2
+    dev: false
+
+  /next-seo/5.15.0_pknogjuzx4bv7zxtatcb2ahtsq:
+    resolution: {integrity: sha512-LGbcY91yDKGMb7YI+28n3g+RuChUkt6pXNpa8FkfKkEmNiJkeRDEXTnnjVtwT9FmMhG6NH8qwHTelGrlYm9rgg==}
+    peerDependencies:
+      next: ^8.1.1-canary.54 || >=9.0.0
+      react: '>=16.0.0'
+      react-dom: '>=16.0.0'
+    dependencies:
+      next: 13.0.2_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /next-tick/1.1.0:

@@ -74,9 +74,9 @@ const Navigation = () => {
           </clipPath>
         </defs>
       </svg>
-      <button className="md:hidden">
+      {/* <button className="md:hidden">
         <ThreeBarsIcon size={32} />
-      </button>
+      </button> */}
     </nav>
   );
 };
