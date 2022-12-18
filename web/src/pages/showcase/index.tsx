@@ -7,11 +7,16 @@ import { BackButton } from "../../components/buttons/BackButton";
 import Input from "../../components/inputs/Input";
 import { Layout } from "../../components/Layout";
 import { trpc } from "../../utils/trpc";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import NotFound from "../../components/NotFound";
+
+const placeholders = [...Array(12)];
 
 const Showcase: NextPage = () => {
   const [search, setSearch] = useState("");
+  const [parent] = useAutoAnimate<HTMLDivElement>();
 
-  const { data } = trpc.images.getImages.useQuery({
+  const { data, isLoading } = trpc.images.getImages.useQuery({
     page: "1",
     page_size: "9",
     search,
@@ -38,14 +43,24 @@ const Showcase: NextPage = () => {
   }, []);
 
   const images = useMemo(() => {
-    if (!data?.images) return [];
-
     const images = [];
     let j = 0;
 
+    if (data?.images.length == 0) {
+      return [];
+    }
+
     for (let i = 0; i < 15; i++) {
       if (filledPositions.includes(i)) {
-        images.push(data?.images[j]);
+        images.push(
+          data?.images
+            ? data?.images[j]
+            : {
+                id: "image-" + i,
+                url: "",
+                prompt: "",
+              }
+        );
         j++;
       } else {
         images.push(null);
@@ -62,6 +77,8 @@ const Showcase: NextPage = () => {
     []
   );
 
+  const notFound = !isLoading && images.length == 0;
+
   return (
     <Layout isDark>
       <NextSeo
@@ -75,22 +92,40 @@ const Showcase: NextPage = () => {
         onChange={handleSearch}
         icon={<SearchIcon size={24} />}
       />
-      <div className="grid grid-cols-3 grid-rows-5 gap-5 mt-5">
-        {images.map((image, index) =>
-          image ? (
-            <Link key={image.id} href={`/showcase/${image.id}`}>
-              <div className="relative w-full h-full overflow-hidden rounded">
-                <img
-                  src={image.url}
-                  alt={image.prompt}
-                  className="transition-all duration-300 grayscale-0 hover:grayscale"
-                />
-              </div>
-            </Link>
-          ) : (
-            <div key={index} />
-          )
-        )}
+      <div
+        ref={parent}
+        className={`grid ${
+          !notFound ? "grid-cols-3 grid-rows-5" : "place-content-center"
+        } mt-5 gap-5`}
+      >
+        {isLoading &&
+          placeholders.map((_, index) =>
+            filledPositions.includes(index) ? (
+              <div
+                key={index}
+                className="aspect-square h-full w-full animate-[pulse_1s_ease-in-out_infinite] bg-gray-800"
+              />
+            ) : (
+              <div key={index} />
+            )
+          )}
+        {!isLoading &&
+          images.map((image, index) =>
+            image ? (
+              <Link key={image.id} href={`/showcase/${image.id}`}>
+                <div className="relative w-full h-full overflow-hidden rounded">
+                  <img
+                    src={image.url}
+                    alt={image.prompt}
+                    className="transition-all duration-300 grayscale-0 hover:grayscale"
+                  />
+                </div>
+              </Link>
+            ) : (
+              <div key={index} />
+            )
+          )}
+        {notFound && <NotFound onReset={() => setSearch("")} />}
       </div>
     </Layout>
   );

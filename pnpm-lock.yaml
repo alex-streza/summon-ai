@@ -67,6 +67,7 @@ importers:
 
   web:
     specifiers:
+      '@formkit/auto-animate': 1.0.0-beta.5
       '@next/font': ^13.0.6
       '@primer/octicons-react': ^17.9.0
       '@primer/react': ^35.16.0
@@ -105,6 +106,7 @@ importers:
       typescript: ^4.8.4
       zod: ^3.18.0
     dependencies:
+      '@formkit/auto-animate': 1.0.0-beta.5
       '@next/font': 13.0.6
       '@primer/octicons-react': 17.9.0_react@18.2.0
       '@primer/react': 35.16.0_biqbaboplfbrettd7655fr4n2y
@@ -263,6 +265,10 @@ packages:
   /@figma/plugin-typings/1.54.0:
     resolution: {integrity: sha512-jetMn5s9p+X/iB+ZXbUrMI++8zhK21n6W9KT/IAz4DfI9NMy0+URlEaySmqRMyKwZUMVRhzYO10QzQLfOXk1fQ==}
     dev: true
+
+  /@formkit/auto-animate/1.0.0-beta.5:
+    resolution: {integrity: sha512-WoSwyhAZPOe6RB/IgicOtCHtrWwEpfKIZ/H/nxpKfnZL9CB6hhhBGU5bCdMRw7YpAUF2CDlQa+WWh+gCqz5lDg==}
+    dev: false
 
   /@github/combobox-nav/2.1.5:
     resolution: {integrity: sha512-dmG1PuppNKHnBBEcfylWDwj9SSxd/E/qd8mC1G/klQC3s7ps5q6JZ034mwkkG0LKfI+Y+UgEua/ROD776N400w==}
