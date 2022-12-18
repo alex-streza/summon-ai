@@ -16,6 +16,14 @@ const Home: NextPage = () => {
           locale: "en_IE",
           url: "https://www.summon-ai.com",
           siteName: "Summon AI",
+          images: [
+            {
+              url: "/images/og.png",
+              width: 1200,
+              height: 630,
+              alt: "Summon AI - coming soon",
+            },
+          ],
         }}
         additionalLinkTags={[
           {
