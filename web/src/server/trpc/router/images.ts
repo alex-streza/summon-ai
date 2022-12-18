@@ -21,6 +21,7 @@ export const images = router({
         count: z.number(),
         images: z
           .object({
+            id: z.number(),
             url: z.string(),
             prompt: z.string(),
             created_at: z.string().optional(),
@@ -39,7 +40,7 @@ export const images = router({
       let query = supabase
         .from("images")
         .select(
-          "url, prompt, figma_user_id, created_at, figma_users:figma_user_id (name, avatar_url)"
+          "id, url, prompt, figma_user_id, created_at, figma_users:figma_user_id (name, avatar_url)"
         )
         .ilike("prompt", "*" + (input.search ?? "") + "*");
 
@@ -69,7 +70,7 @@ export const images = router({
           cause: error ?? countError,
         });
       }
-
+      console.log("data", data);
       // TODO: Get supabase types
       return {
         images: data.map(({ figma_users, ...image }) => ({
@@ -77,6 +78,47 @@ export const images = router({
           ...figma_users,
         })) as any,
         count: count ?? 0,
+      };
+    }),
+  getImage: publicProcedure
+    .meta({ openapi: { method: "GET", path: "/image/:id" } })
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .output(
+      z.object({
+        id: z.number(),
+        url: z.string(),
+        prompt: z.string(),
+        created_at: z.string().optional(),
+        figma_user_id: z.string(),
+        name: z.string(),
+        avatar_url: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { data, error } = await supabase
+        .from("images")
+        .select(
+          "id, url, prompt, figma_user_id, created_at, figma_users:figma_user_id (name, avatar_url)"
+        )
+        .eq("id", input.id);
+
+      if (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Images could not be retrieved",
+          cause: error,
+        });
+      }
+
+      const { figma_users, ...image } = data[0] as any;
+
+      return {
+        ...image,
+        ...figma_users,
       };
     }),
   getUploadImageURL: publicProcedure

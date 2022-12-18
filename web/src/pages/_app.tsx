@@ -2,17 +2,15 @@ import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
 
+import { EB_Garamond, Inter } from "@next/font/google";
 import { trpc } from "../utils/trpc";
 export { reportWebVitals } from "next-axiom";
-import { EB_Garamond, Inter } from "@next/font/google";
 
 import "../styles/globals.css";
-import { Layout } from "../components/Layout";
-import { DefaultSeo } from "next-seo";
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["600", "900"],
+  weight: ["500", "600", "900"],
   style: ["normal"],
   variable: "--font-inter",
 });
@@ -27,19 +25,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <Layout className={[inter.variable, ebGaramond.variable].join(" ")}>
-      <DefaultSeo
-        openGraph={{
-          type: "website",
-          locale: "en_IE",
-          url: "https://www.summon-ai.com",
-          siteName: "Summon AI",
-        }}
-      />
+    <main className={[inter.variable, ebGaramond.variable].join(" ")}>
       <SessionProvider session={session}>
         <Component {...pageProps} />
       </SessionProvider>
-    </Layout>
+    </main>
   );
 };
 

@@ -1,17 +1,24 @@
 import Link from "next/link";
 
-const Footer = () => {
+export interface FooterProps {
+  className?: string;
+}
+
+const Footer = ({ className = "bg-white" }: FooterProps) => {
   return (
-    <footer className="z-10 flex items-center justify-between w-full py-5 mt-auto bg-white border-t border-gray-900 md:py-12">
+    <footer
+      className={`
+        ${className} z-10 mt-auto flex w-full items-center justify-between border-t border-gray-900 py-5 md:py-12`}
+    >
       <ul className="grid grid-cols-2 gap-5 text-gray-500 uppercase md:mx-auto md:flex md:gap-16">
         <li>
-          <span>Showcase (Soon)</span>
+          <Link href="/showcase">Showcase</Link>
         </li>
         <li>
           <a href="https://github.com/alex-streza/summon-ai">Figma</a>
         </li>
         <li>
-          <span>All images (Soon)</span>
+          <span>Generator (Soon)</span>
         </li>
         <li>
           <a href="https://github.com/alex-streza/summon-ai">Contribute</a>
