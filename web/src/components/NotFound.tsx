@@ -368,7 +368,7 @@ const NotFound = ({ onReset }: NotFoundProps) => {
         />
       </svg>
       <p className="max-w-xs text-center text-white">
-        Sorry, we couldn't find any results matching your search
+        Sorry, we couldn&apos;t find any results matching your search
       </p>
       {/* <Button onClick={onReset}>Reset search</Button> */}
     </div>
