@@ -1,8 +1,11 @@
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { CheckIcon, CopyIcon } from "@primer/octicons-react";
 import { type NextPage } from "next";
 import { NextSeo } from "next-seo";
-import Image from "next/image";
 import { useRouter } from "next/router";
+import { useCallback, useState } from "react";
 import { BackButton } from "../../components/buttons/BackButton";
+import { Button } from "../../components/buttons/Button";
 import { Layout } from "../../components/Layout";
 import { trpc } from "../../utils/trpc";
 
@@ -13,24 +16,79 @@ export const getServersideProps = async () => {
 };
 
 const Showcase: NextPage = () => {
+  const [copied, setCopied] = useState(false);
+
+  const [parent] = useAutoAnimate<HTMLDivElement>();
+
   const router = useRouter();
   const { id } = router.query;
 
-  const { data } = trpc.images.getImage.useQuery({
+  const { data, isLoading } = trpc.images.getImage.useQuery({
     id: id as string,
   });
+
+  const handleCopy = useCallback(() => {
+    setCopied(true);
+    navigator.clipboard.writeText(window.location.href);
+    setTimeout(() => setCopied(false), 2000);
+  }, []);
 
   return (
     <Layout isDark>
       <NextSeo
-        title={"Summon AI - " + data?.prompt}
+        title={"Summon AI - " + (data?.prompt ?? "")}
         description="Summon AI is a Figma plugin that uses AI to generate imagery for your designs."
       />
       <BackButton href="/showcase" label="showcase" className="mt-8 mb-6" />
-      <div className="relative w-full h-full overflow-hidden rounded">
-        {data && <img src={data?.url} alt={data?.prompt} />}
+      <div ref={parent} className="flex flex-col items-center">
+        {!isLoading && (
+          <>
+            <div className="relative grid h-full w-full place-content-center overflow-hidden rounded">
+              {data && <img src={data?.url} alt={data?.prompt} />}
+            </div>
+            <div className="mx-auto mt-8 flex gap-2 text-gray-300">
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 28 28"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M17.5 19.8333L19.8333 15.1667H15.1666V7H23.3333V15.1667L21 19.8333H17.5ZM6.99996 19.8333L9.33329 15.1667H4.66663V7H12.8333V15.1667L10.5 19.8333H6.99996Z"
+                  fill="currentColor"
+                />
+              </svg>
+              <p className="text-center">{data?.prompt}</p>
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 28 28"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M17.5 19.8333L19.8333 15.1667H15.1666V7H23.3333V15.1667L21 19.8333H17.5ZM6.99996 19.8333L9.33329 15.1667H4.66663V7H12.8333V15.1667L10.5 19.8333H6.99996Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+            <Button onClick={handleCopy} className="mx-auto mt-8">
+              {!copied ? "Share link" : "Link copied"}
+              {!copied ? <CopyIcon /> : <CheckIcon />}
+            </Button>
+          </>
+        )}
+        {isLoading && (
+          <div className="flex flex-col items-center">
+            <div className="mx-auto mb-8 aspect-square h-full w-full max-w-[768px] animate-[pulse_1s_ease-in-out_infinite] bg-gray-800" />
+            <div className="mb-2 h-6 w-[320px] animate-[pulse_1s_ease-in-out_infinite] bg-gray-800" />
+            <div className="mb-2 h-6 w-[240px] animate-[pulse_1s_ease-in-out_infinite] bg-gray-800" />
+            <div className="h-6 w-[120px] animate-[pulse_1s_ease-in-out_infinite] bg-gray-800" />
+            <div className="mt-8 h-10 w-[160px] animate-[pulse_1s_ease-in-out_infinite] bg-gray-800" />
+          </div>
+        )}
       </div>
-      <p className="mt-8 text-center text-white">{data?.prompt}</p>
     </Layout>
   );
 };

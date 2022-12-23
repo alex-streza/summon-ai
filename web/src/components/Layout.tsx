@@ -8,11 +8,13 @@ export interface LayoutProps {
 }
 
 export const Layout = ({ children, isDark }: LayoutProps) => {
-  const className = isDark ? "bg-gray-900" : "bg-white";
+  const className = isDark
+    ? "bg-gradient-to-br from-gray-900 to-gray-700"
+    : "bg-white";
 
   return (
     <div
-      className={`${className} relative flex h-full min-h-screen flex-col overflow-hidden  px-4 pt-6 md:px-[111px]`}
+      className={`${className} relative flex h-full min-h-screen flex-col overflow-hidden px-4 pt-6 md:px-[111px]`}
     >
       <DefaultSeo
         description="Summon AI is a Figma plugin that uses AI to generate imagery for your designs."
@@ -70,7 +72,7 @@ export const Layout = ({ children, isDark }: LayoutProps) => {
 
       <Navigation isDark={isDark} />
       {children}
-      <Footer className={className} />
+      <Footer className={isDark ? "bg-transparent" : className} />
     </div>
   );
 };

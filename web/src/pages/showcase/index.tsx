@@ -12,6 +12,12 @@ import NotFound from "../../components/NotFound";
 
 const placeholders = [...Array(12)];
 
+export const getServersideProps = async () => {
+  return {
+    props: {},
+  };
+};
+
 const Showcase: NextPage = () => {
   const [search, setSearch] = useState("");
   const [parent] = useAutoAnimate<HTMLDivElement>();
@@ -78,7 +84,7 @@ const Showcase: NextPage = () => {
   );
 
   const notFound = !isLoading && images.length == 0;
-
+  console.log("filledPositions", filledPositions);
   return (
     <Layout isDark>
       <NextSeo
@@ -92,11 +98,16 @@ const Showcase: NextPage = () => {
         onChange={handleSearch}
         icon={<SearchIcon size={24} />}
       />
+      <p className="mt-2 text-sm text-white">
+        {!notFound && !isLoading
+          ? `${data?.count} images found.`
+          : "Searching for images..."}
+      </p>
       <div
         ref={parent}
         className={`grid ${
           !notFound ? "grid-cols-3 grid-rows-5" : "place-content-center"
-        } mt-5 gap-5`}
+        } my-5 gap-5`}
       >
         {isLoading &&
           placeholders.map((_, index) =>
@@ -113,11 +124,11 @@ const Showcase: NextPage = () => {
           images.map((image, index) =>
             image ? (
               <Link key={image.id} href={`/showcase/${image.id}`}>
-                <div className="relative w-full h-full overflow-hidden rounded">
+                <div className="relative h-full w-full overflow-hidden rounded">
                   <img
                     src={image.url}
                     alt={image.prompt}
-                    className="transition-all duration-300 grayscale-0 hover:grayscale"
+                    className="grayscale-0 transition-all duration-300 hover:grayscale"
                   />
                 </div>
               </Link>

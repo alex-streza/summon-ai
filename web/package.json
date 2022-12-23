@@ -21,6 +21,7 @@
     "@trpc/react-query": "^10.0.0",
     "@trpc/server": "^10.0.0",
     "circletype": "^2.3.0",
+    "cva": "npm:class-variance-authority@^0.4.0",
     "formdata-node": "^5.0.0",
     "got": "^12.5.3",
     "next": "13.0.2",

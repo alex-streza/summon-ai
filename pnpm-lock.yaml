@@ -85,6 +85,7 @@ importers:
       '@typescript-eslint/parser': ^5.33.0
       autoprefixer: ^10.4.7
       circletype: ^2.3.0
+      cva: npm:class-variance-authority@^0.4.0
       eslint: ^8.26.0
       eslint-config-next: 13.0.2
       formdata-node: ^5.0.0
@@ -118,6 +119,7 @@ importers:
       '@trpc/react-query': 10.4.3_x72ucuwg27nhluiflrpycjcdya
       '@trpc/server': 10.4.3
       circletype: 2.3.0
+      cva: /class-variance-authority/0.4.0_typescript@4.9.3
       formdata-node: 5.0.0
       got: 12.5.3
       next: 13.0.2_biqbaboplfbrettd7655fr4n2y
@@ -1500,6 +1502,17 @@ packages:
     resolution: {integrity: sha512-bg+aWmtljs6K2LNIoPg6NqHY5vUdTHtD2GH7snwdouRUmJVDtqfrXnZf7ZUH+PUs0Yz6tmZfG7TDMUMPk86bXg==}
     dependencies:
       core-js: 2.6.12
+    dev: false
+
+  /class-variance-authority/0.4.0_typescript@4.9.3:
+    resolution: {integrity: sha512-74enNN8O9ZNieycac/y8FxqgyzZhZbxmCitAtAeUrLPlxjSd5zA7LfpprmxEcOmQBnaGs5hYhiSGnJ0mqrtBLQ==}
+    peerDependencies:
+      typescript: '>= 4.5.5 < 5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      typescript: 4.9.3
     dev: false
 
   /classnames/2.3.2:
@@ -5290,7 +5303,6 @@ packages:
     resolution: {integrity: sha512-CIfGzTelbKNEnLpLdGFgdyKhG23CKdKgQPOBc+OUNrkJ2vr+KSzsSV5kq5iWhEQbok+quxgGzrAtGWCyU7tHnA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: true
 
   /unbox-primitive/1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
