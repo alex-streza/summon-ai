@@ -4,6 +4,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
+    "postbuild": "next-sitemap",
     "clean": "rimraf .next .turbo node_modules",
     "start": "next start",
     "lint": "next lint"
@@ -30,6 +31,7 @@
     "next-auth": "4.17.0",
     "next-axiom": "^0.16.0",
     "next-seo": "^5.15.0",
+    "next-sitemap": "^3.1.43",
     "nextjs-cors": "^2.1.2",
     "node-fetch": "^3.3.0",
     "react": "18.2.0",
