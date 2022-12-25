@@ -40,24 +40,26 @@ const Showcase: NextPage = () => {
 
   return (
     <Layout isDark>
-      <NextSeo
-        title={"Summon AI - " + (data?.prompt ?? "")}
-        description={data?.prompt ?? ""}
-        openGraph={{
-          images: [
-            {
-              url:
-                "https://staging.summon-ai.com/api/og?prompt=" +
-                data?.prompt +
-                "&url=" +
-                data?.url,
-              width: 1200,
-              height: 630,
-              alt: data?.prompt,
-            },
-          ],
-        }}
-      />
+      {id && (
+        <NextSeo
+          title={"Summon AI - " + (data?.prompt ?? "")}
+          description={data?.prompt ?? ""}
+          openGraph={{
+            images: [
+              {
+                url:
+                  "https://staging.summon-ai.com/api/og?prompt=" +
+                  data?.prompt +
+                  "&url=" +
+                  data?.url,
+                width: 1200,
+                height: 630,
+                alt: data?.prompt,
+              },
+            ],
+          }}
+        />
+      )}
       <BackButton href="/showcase" label="showcase" className="mt-8 mb-6" />
       <div ref={parent} className="flex flex-col items-center">
         {!isLoading && (
