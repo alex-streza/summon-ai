@@ -40,7 +40,7 @@ const Showcase: NextPage = () => {
 
   return (
     <Layout isDark>
-      {data && (
+      {!isLoading && (
         <NextSeo
           title={"Summon AI - " + (data?.prompt ?? "")}
           description={data?.prompt ?? ""}
