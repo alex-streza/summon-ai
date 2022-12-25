@@ -23,5 +23,5 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return getServerSideSitemap(ctx, images);
 };
 
-// Default export to prevent next.js errors
+// @ts-ignore
 export default function Sitemap() {}
