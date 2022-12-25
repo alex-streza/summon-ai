@@ -23,5 +23,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return getServerSideSitemap(ctx, images);
 };
 
-// @ts-ignore
-export default function Sitemap() {}
+export default function Sitemap() {
+  return null;
+}
