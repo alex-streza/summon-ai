@@ -9,60 +9,33 @@ const Image = ({ url, prompt }: { url: string; prompt: string }) => {
   return (
     <div
       style={{
-        display: "flex",
-        fontSize: 48,
-        color: "#fbfbfb",
         background: "linear-gradient(141.83deg, #1A1A1A 0%, #363636 99.26%)",
-        width: "100%",
-        height: "100%",
-        padding: 50,
-        flexDirection: "column",
-        justifyContent: "center",
-        fontWeight: 800,
-        alignItems: "center",
-        textAlign: "center",
       }}
+      tw="flex flex-col items-center text-5xl text-center text-white w-full h-full p-12 font-bold"
     >
-      <img
-        width="256"
-        height="256"
-        src={url}
-        style={{
-          borderRadius: 8,
-        }}
-      />
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
+      <img width="256" height="256" src={url} tw="rounded-md" />
+      <div tw="flex items-center justify-between">
         <svg
           width="48"
           height="48"
           viewBox="0 0 32 32"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          style={{
-            transform: "translateX(60px)",
-          }}
         >
           <path
             d="M20 22.6667L22.6667 17.3333H17.3334V8H26.6667V17.3333L24 22.6667H20ZM8.00004 22.6667L10.6667 17.3333H5.33337V8H14.6667V17.3333L12 22.6667H8.00004Z"
             fill="#FBFBFB"
           />
         </svg>
-        <p>{prompt.length > 80 ? prompt.slice(0, 80) + "..." : prompt}</p>
+        <p tw="max-w-5xl">
+          {prompt.length > 80 ? prompt.slice(0, 80) + "..." : prompt}
+        </p>
         <svg
           width="48"
           height="48"
           viewBox="0 0 32 32"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          style={{
-            transform: "translateX(-60px)",
-          }}
         >
           <path
             d="M20 22.6667L22.6667 17.3333H17.3334V8H26.6667V17.3333L24 22.6667H20ZM8.00004 22.6667L10.6667 17.3333H5.33337V8H14.6667V17.3333L12 22.6667H8.00004Z"
