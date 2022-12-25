@@ -15,3 +15,7 @@
 .not-found > svg {
   @apply h-[256px] w-[256px];
 }
+
+h5 > div {
+  @apply animate-[spin_7s_linear_infinite];
+}

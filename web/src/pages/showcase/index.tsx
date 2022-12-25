@@ -9,8 +9,11 @@ import { Layout } from "../../components/Layout";
 import { trpc } from "../../utils/trpc";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import NotFound from "../../components/NotFound";
+import { useAtom } from "jotai";
+import { searchAtom } from "../../utils/store";
 
-const placeholders = [...Array(12)];
+const placeholders = [...Array(15)];
+const filledPositions = [0, 2, 4, 5, 6, 8, 10, 12, 14];
 
 export const getServersideProps = async () => {
   return {
@@ -19,7 +22,7 @@ export const getServersideProps = async () => {
 };
 
 const Showcase: NextPage = () => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useAtom(searchAtom);
   const [parent] = useAutoAnimate<HTMLDivElement>();
 
   const { data, isLoading } = trpc.images.getImages.useQuery({
@@ -27,26 +30,6 @@ const Showcase: NextPage = () => {
     page_size: "9",
     search,
   });
-
-  const filledPositions = useMemo(() => {
-    const positions: number[] = [];
-
-    for (let i = 0; i < 9; i++) {
-      let pos = Math.floor(Math.random() * 15) + 1;
-
-      while (positions.includes(pos)) {
-        pos = Math.floor(Math.random() * 15) + 1;
-
-        if (!positions.includes(pos)) {
-          break;
-        }
-      }
-
-      positions.push(pos);
-    }
-
-    return positions;
-  }, []);
 
   const images = useMemo(() => {
     const images = [];
@@ -84,17 +67,19 @@ const Showcase: NextPage = () => {
   );
 
   const notFound = !isLoading && images.length == 0;
-  console.log("filledPositions", filledPositions);
+
   return (
     <Layout isDark>
       <NextSeo
         title="Summon AI - Showcase"
-        description="Summon AI is a Figma plugin that uses AI to generate imagery for your designs."
+        description="Looking for unique, AI generated imagery? Look no further than Summon AI! Our directory is powered by a free and open-source Figma plugin, making it easy to access a limitless supply of professional-grade visuals. Boost your design skills with Summon AI today!"
       />
       <BackButton href="/" label="home" className="mt-8" />
       <Input
         placeholder="Search by prompt contents"
-        className="mt-3"
+        className="mt-3 md:mt-6"
+        containerClassName="md:max-w-sm"
+        defaultValue={search}
         onChange={handleSearch}
         icon={<SearchIcon size={24} />}
       />
@@ -106,8 +91,10 @@ const Showcase: NextPage = () => {
       <div
         ref={parent}
         className={`grid ${
-          !notFound ? "grid-cols-3 grid-rows-5" : "place-content-center"
-        } my-5 gap-5`}
+          !notFound
+            ? "grid-cols-3 grid-rows-5 md:grid-cols-5 md:grid-rows-3"
+            : "place-content-center"
+        } my-5 gap-5 md:my-8`}
       >
         {isLoading &&
           placeholders.map((_, index) =>
@@ -124,11 +111,11 @@ const Showcase: NextPage = () => {
           images.map((image, index) =>
             image ? (
               <Link key={image.id} href={`/showcase/${image.id}`}>
-                <div className="relative h-full w-full overflow-hidden rounded">
+                <div className="relative w-full h-full overflow-hidden rounded">
                   <img
                     src={image.url}
                     alt={image.prompt}
-                    className="grayscale-0 transition-all duration-300 hover:grayscale"
+                    className="transition-all duration-300 grayscale-0 hover:grayscale"
                   />
                 </div>
               </Link>

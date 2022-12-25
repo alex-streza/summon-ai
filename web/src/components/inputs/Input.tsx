@@ -4,6 +4,7 @@ import { forwardRef, HTMLProps, ReactNode } from "react";
 export interface InputProps extends HTMLProps<HTMLInputElement> {
   error?: string;
   icon?: ReactNode;
+  containerClassName?: string;
   iconLeft?: boolean;
 }
 
@@ -11,7 +12,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const { label, error, className = "", iconLeft, icon, id, ...rest } = props;
 
   return (
-    <div className="relative flex flex-col">
+    <div className={`relative flex flex-col ${props.containerClassName ?? ""}`}>
       {label && (
         <Label.Root htmlFor={id} className="mb-2 text-gray-500">
           {label}

@@ -37,16 +37,30 @@ const Showcase: NextPage = () => {
     <Layout isDark>
       <NextSeo
         title={"Summon AI - " + (data?.prompt ?? "")}
-        description="Summon AI is a Figma plugin that uses AI to generate imagery for your designs."
+        description={data?.prompt ?? ""}
+        openGraph={{
+          images: [
+            {
+              url:
+                "https://staging.summon-ai.com/api/og?prompt=" +
+                data?.prompt +
+                "&url=" +
+                data?.url,
+              width: 1200,
+              height: 630,
+              alt: data?.prompt,
+            },
+          ],
+        }}
       />
       <BackButton href="/showcase" label="showcase" className="mt-8 mb-6" />
       <div ref={parent} className="flex flex-col items-center">
         {!isLoading && (
           <>
-            <div className="relative grid h-full w-full place-content-center overflow-hidden rounded">
+            <div className="relative grid w-full h-full overflow-hidden rounded place-content-center">
               {data && <img src={data?.url} alt={data?.prompt} />}
             </div>
-            <div className="mx-auto mt-8 flex gap-2 text-gray-300">
+            <div className="flex gap-2 mx-auto mt-8 text-gray-300">
               <svg
                 width="28"
                 height="28"

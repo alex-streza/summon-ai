@@ -9,7 +9,7 @@ export interface LayoutProps {
 
 export const Layout = ({ children, isDark }: LayoutProps) => {
   const className = isDark
-    ? "bg-gradient-to-br from-gray-900 to-gray-700"
+    ? "bg-gradient-to-br from-gray-900 to-gray-700 md:px-[180px]"
     : "bg-white";
 
   return (
@@ -17,7 +17,7 @@ export const Layout = ({ children, isDark }: LayoutProps) => {
       className={`${className} relative flex h-full min-h-screen flex-col overflow-hidden px-4 pt-6 md:px-[111px]`}
     >
       <DefaultSeo
-        description="Summon AI is a Figma plugin that uses AI to generate imagery for your designs."
+        description="Unlock the power of AI generated imagery with Summon AI, the premier directory powered by a free and open-source Figma plugin. Quickly generate professional-grade visuals for your projects and elevate your design skills"
         canonical="https://www.summon-ai.com"
         openGraph={{
           type: "website",

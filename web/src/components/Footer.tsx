@@ -15,7 +15,9 @@ const Footer = ({ className = "bg-white" }: FooterProps) => {
           <Link href="/showcase">Showcase</Link>
         </li>
         <li>
-          <a href="https://github.com/alex-streza/summon-ai">Figma</a>
+          <a href="https://www.figma.com/community/plugin/1172891596048319817">
+            Figma
+          </a>
         </li>
         <li>
           <span>Generator (Soon)</span>
