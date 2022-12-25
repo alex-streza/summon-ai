@@ -14,7 +14,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (data) {
     for (let i = 0; i < count; i++) {
       images.push({
-        loc: `${process.env.VERCEL_URL}/showcase/${i}`,
+        loc: `https://www.summon-ai.com/showcase/${i}`,
         lastmod: new Date().toISOString(),
       });
     }
