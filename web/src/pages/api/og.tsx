@@ -2,7 +2,7 @@ import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
 
 export const config = {
-  runtime: "edge",
+  runtime: "experimental-edge",
 };
 
 export default async function handler(req: NextRequest) {
@@ -35,7 +35,6 @@ export default async function handler(req: NextRequest) {
               borderRadius: 128,
             }}
           />
-          <p>{prompt}</p>
         </div>
       ),
       {

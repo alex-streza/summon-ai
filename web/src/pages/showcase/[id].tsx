@@ -23,9 +23,14 @@ const Showcase: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const { data, isLoading } = trpc.images.getImage.useQuery({
-    id: id as string,
-  });
+  const { data, isLoading } = trpc.images.getImage.useQuery(
+    {
+      id: id as string,
+    },
+    {
+      enabled: !!id,
+    }
+  );
 
   const handleCopy = useCallback(() => {
     setCopied(true);
