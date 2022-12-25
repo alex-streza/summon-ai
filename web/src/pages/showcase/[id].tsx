@@ -46,11 +46,7 @@ const Showcase: NextPage = () => {
         openGraph={{
           images: [
             {
-              url:
-                "https://staging.summon-ai.com/api/og?prompt=" +
-                data?.prompt +
-                "&url=" +
-                data?.url,
+              url: "/api/og?prompt=" + data?.prompt + "&url=" + data?.url,
               width: 1200,
               height: 630,
               alt: data?.prompt,
