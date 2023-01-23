@@ -250,11 +250,20 @@ export const images = router({
       const openjourneyModel = await replicate.models.get(
         "prompthero/openjourney"
       );
-      const predictions = await openjourneyModel.predict({
-        ...rest,
-        width,
-        height,
-      });
+      let predictions: string[] = [];
+
+      try {
+        predictions = await openjourneyModel.predict({
+          ...rest,
+          width,
+          height,
+        });
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Image could not be generated",
+        });
+      }
 
       return {
         predictions,

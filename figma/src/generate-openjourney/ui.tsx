@@ -71,6 +71,13 @@ const GenerateTab = ({ settings }: { settings: Settings }) => {
           });
         }
 
+        emit<GenerateHandler>(
+          "GENERATE",
+          prompt,
+          width + "x" + height,
+          images.map(({ uintArray }) => uintArray)
+        );
+
         if (settings.acceptSaveImage) {
           apiClient.uploadImages(
             images.map(({ uintArray, ...rest }) => ({ ...rest })),
@@ -78,17 +85,11 @@ const GenerateTab = ({ settings }: { settings: Settings }) => {
             prompt
           );
         }
-
-        emit<GenerateHandler>(
-          "GENERATE",
-          prompt,
-          width + "x" + height,
-          images.map(({ uintArray }) => uintArray)
-        );
       } catch (error: any) {
         emit<NotifyHandler>("NOTIFY", error.message);
         setError(error?.message);
       }
+      setLoading(false);
     }
   }, [count, prompt, width, height, settings.user, settings.acceptSaveImage]);
 
