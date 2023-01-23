@@ -1,5 +1,6 @@
 export const RESOLUTIONS = ["256x256", "512x512", "1024x1024"];
 export const RESOLUTIONS_NUMBER = [256, 512, 1024];
 
-//! FOR DEBUGGING ONLY
-export const OPENAI_API_KEY = null;
+export const MIDJOURNEY_OUTPUTS = [1, 4];
+export const MIDJOURNEY_WIDTHS = [128, 256, 512, 768, 1024];
+export const MIDJOURNEY_HEIGHTS = [128, 256, 512, 768, 1024];

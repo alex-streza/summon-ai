@@ -25,7 +25,7 @@ import { AboutTab } from "../components/AboutTab";
 import { DiscoverTab } from "../components/DiscoverTab";
 import { SettingsTab } from "../components/SettingsTab";
 import { SlideOver } from "../components/Transitions";
-import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
+import { RESOLUTIONS } from "../constants/config";
 import {
   ClearSettingsHandler,
   CloseHandler,
@@ -80,7 +80,7 @@ const GenerateTab = ({
       fetch("https://api.openai.com/v1/images/variations", {
         method: "POST",
         headers: {
-          Authorization: "Bearer " + (OPENAI_API_KEY ?? token),
+          Authorization: "Bearer " + token,
         },
         body: formData,
       })

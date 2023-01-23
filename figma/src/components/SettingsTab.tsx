@@ -53,7 +53,7 @@ export const SettingsTab = ({
         <h1 className="text-[28px] font-black leading-10">Settings</h1>
         <VerticalSpace space="medium" />
         <Text>
-          <Muted>Token</Muted>
+          <Muted>OpenAI Token</Muted>
         </Text>
         <VerticalSpace space="small" />
         <Textbox
@@ -64,7 +64,7 @@ export const SettingsTab = ({
         />
         <VerticalSpace space="extraSmall" />
         <Link href="https://openai.com/api/pricing/" target="_blank">
-          Get a DALL-E-2 token
+          Get an OpenAI DALL-E-2 token
         </Link>
         <VerticalSpace space="medium" />
         <Text>

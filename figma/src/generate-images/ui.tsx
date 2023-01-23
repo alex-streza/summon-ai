@@ -25,7 +25,7 @@ import { AboutTab } from "../components/AboutTab";
 import { DiscoverTab } from "../components/DiscoverTab";
 import { SettingsTab } from "../components/SettingsTab";
 import { SlideOver } from "../components/Transitions";
-import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
+import { RESOLUTIONS } from "../constants/config";
 import {
   ClearSettingsHandler,
   CloseHandler,
@@ -85,7 +85,7 @@ const GenerateTab = ({ settings }: { settings: Settings }) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + (OPENAI_API_KEY ?? token),
+            Authorization: "Bearer " + token,
           },
           body: JSON.stringify({
             prompt,

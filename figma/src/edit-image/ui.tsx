@@ -29,7 +29,7 @@ import { DiscoverTab } from "../components/DiscoverTab";
 import { Editor } from "../components/Editor";
 import { SettingsTab } from "../components/SettingsTab";
 import { FadeIn, SlideOver } from "../components/Transitions";
-import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
+import { RESOLUTIONS } from "../constants/config";
 import {
   ClearSettingsHandler,
   CloseHandler,
@@ -99,7 +99,7 @@ const GenerateTab = ({
       fetch("https://api.openai.com/v1/images/edits", {
         method: "POST",
         headers: {
-          Authorization: "Bearer " + (OPENAI_API_KEY ?? token),
+          Authorization: "Bearer " + token,
         },
         body: formData,
       })
@@ -169,13 +169,13 @@ const GenerateTab = ({
         new image, not just the erased area.
       </Text>
       <VerticalSpace space="extraLarge" />
-      <div className="flex w-full justify-between">
+      <div className="flex justify-between w-full">
         <Text as="span">Edit resolution: {RESOLUTION}</Text>
         <Text as="span">Output resolution: {RESOLUTIONS[2]}</Text>
       </div>
       <VerticalSpace space="small" />
       <div
-        className="relative overflow-hidden rounded border border-gray-500"
+        className="relative overflow-hidden border border-gray-500 rounded"
         style={{
           width: size,
           height: size,
@@ -202,7 +202,7 @@ const GenerateTab = ({
                 border: "none !important",
               }}
             />
-            <div className="absolute bottom-3 right-3 flex gap-3">
+            <div className="absolute flex gap-3 bottom-3 right-3">
               <button
                 className="btn secondary"
                 onClick={() => {

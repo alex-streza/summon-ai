@@ -84,4 +84,21 @@ export const apiClient = {
       .then((res) => res.json())
       .then((data) => console.log(data));
   },
+  generateOpenjourney: async (body: {
+    prompt?: string;
+    width?: number;
+    height?: number;
+    num_outputs?: number;
+  }) => {
+    const res = await fetch(`${API_URL}/images/openjourney`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json();
+
+    return data;
+  },
 };

@@ -1,9 +1,19 @@
 import { TRPCError } from "@trpc/server";
+import Replicate from "replicate-js";
 import { z } from "zod";
 import { cloudflare } from "../../../utils/client";
 import { supabase, getPagination } from "../../../utils/supabase";
 
 import { publicProcedure, router } from "../trpc";
+
+const replicate = new Replicate({ token: process.env.REPLICATE_API_KEY });
+
+const sizeSchema = z
+  .literal(128)
+  .or(z.literal(256))
+  .or(z.literal(512))
+  .or(z.literal(768))
+  .or(z.literal(1024));
 
 export const images = router({
   getImages: publicProcedure
@@ -220,5 +230,34 @@ export const images = router({
       }
 
       return;
+    }),
+  generateOpenjourneyImage: publicProcedure
+    .meta({ openapi: { method: "POST", path: "/images/openjourney" } })
+    .input(
+      z.object({
+        width: sizeSchema,
+        height: sizeSchema,
+        num_outputs: z.literal(1).or(z.literal(4)),
+        prompt: z.string(),
+      })
+    )
+    .output(
+      z.object({
+        predictions: z.array(z.string()),
+      })
+    )
+    .mutation(async ({ input: { width, height, ...rest } }) => {
+      const openjourneyModel = await replicate.models.get(
+        "prompthero/openjourney"
+      );
+      const predictions = await openjourneyModel.predict({
+        ...rest,
+        width,
+        height,
+      });
+
+      return {
+        predictions,
+      };
     }),
 });
