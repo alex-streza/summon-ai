@@ -20,6 +20,17 @@ export const urlToBlob = async (url: string) => {
   return blob;
 };
 
+export const fileToBase64 = async (file: File) => {
+  return new Promise<string>((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      const base64data = reader.result as string;
+      resolve(base64data);
+    };
+  });
+};
+
 export const urlToBase64 = async (url: string) => {
   const data = await fetch(url);
   const blob = await data.blob();
@@ -34,11 +45,15 @@ export const urlToBase64 = async (url: string) => {
   });
 };
 
-export const getImagePaint = (node: any, size?: number) => {
+export const getImagePaint = (
+  node: any,
+  size?: number,
+  ignoreSize?: boolean
+) => {
   const paint = (node.fills as ImagePaint[])[0];
   if (
     (!size || (size == node.width && size == node.height)) &&
-    node.width === node.height &&
+    (node.width === node.height || ignoreSize) &&
     paint.type === "IMAGE" &&
     paint.scaleMode === "FILL" &&
     paint.imageHash
@@ -47,7 +62,7 @@ export const getImagePaint = (node: any, size?: number) => {
   }
 };
 
-export const convertToBytes = async (node: SceneNode) => {
+export const convertToBytes = async (node: SceneNode, ignoreSize?: boolean) => {
   // Look for fills on node types that have fills.
   // An alternative would be to do `if ('fills' in node) { ... }
   switch (node.type) {
@@ -57,7 +72,7 @@ export const convertToBytes = async (node: SceneNode) => {
     case "STAR":
     case "VECTOR":
     case "TEXT": {
-      const paint = getImagePaint(node);
+      const paint = getImagePaint(node, undefined, ignoreSize);
       if (paint && paint.imageHash) {
         const image = figma.getImageByHash(paint.imageHash);
 

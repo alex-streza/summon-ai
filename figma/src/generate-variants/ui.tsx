@@ -113,7 +113,8 @@ const GenerateTab = ({
             if (settings.acceptSaveImage) {
               apiClient.uploadImages(
                 images.map(({ uintArray, ...rest }) => ({ ...rest })),
-                user
+                user,
+                "dall-e-2-variant"
               );
             }
 

@@ -125,6 +125,7 @@ const GenerateTab = ({ settings }: { settings: Settings }) => {
                 apiClient.uploadImages(
                   images.map(({ uintArray, ...rest }) => ({ ...rest })),
                   user,
+                  "dall-e-2-generation",
                   prompt
                 );
               }

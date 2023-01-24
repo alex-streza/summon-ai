@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import Replicate from "replicate-js";
 import { z } from "zod";
 import { cloudflare } from "../../../utils/client";
-import { supabase, getPagination } from "../../../utils/supabase";
+import { getPagination, supabase } from "../../../utils/supabase";
 
 import { publicProcedure, router } from "../trpc";
 
@@ -14,6 +14,15 @@ const sizeSchema = z
   .or(z.literal(512))
   .or(z.literal(768))
   .or(z.literal(1024));
+
+const typeSchema = z.enum([
+  "dall-e-2-generation",
+  "dall-e-2-variant",
+  "dall-e-2-edit",
+  "openjourney-generation",
+  "restored",
+  "upscaled",
+]);
 
 export const images = router({
   getImages: publicProcedure
@@ -80,7 +89,7 @@ export const images = router({
           cause: error ?? countError,
         });
       }
-      console.log("data", data);
+
       // TODO: Get supabase types
       return {
         images: data.map(({ figma_users, ...image }) => ({
@@ -172,6 +181,7 @@ export const images = router({
       z.object({
         image_urls: z.string().array(),
         prompt: z.string(),
+        type: typeSchema,
         user: z.object({
           id: z.string(),
           name: z.string(),
@@ -217,6 +227,7 @@ export const images = router({
         image_urls.map((url) => ({
           url,
           prompt,
+          type: input.type,
           figma_user_id: user.id,
         }))
       );
@@ -267,6 +278,72 @@ export const images = router({
 
       return {
         predictions,
+      };
+    }),
+  restoreImage: publicProcedure
+    .meta({ openapi: { method: "POST", path: "/images/restore" } })
+    .input(
+      z.object({
+        img: z.string(),
+        scale: z.number().min(1).max(10),
+        version: z.enum(["v1.2", "v1.3", "v1.4", "RestoreFormer"]),
+      })
+    )
+    .output(
+      z.object({
+        prediction: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      let prediction = "";
+
+      const restoreModel = await replicate.models.get("tencentarc/gfpgan");
+
+      try {
+        prediction = (await restoreModel.predict(input)) ?? "";
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Image could not be restored",
+        });
+      }
+
+      return {
+        prediction,
+      };
+    }),
+  upscaleImage: publicProcedure
+    .meta({ openapi: { method: "POST", path: "/images/upscale" } })
+    .input(
+      z.object({
+        image: z.string(),
+        scale: z.number().min(1).max(10),
+        face_enhance: z.boolean(),
+      })
+    )
+    .output(
+      z.object({
+        prediction: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      let prediction = "";
+
+      const upscaleModel = await replicate.models.get(
+        "nightmareai/real-esrgan"
+      );
+
+      try {
+        prediction = (await upscaleModel.predict(input)) ?? "";
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Image could not be upscaled",
+        });
+      }
+
+      return {
+        prediction,
       };
     }),
 });

@@ -64,9 +64,9 @@
       },
       "-",
       {
-        "name": "OpenJourney - Generate Images",
-        "main": "src/generate-openjourney/main.ts",
-        "ui": "src/generate-openjourney/ui.tsx"
+        "name": "PRO⭐",
+        "main": "src/pro/main.ts",
+        "ui": "src/pro/ui.tsx"
       }
     ]
   }

@@ -126,6 +126,7 @@ const GenerateTab = ({
                   },
                 ],
                 user,
+                "dall-e-2-edit",
                 prompt
               );
             }

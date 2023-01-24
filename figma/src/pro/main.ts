@@ -3,8 +3,10 @@ import {
   emit,
   saveSettingsAsync,
   showUI,
+  loadSettingsAsync,
 } from "@create-figma-plugin/utilities";
-import { LoadSettingsHandler } from "../types";
+import { LoadSettingsHandler, SelectImageHandler } from "../types";
+import { convertToBytes } from "../utils/image";
 import { pasteImages } from "../utils/pasteImages";
 import registerCommonEvents from "../utils/registerCommonEvents";
 
@@ -26,6 +28,20 @@ export default function () {
       figma.notify("🎉 Generated " + images.length + " images! 🎉");
     });
   });
+
+  let selection = figma.currentPage.selection[0];
+
+  setInterval(() => {
+    const currentSelection = figma.currentPage.selection[0];
+    if (currentSelection && currentSelection.id !== selection?.id) {
+      selection = currentSelection;
+      convertToBytes(selection, true).then((image) => {
+        if (image) {
+          emit<SelectImageHandler>("SELECT_IMAGE", figma.base64Encode(image));
+        }
+      });
+    }
+  }, 500);
 
   registerCommonEvents();
 

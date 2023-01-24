@@ -1,3 +1,5 @@
+import { File } from "formdata-node";
+
 export const urltoFile = (url: string, filename: string, mimeType: string) => {
   return fetch(url)
     .then(function (res) {
