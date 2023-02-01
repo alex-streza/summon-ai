@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@formkit/auto-animate": "1.0.0-beta.5",
+    "@next-auth/supabase-adapter": "^0.2.1",
     "@next/font": "^13.0.6",
     "@primer/octicons-react": "^17.9.0",
     "@primer/react": "^35.16.0",
@@ -27,6 +28,7 @@
     "formdata-node": "^5.0.0",
     "got": "^12.5.3",
     "jotai": "^1.12.0",
+    "jsonwebtoken": "^9.0.0",
     "next": "13.0.2",
     "next-auth": "4.17.0",
     "next-axiom": "^0.16.0",
@@ -42,6 +44,7 @@
     "zod": "^3.18.0"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "^18.0.0",
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",

@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import Replicate from "replicate-js";
 import { z } from "zod";
 import { cloudflare } from "../../../utils/client";
-import { getPagination, supabase } from "../../../utils/supabase";
+import { getPagination } from "../../../utils/supabase";
 
 import { publicProcedure, router } from "../trpc";
 
@@ -56,7 +56,7 @@ export const images = router({
       const pageSize = parseInt(input.page_size ?? "9");
 
       const { from, to } = getPagination(page, pageSize);
-      let query = supabase
+      let query = ctx.supabase
         .from("images")
         .select(
           "id, url, prompt, figma_user_id, created_at, figma_users:figma_user_id (name, avatar_url)"
@@ -71,7 +71,7 @@ export const images = router({
         .order("created_at", { ascending: false })
         .range(from, to);
 
-      let countQuery = supabase
+      let countQuery = ctx.supabase
         .from("images")
         .select("id", { count: "exact" })
         .ilike("prompt", "*" + (input.search ?? "") + "*");
@@ -118,7 +118,7 @@ export const images = router({
       })
     )
     .query(async ({ ctx, input }) => {
-      const { data, error } = await supabase
+      const { data, error } = await ctx.supabase
         .from("images")
         .select(
           "id, url, prompt, figma_user_id, created_at, figma_users:figma_user_id (name, avatar_url)"
@@ -190,7 +190,7 @@ export const images = router({
       })
     )
     .output(z.void())
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       const {
         image_urls,
         prompt,
@@ -204,13 +204,13 @@ export const images = router({
         });
       }
 
-      const { data: userExists } = await supabase
+      const { data: userExists } = await ctx.supabase
         .from("figma_users")
         .select("*")
         .eq("id", user.id);
 
       if (!userExists?.length) {
-        const { error: userError } = await supabase
+        const { error: userError } = await ctx.supabase
           .from("figma_users")
           .insert({ ...user, avatar_url: photoUrl });
 
@@ -223,7 +223,7 @@ export const images = router({
         }
       }
 
-      const { error } = await supabase.from("images").insert(
+      const { error } = await ctx.supabase.from("images").insert(
         image_urls.map((url) => ({
           url,
           prompt,

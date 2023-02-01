@@ -1,11 +1,12 @@
 import { generateOpenApiDocument } from "trpc-openapi";
 import { env } from "../../../env/server.mjs";
 import { router } from "../trpc";
+import { authRouter } from "./auth";
 import { images } from "./images";
 
 export const appRouter = router({
   images: images,
-  // auth: authRouter,
+  auth: authRouter,
 });
 
 export const openApiDocument = generateOpenApiDocument(appRouter, {

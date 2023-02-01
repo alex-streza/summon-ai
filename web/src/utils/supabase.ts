@@ -8,7 +8,15 @@ export const getPagination = (page: number, size: number) => {
   return { from, to };
 };
 
-export const supabase = createClient(
-  process.env.SUPABASE_API_URL ?? "",
-  process.env.SUPABASE_API_KEY ?? ""
-);
+export const supabaseClient = (supabaseAccessToken?: string) =>
+  createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ""
+    // {
+    //   global: {
+    //     headers: {
+    //       Authorization: `Bearer ${supabaseAccessToken}`,
+    //     },
+    //   },
+    // }
+  );
