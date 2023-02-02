@@ -12,11 +12,11 @@ const Footer = ({ className = "bg-white" }: FooterProps) => {
     >
       <a
         className="hidden md:block"
-        href="https://www.producthunt.com/posts/summon-ai?utm_source=badge-top-post-topic-badge&utm_medium=badge&utm_souce=badge-summon&#0045;ai"
+        href="https://www.producthunt.com/posts/summon-ai?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-summon&#0045;ai"
         target="_blank"
       >
         <img
-          src="https://api.producthunt.com/widgets/embed-image/v1/top-post-topic-badge.svg?post_id=366943&theme=dark&period=weekly&topic=Artificial Intelligence"
+          src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=366943&theme=dark"
           alt="Summon&#0046;AI - Generate&#0032;beautiful&#0032;images&#0032;with&#0032;DALL&#0045;E&#0045;2&#0032;in&#0032;Figma | Product Hunt"
           width="250"
           height="54"
