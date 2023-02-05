@@ -1,9 +1,9 @@
 import { getServerSideSitemap } from "next-sitemap";
 import { GetServerSideProps } from "next";
-import { supabaseClient } from "../../utils/supabase";
+import { getServiceSupabaseClient } from "../../utils/supabase";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const data = await supabaseClient()
+  const data = await getServiceSupabaseClient()
     .from("images")
     .select("id", { count: "exact" });
   const count = data?.count ?? 0;

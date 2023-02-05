@@ -39,7 +39,8 @@ export default function () {
     emit<LoadSettingsHandler>("LOAD_SETTINGS", {
       user: figma.currentUser,
       acceptSaveImage: false,
-      token: undefined,
+      openAIToken: undefined,
+      summonAIToken: undefined,
     });
 
     figma.notify("Settings cleared!");

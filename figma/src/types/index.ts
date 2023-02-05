@@ -1,13 +1,15 @@
 import { EventHandler } from "@create-figma-plugin/utilities";
 
 export type Settings = {
-  token?: string;
+  openAIToken?: string;
+  summonAIToken?: string;
   acceptSaveImage?: boolean;
   user?: User | null;
 } & Record<string, unknown>;
 
 export type WriteSettings = {
-  token?: string;
+  openAIToken?: string;
+  summonAIToken?: string;
   acceptSaveImage?: boolean;
 };
 

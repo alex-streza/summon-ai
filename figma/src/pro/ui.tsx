@@ -1,11 +1,14 @@
 import {
+  Banner,
   Button,
   Checkbox,
   Columns,
   Container,
   Dropdown,
   FileUploadDropzone,
+  IconInfo32,
   IconTrash32,
+  Link,
   LoadingIndicator,
   Muted,
   render,
@@ -46,7 +49,12 @@ import {
 } from "../utils/image";
 import { GenerateHandler } from "./types";
 
-const GenerateTab = ({ settings }: { settings: Settings }) => {
+interface TabProps {
+  settings: Settings;
+  hasToken: boolean;
+}
+
+const GenerateTab = ({ settings, hasToken }: TabProps) => {
   const [count, setCount] = useState<number | null>(1);
   const [width, setWidth] = useState(MIDJOURNEY_WIDTHS[2]);
   const [height, setHeight] = useState(MIDJOURNEY_HEIGHTS[2]);
@@ -56,17 +64,23 @@ const GenerateTab = ({ settings }: { settings: Settings }) => {
 
   const handleGenerateButtonClick = useCallback(async () => {
     if (count !== null && prompt != null) {
+      setError("");
       setLoading(true);
 
       const { color, sessionId, ...user } = settings.user as User;
 
       try {
-        const { predictions } = await apiClient.generateOpenjourney({
+        const { predictions, message } = await apiClient.generateOpenjourney({
           prompt,
           width,
           height,
           num_outputs: count,
+          token: settings.summonAIToken,
         });
+
+        if (!predictions && message) {
+          throw new Error(message);
+        }
 
         const images: {
           b64: string;
@@ -107,7 +121,15 @@ const GenerateTab = ({ settings }: { settings: Settings }) => {
       }
       setLoading(false);
     }
-  }, [count, prompt, width, height, settings.user, settings.acceptSaveImage]);
+  }, [
+    count,
+    prompt,
+    width,
+    height,
+    settings.user,
+    settings.acceptSaveImage,
+    settings.summonAIToken,
+  ]);
 
   const handleCloseButtonClick = useCallback(function () {
     emit<CloseHandler>("CLOSE");
@@ -195,11 +217,13 @@ const GenerateTab = ({ settings }: { settings: Settings }) => {
           <Button
             fullWidth
             onClick={handleGenerateButtonClick}
-            disabled={loading || !prompt || !count}
+            disabled={loading || !prompt || !count || !hasToken}
           >
             {loading && <LoadingIndicator color="disabled" />}
             {!loading &&
+              hasToken &&
               "Generate " + (count && count > 1 ? `${count} images` : "image")}
+            {!hasToken && "Missing token"}
           </Button>
           <Button fullWidth onClick={handleCloseButtonClick} secondary>
             Close
@@ -216,11 +240,11 @@ const RestoreTab = ({
   image,
   setImage,
   settings,
+  hasToken,
 }: {
-  settings: Settings;
   image: string;
   setImage: (image: string) => void;
-}) => {
+} & TabProps) => {
   const [version, setVersion] = useState(RESTORE_VERSIONS[2]);
   const [scale, setScale] = useState(2);
   const [loading, setLoading] = useState(false);
@@ -228,15 +252,20 @@ const RestoreTab = ({
 
   const handleRestoreButtonClick = useCallback(async () => {
     setLoading(true);
+    setError("");
 
     const { color, sessionId, ...user } = settings.user as User;
 
     try {
-      const { prediction } = await apiClient.restoreImage({
+      const { prediction, message } = await apiClient.restoreImage({
         img: image,
         version,
         scale,
       });
+
+      if (!prediction && message) {
+        throw new Error(message);
+      }
 
       const images: {
         b64: string;
@@ -377,7 +406,8 @@ const RestoreTab = ({
             disabled={loading || !prompt}
           >
             {loading && <LoadingIndicator color="disabled" />}
-            {!loading && "Restore"}
+            {!loading && hasToken && "Restore"}
+            {!hasToken && "Missing token"}
           </Button>
           <Button fullWidth onClick={handleCloseButtonClick} secondary>
             Close
@@ -392,27 +422,32 @@ const UpscaleTab = ({
   image,
   setImage,
   settings,
+  hasToken,
 }: {
-  settings: Settings;
   image: string;
   setImage: (image: string) => void;
-}) => {
+} & TabProps) => {
   const [scale, setScale] = useState(8);
   const [faceEnhance, setFaceEnhance] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleRestoreButtonClick = useCallback(async () => {
+  const handleUpscaleButtonClick = useCallback(async () => {
     setLoading(true);
+    setError("");
 
     const { color, sessionId, ...user } = settings.user as User;
 
     try {
-      const { prediction } = await apiClient.upscaleImage({
+      const { prediction, message } = await apiClient.upscaleImage({
         image,
         face_enhance: faceEnhance,
         scale,
       });
+
+      if (!prediction && message) {
+        throw new Error(message);
+      }
 
       const images: {
         b64: string;
@@ -558,11 +593,12 @@ const UpscaleTab = ({
         <Columns space="extraSmall">
           <Button
             fullWidth
-            onClick={handleRestoreButtonClick}
+            onClick={handleUpscaleButtonClick}
             disabled={loading || !prompt}
           >
             {loading && <LoadingIndicator color="disabled" />}
-            {!loading && "Upscale"}
+            {!loading && hasToken && "Upscale"}
+            {!hasToken && "Missing token"}
           </Button>
           <Button fullWidth onClick={handleCloseButtonClick} secondary>
             Close
@@ -585,18 +621,21 @@ function Plugin() {
   }, []);
 
   useEffect(() => {
-    return on("LOAD_SETTINGS", (newSettings) => {
+    return on("LOAD_SETTINGS", (newSettings) =>
+      setSettings({
+        ...settings,
+        ...newSettings,
+      })
+    );
+  }, [settings]);
+
+  const handleSaveSettings = useCallback(
+    (newSettings: WriteSettings) => {
+      emit<SaveSettingsHandler>("SAVE_SETTINGS", newSettings);
       setSettings({
         ...settings,
         ...newSettings,
       });
-    });
-  }, [settings]);
-
-  const handleSaveSettings = useCallback(
-    ({ token, acceptSaveImage }: WriteSettings) => {
-      emit<SaveSettingsHandler>("SAVE_SETTINGS", { token, acceptSaveImage });
-      setSettings({ ...settings, token, acceptSaveImage });
     },
     [settings]
   );
@@ -606,15 +645,30 @@ function Plugin() {
     setSettings({ ...settings, token: undefined });
   }, [settings]);
 
+  const hasToken = !(settings.user && !settings.summonAIToken);
+
   return (
     <Container space="medium">
+      {!hasToken && (
+        <Fragment>
+          <VerticalSpace space="medium" />
+          <Banner icon={<IconInfo32 />}>
+            Howdy! Don't forget to add your{" "}
+            <Link href="https://www.summon-ai.com/auth/sign-in" target="_blank">
+              SummonAI token
+            </Link>{" "}
+            to settings to check out the new pro features.
+          </Banner>
+          <VerticalSpace space="medium" />
+        </Fragment>
+      )}
       <Tabs
         value={value}
         onValueChange={setValue}
         options={[
           {
             value: "🖼️ Generate",
-            children: <GenerateTab settings={settings} />,
+            children: <GenerateTab settings={settings} hasToken={hasToken} />,
           },
           {
             value: "📷 Restore",
@@ -623,6 +677,7 @@ function Plugin() {
                 image={image}
                 settings={settings}
                 setImage={setImage}
+                hasToken={hasToken}
               />
             ),
           },
@@ -633,6 +688,7 @@ function Plugin() {
                 image={image}
                 settings={settings}
                 setImage={setImage}
+                hasToken={hasToken}
               />
             ),
           },
@@ -644,8 +700,7 @@ function Plugin() {
             value: "Settings",
             children: (
               <SettingsTab
-                token={settings.token}
-                acceptSaveImage={settings.acceptSaveImage}
+                {...settings}
                 onSaveSettings={handleSaveSettings}
                 onClearSettings={handleClearSettings}
               />

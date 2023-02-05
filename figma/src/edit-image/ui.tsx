@@ -29,7 +29,6 @@ import { DiscoverTab } from "../components/DiscoverTab";
 import { Editor } from "../components/Editor";
 import { SettingsTab } from "../components/SettingsTab";
 import { FadeIn, SlideOver } from "../components/Transitions";
-import { RESOLUTIONS } from "../constants/config";
 import {
   ClearSettingsHandler,
   CloseHandler,
@@ -42,6 +41,7 @@ import {
 import { apiClient } from "../utils/api";
 import { convertDataURIToBinary, urltoFile } from "../utils/image";
 import { fadeInProps } from "../utils/transitions";
+import { RESOLUTIONS } from "../constants/config";
 
 const RESOLUTION = RESOLUTIONS[1];
 
@@ -68,10 +68,10 @@ const GenerateTab = ({
   const [brushSize, setBrushSize] = useState(75);
 
   useEffect(() => {
-    if (settings.token) {
-      setToken(settings.token);
+    if (settings.openAIToken) {
+      setToken(settings.openAIToken);
     }
-    setTokenExists(!!settings.token);
+    setTokenExists(!!settings.openAIToken);
   }, [settings]);
 
   const handleEdit = useCallback(async () => {
@@ -321,16 +321,19 @@ function Plugin(data: unknown) {
   }, [settings]);
 
   const handleSaveSettings = useCallback(
-    ({ token, acceptSaveImage }: WriteSettings) => {
-      emit<SaveSettingsHandler>("SAVE_SETTINGS", { token, acceptSaveImage });
-      setSettings({ ...settings, token, acceptSaveImage });
+    (newSettings: WriteSettings) => {
+      emit<SaveSettingsHandler>("SAVE_SETTINGS", newSettings);
+      setSettings({
+        ...settings,
+        ...newSettings,
+      });
     },
     [settings]
   );
 
   const handleClearSettings = useCallback(() => {
     emit<ClearSettingsHandler>("CLEAR_SETTINGS");
-    setSettings({ ...settings, token: undefined });
+    setSettings({ ...settings, openAIToken: undefined });
   }, [settings]);
 
   return (
@@ -359,8 +362,7 @@ function Plugin(data: unknown) {
             value: "Settings",
             children: (
               <SettingsTab
-                token={settings.token}
-                acceptSaveImage={settings.acceptSaveImage}
+                {...settings}
                 onSaveSettings={handleSaveSettings}
                 onClearSettings={handleClearSettings}
               />

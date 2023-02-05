@@ -4,7 +4,7 @@ import { z } from "zod";
 import { cloudflare } from "../../../utils/client";
 import { getPagination } from "../../../utils/supabase";
 
-import { publicProcedure, router } from "../trpc";
+import { publicProcedure, router, tokenProcedure } from "../trpc";
 
 const replicate = new Replicate({ token: process.env.REPLICATE_API_KEY });
 
@@ -83,6 +83,7 @@ export const images = router({
       const { count, error: countError } = await countQuery;
 
       if (error || countError) {
+        console.log("error ?? countError", error);
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Images could not be retrieved",
@@ -90,12 +91,11 @@ export const images = router({
         });
       }
 
-      // TODO: Get supabase types
       return {
         images: data.map(({ figma_users, ...image }) => ({
           ...image,
           ...figma_users,
-        })) as any,
+        })),
         count: count ?? 0,
       };
     }),
@@ -242,7 +242,7 @@ export const images = router({
 
       return;
     }),
-  generateOpenjourneyImage: publicProcedure
+  generateOpenjourneyImage: tokenProcedure
     .meta({ openapi: { method: "POST", path: "/images/openjourney" } })
     .input(
       z.object({
@@ -257,7 +257,7 @@ export const images = router({
         predictions: z.array(z.string()),
       })
     )
-    .mutation(async ({ input: { width, height, ...rest } }) => {
+    .mutation(async ({ input: { width, height, ...rest }, ctx }) => {
       const openjourneyModel = await replicate.models.get(
         "prompthero/openjourney"
       );
@@ -276,11 +276,28 @@ export const images = router({
         });
       }
 
+      if (ctx.session.user.id) {
+        const { data, error } = await ctx.supabase.rpc("increment_stats", {
+          table_name: "stats",
+          user_id: ctx.session.user.id,
+          field_name: "openjourney",
+          x: 1,
+        });
+
+        if (error) {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Stats could not be incremented",
+            cause: error,
+          });
+        }
+      }
+
       return {
         predictions,
       };
     }),
-  restoreImage: publicProcedure
+  restoreImage: tokenProcedure
     .meta({ openapi: { method: "POST", path: "/images/restore" } })
     .input(
       z.object({
@@ -294,7 +311,7 @@ export const images = router({
         prediction: z.string(),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       let prediction = "";
 
       const restoreModel = await replicate.models.get("tencentarc/gfpgan");
@@ -308,11 +325,28 @@ export const images = router({
         });
       }
 
+      if (ctx.session.user.id) {
+        const { data, error } = await ctx.supabase.rpc("increment_stats", {
+          table_name: "stats",
+          user_id: ctx.session.user.id,
+          field_name: "restore",
+          x: 1,
+        });
+
+        if (error) {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Stats could not be incremented",
+            cause: error,
+          });
+        }
+      }
+
       return {
         prediction,
       };
     }),
-  upscaleImage: publicProcedure
+  upscaleImage: tokenProcedure
     .meta({ openapi: { method: "POST", path: "/images/upscale" } })
     .input(
       z.object({
@@ -326,7 +360,7 @@ export const images = router({
         prediction: z.string(),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       let prediction = "";
 
       const upscaleModel = await replicate.models.get(
@@ -340,6 +374,23 @@ export const images = router({
           code: "INTERNAL_SERVER_ERROR",
           message: "Image could not be upscaled",
         });
+      }
+
+      if (ctx.session.user.id) {
+        const { data, error } = await ctx.supabase.rpc("increment_stats", {
+          table_name: "stats",
+          user_id: ctx.session.user.id,
+          field_name: "upscale",
+          x: 1,
+        });
+
+        if (error) {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Stats could not be incremented",
+            cause: error,
+          });
+        }
       }
 
       return {

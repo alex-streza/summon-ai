@@ -91,16 +91,21 @@ export const apiClient = {
       .then((res) => res.json())
       .then((data) => console.log(data));
   },
-  generateOpenjourney: async (body: {
+  generateOpenjourney: async ({
+    token,
+    ...body
+  }: {
     prompt?: string;
     width?: number;
     height?: number;
     num_outputs?: number;
+    token?: string;
   }) => {
     const res = await fetch(`${API_URL}/images/openjourney`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: token || "",
       },
       body: JSON.stringify(body),
     });

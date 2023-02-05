@@ -6,6 +6,10 @@
   * {
     @apply font-sans;
   }
+
+  body {
+    @apply scrollbar-thin scrollbar-track-gray-800 scrollbar-thumb-gray-500;
+  }
 }
 
 .not-found {

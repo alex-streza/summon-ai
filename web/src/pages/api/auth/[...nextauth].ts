@@ -17,6 +17,7 @@ export const authOptions: NextAuthOptions = {
           role: "authenticated",
         };
         session.supabaseAccessToken = jwt.sign(payload, signingSecret);
+        session.user = user;
       }
       return session;
     },

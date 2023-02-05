@@ -93,7 +93,7 @@ export const AboutTab = () => {
         <VerticalSpace space="extraLarge" />
         <Text>
           <Muted>
-            P.S. The token you use is not saved anywhere other than Figma's
+            P.S. The tokens you use are not saved anywhere other than Figma's
             local storage.
           </Muted>
         </Text>

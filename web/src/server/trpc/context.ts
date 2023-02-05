@@ -2,11 +2,12 @@ import { type inferAsyncReturnType } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { type Session } from "next-auth";
 
-import { SupabaseClient } from "@supabase/supabase-js";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { AxiomAPIRequest } from "next-axiom/dist/withAxiom";
-import { supabaseClient } from "../../utils/supabase";
+import { Database } from "../../types/supabase";
 import { getServerAuthSession } from "../common/get-server-auth-session";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { getSupabaseClient } from "../../utils/supabase";
 
 const isAxiomAPIRequest = (
   req?: NextApiRequest | AxiomAPIRequest
@@ -16,7 +17,7 @@ const isAxiomAPIRequest = (
 
 type CreateContextOptions = {
   session: Session | null;
-  supabase: SupabaseClient;
+  supabase: SupabaseClient<Database>;
   res: NextApiResponse;
   req: NextApiRequest | AxiomAPIRequest;
 };
@@ -41,6 +42,7 @@ export const createContextInner = async ({
     session: opts.session,
     supabase: opts.supabase,
     res: res,
+    req: req,
     log,
   };
 };
@@ -54,7 +56,7 @@ export const createContext = async (opts: CreateNextContextOptions) => {
 
   // Get the session from the server using the unstable_getServerSession wrapper function
   const session = await getServerAuthSession({ req, res });
-  const supabase = supabaseClient(session?.supabaseAccessToken);
+  const supabase = getSupabaseClient(session?.supabaseAccessToken);
 
   return await createContextInner({
     res: opts.res,
