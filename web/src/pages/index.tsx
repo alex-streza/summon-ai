@@ -12,22 +12,25 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
+type Row = Array<{ id: string; url: string }>;
+type Rows = Array<Row>;
+
 const Home: NextPage = () => {
   const imagesQuery = trpc.images.getImages.useQuery({
     page_size: "25",
   });
 
-  const rows = imagesQuery.isLoading
-    ? [[]]
+  const rows: Rows | undefined = imagesQuery.isLoading
+    ? ([[]] as Rows)
     : imagesQuery.data?.images.reduce((acc, image, index) => {
         const row = Math.floor(index / 5);
         if (!acc[row]) {
           acc[row] = [];
         }
-        acc[row].push(image);
+        acc[row]?.push({ id: image.id + "", url: image.url });
 
         return acc;
-      }, []);
+      }, [] as Rows);
 
   return (
     <Layout>
@@ -68,21 +71,22 @@ const Home: NextPage = () => {
           clipPath: "polygon(100% 0, 0% 100%, 100% 100%)",
         }}
       >
-        {rows.map((row, index) => (
-          <div key={index} className="flex">
-            {row.map((image) => (
-              <Link key={image.id} href={`/showcase/${image.id}`}>
-                <Image
-                  className="transition-all hover:grayscale"
-                  src={image.url}
-                  alt={image.id}
-                  width={128}
-                  height={128}
-                />
-              </Link>
-            ))}
-          </div>
-        ))}
+        {rows &&
+          rows.map((row, index) => (
+            <div key={index} className="flex">
+              {row.map((image) => (
+                <Link key={image.id} href={`/showcase/${image.id}`}>
+                  <Image
+                    className="transition-all hover:grayscale"
+                    src={image.url}
+                    alt={image.id}
+                    width={128}
+                    height={128}
+                  />
+                </Link>
+              ))}
+            </div>
+          ))}
       </div>
     </Layout>
   );
