@@ -25,7 +25,7 @@ import { AboutTab } from "../components/AboutTab";
 import { DiscoverTab } from "../components/DiscoverTab";
 import { SettingsTab } from "../components/SettingsTab";
 import { SlideOver } from "../components/Transitions";
-import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
+import { RESOLUTIONS } from "../constants/config";
 import {
   ClearSettingsHandler,
   CloseHandler,
@@ -54,10 +54,10 @@ const GenerateTab = ({
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (settings.token) {
-      setToken(settings.token);
+    if (settings.openAIToken) {
+      setToken(settings.openAIToken);
     }
-    setTokenExists(!!settings.token);
+    setTokenExists(!!settings.openAIToken);
   }, [settings]);
 
   const handleGenerateButtonClick = useCallback(async () => {
@@ -80,7 +80,7 @@ const GenerateTab = ({
       fetch("https://api.openai.com/v1/images/variations", {
         method: "POST",
         headers: {
-          Authorization: "Bearer " + (OPENAI_API_KEY ?? token),
+          Authorization: "Bearer " + token,
         },
         body: formData,
       })
@@ -113,7 +113,8 @@ const GenerateTab = ({
             if (settings.acceptSaveImage) {
               apiClient.uploadImages(
                 images.map(({ uintArray, ...rest }) => ({ ...rest })),
-                user
+                user,
+                "dall-e-2-variant"
               );
             }
 
@@ -244,16 +245,19 @@ function Plugin() {
   }, [settings]);
 
   const handleSaveSettings = useCallback(
-    ({ token, acceptSaveImage }: WriteSettings) => {
-      emit<SaveSettingsHandler>("SAVE_SETTINGS", { token, acceptSaveImage });
-      setSettings({ ...settings, token, acceptSaveImage });
+    (newSettings: WriteSettings) => {
+      emit<SaveSettingsHandler>("SAVE_SETTINGS", newSettings);
+      setSettings({
+        ...settings,
+        ...newSettings,
+      });
     },
     [settings]
   );
 
   const handleClearSettings = useCallback(() => {
     emit<ClearSettingsHandler>("CLEAR_SETTINGS");
-    setSettings({ ...settings, token: undefined });
+    setSettings({ ...settings, openAIToken: undefined });
   }, [settings]);
 
   return (
@@ -278,8 +282,7 @@ function Plugin() {
             value: "Settings",
             children: (
               <SettingsTab
-                token={settings.token}
-                acceptSaveImage={settings.acceptSaveImage}
+                {...settings}
                 onSaveSettings={handleSaveSettings}
                 onClearSettings={handleClearSettings}
               />

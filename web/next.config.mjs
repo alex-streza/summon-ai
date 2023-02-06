@@ -10,7 +10,7 @@ const config = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["imagedelivery.net"],
+    domains: ["imagedelivery.net", "replicate.delivery"],
   },
   i18n: {
     locales: ["en"],

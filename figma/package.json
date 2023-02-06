@@ -61,6 +61,12 @@
         "name": "Edit Image",
         "main": "src/edit-image/main.ts",
         "ui": "src/edit-image/ui.tsx"
+      },
+      "-",
+      {
+        "name": "PRO⭐",
+        "main": "src/pro/main.ts",
+        "ui": "src/pro/ui.tsx"
       }
     ]
   }

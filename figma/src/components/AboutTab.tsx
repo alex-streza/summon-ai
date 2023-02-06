@@ -24,10 +24,14 @@ export const AboutTab = () => {
         <h1 className="text-[28px] font-black leading-10">About Summon.AI</h1>
         <VerticalSpace space="medium" />
         <Text className="text-base font-medium leading-6" as={"p"}>
-          Summon.AI is an open-source AI design tool allowing you to generate
-          and edit beautiful images, powered by{" "}
+          Summon.AI is an open-source AI design toolkit allowing you to
+          generate, edit, restore and even upscale beautiful images, powered by{" "}
           <Link target="_blank" href="https://openai.com/dall-e-2/">
             DALL-E-2
+          </Link>{" "}
+          and{" "}
+          <Link target="_blank" href="https://replicate.com/">
+            Replicate APIs
           </Link>
           .
         </Text>
@@ -89,14 +93,15 @@ export const AboutTab = () => {
         <VerticalSpace space="extraLarge" />
         <Text>
           <Muted>
-            P.S. The token you use is not saved anywhere other than Figma's
+            P.S. The tokens you use are not saved anywhere other than Figma's
             local storage.
           </Muted>
         </Text>
         <VerticalSpace space="small" />
         <Text>
           <Muted>
-            P.S.S. You can disable image saving to database in the settings menu.
+            P.S.S. You can disable image saving to database in the settings
+            menu.
           </Muted>
         </Text>
       </Fragment>

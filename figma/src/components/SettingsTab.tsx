@@ -14,37 +14,49 @@ import { WriteSettings } from "../types";
 import { SlideOver } from "./Transitions";
 
 type SettingsTabProps = {
-  token?: string;
+  openAIToken?: string;
+  summonAIToken?: string;
   acceptSaveImage?: boolean;
   onSaveSettings: (settings: WriteSettings) => void;
   onClearSettings: () => void;
 };
 
 export const SettingsTab = ({
-  token: defaultToken,
+  openAIToken: defaultOpenAIToken,
+  summonAIToken: defaultSummonAIToken,
   acceptSaveImage: defaultAcceptSaveImage,
   onSaveSettings,
   onClearSettings,
 }: SettingsTabProps) => {
-  const [token, setToken] = useState("");
+  const [openAIToken, setOpenAIToken] = useState("");
+  const [summonAIToken, setSummonAIToken] = useState("");
   const [acceptSaveImage, setAcceptSaveImage] = useState(false);
 
   useEffect(() => {
-    setToken(defaultToken ?? "");
-  }, [defaultToken]);
+    setOpenAIToken(defaultOpenAIToken ?? "");
+    setSummonAIToken(defaultSummonAIToken ?? "");
+  }, [defaultOpenAIToken, defaultSummonAIToken]);
 
   useEffect(() => {
     setAcceptSaveImage(defaultAcceptSaveImage ?? false);
   }, [defaultAcceptSaveImage]);
 
   const handleSaveSettings = useCallback(() => {
-    onSaveSettings({ token, acceptSaveImage });
-  }, [token, acceptSaveImage]);
+    onSaveSettings({
+      openAIToken,
+      summonAIToken,
+      acceptSaveImage,
+    });
+  }, [openAIToken, summonAIToken, acceptSaveImage]);
 
   const handleToggleAcceptSaveImage = useCallback(() => {
     setAcceptSaveImage(!acceptSaveImage);
-    onSaveSettings({ token, acceptSaveImage: !acceptSaveImage });
-  }, [token, acceptSaveImage]);
+    onSaveSettings({
+      openAIToken,
+      summonAIToken,
+      acceptSaveImage: !acceptSaveImage,
+    });
+  }, [openAIToken, summonAIToken, acceptSaveImage]);
 
   return (
     <SlideOver show>
@@ -53,18 +65,33 @@ export const SettingsTab = ({
         <h1 className="text-[28px] font-black leading-10">Settings</h1>
         <VerticalSpace space="medium" />
         <Text>
-          <Muted>Token</Muted>
+          <Muted>SummonAI Token</Muted>
+        </Text>
+        <VerticalSpace space="small" />
+        <Textbox
+          placeholder="Paste secret SummonAI token"
+          onValueInput={setSummonAIToken}
+          value={summonAIToken}
+          variant="border"
+        />
+        <VerticalSpace space="extraSmall" />
+        <Link href="https://summon-ai.com/auth/sign-in" target="_blank">
+          Get a SummonAI token
+        </Link>
+        <VerticalSpace space="medium" />
+        <Text>
+          <Muted>OpenAI Token</Muted>
         </Text>
         <VerticalSpace space="small" />
         <Textbox
           placeholder="Paste secret DALL-E-2 token"
-          onValueInput={setToken}
-          value={token}
+          onValueInput={setOpenAIToken}
+          value={openAIToken}
           variant="border"
         />
         <VerticalSpace space="extraSmall" />
         <Link href="https://openai.com/api/pricing/" target="_blank">
-          Get a DALL-E-2 token
+          Get an OpenAI DALL-E-2 token
         </Link>
         <VerticalSpace space="medium" />
         <Text>
@@ -90,10 +117,19 @@ export const SettingsTab = ({
         </Text>
         <VerticalSpace space="large" />
         <Columns space="extraSmall">
-          <Button onClick={handleSaveSettings} disabled={!token} fullWidth>
+          <Button
+            onClick={handleSaveSettings}
+            disabled={!openAIToken && !summonAIToken}
+            fullWidth
+          >
             Save settings
           </Button>
-          <Button onClick={onClearSettings} disabled={!token} fullWidth danger>
+          <Button
+            onClick={onClearSettings}
+            disabled={!openAIToken && !summonAIToken}
+            fullWidth
+            danger
+          >
             Clear settings
           </Button>
         </Columns>

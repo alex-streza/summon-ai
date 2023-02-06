@@ -6,10 +6,11 @@ const button = cva("button", {
   variants: {
     intent: {
       primary: "bg-gray-800 border border-gray-700 text-gray-400",
+      text: "font-medium w-fit !px-0 !py-1",
       secondary: "bg-gray-500",
     },
     size: {
-      small: "px-2 py-1 text-sm",
+      small: "px-3 py-1.5 text-xs",
       medium: "px-6 py-3 text-base",
     },
     disabled: {
@@ -58,7 +59,7 @@ export const Button = ({
       {...props}
     >
       {!loading && children}
-      {loading && <Spinner />}
+      {loading && <Spinner isSmall={size === "small"} />}
     </button>
   );
 };

@@ -24,6 +24,8 @@ module.exports = {
         },
       },
       fontSize: {
+        xxs: "11px",
+        "6xl": "6.5rem",
         "7xl": "7.5rem",
         "8xl": "9.25rem",
       },
@@ -39,5 +41,5 @@ module.exports = {
     },
   },
   safelist: ["from-bg-gray-900", " to-bg-gray-700", "bg-gradient-to-br"],
-  plugins: [],
+  plugins: [require("tailwind-scrollbar")],
 };

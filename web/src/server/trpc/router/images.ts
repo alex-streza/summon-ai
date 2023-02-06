@@ -1,9 +1,28 @@
 import { TRPCError } from "@trpc/server";
+import Replicate from "replicate-js";
 import { z } from "zod";
 import { cloudflare } from "../../../utils/client";
-import { supabase, getPagination } from "../../../utils/supabase";
+import { getPagination } from "../../../utils/supabase";
 
-import { publicProcedure, router } from "../trpc";
+import { publicProcedure, router, tokenProcedure } from "../trpc";
+
+const replicate = new Replicate({ token: process.env.REPLICATE_API_KEY });
+
+const sizeSchema = z
+  .literal(128)
+  .or(z.literal(256))
+  .or(z.literal(512))
+  .or(z.literal(768))
+  .or(z.literal(1024));
+
+const typeSchema = z.enum([
+  "dall-e-2-generation",
+  "dall-e-2-variant",
+  "dall-e-2-edit",
+  "openjourney-generation",
+  "restored",
+  "upscaled",
+]);
 
 export const images = router({
   getImages: publicProcedure
@@ -37,7 +56,7 @@ export const images = router({
       const pageSize = parseInt(input.page_size ?? "9");
 
       const { from, to } = getPagination(page, pageSize);
-      let query = supabase
+      let query = ctx.supabase
         .from("images")
         .select(
           "id, url, prompt, figma_user_id, created_at, figma_users:figma_user_id (name, avatar_url)"
@@ -52,7 +71,7 @@ export const images = router({
         .order("created_at", { ascending: false })
         .range(from, to);
 
-      let countQuery = supabase
+      let countQuery = ctx.supabase
         .from("images")
         .select("id", { count: "exact" })
         .ilike("prompt", "*" + (input.search ?? "") + "*");
@@ -64,19 +83,24 @@ export const images = router({
       const { count, error: countError } = await countQuery;
 
       if (error || countError) {
+        console.log("error ?? countError", error);
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Images could not be retrieved",
           cause: error ?? countError,
         });
       }
-      console.log("data", data);
-      // TODO: Get supabase types
+
       return {
         images: data.map(({ figma_users, ...image }) => ({
           ...image,
-          ...figma_users,
-        })) as any,
+          prompt: image.prompt ?? "",
+          ...(figma_users as {
+            name: string;
+            avatar_url: string;
+            created_at: string;
+          }),
+        })),
         count: count ?? 0,
       };
     }),
@@ -99,7 +123,7 @@ export const images = router({
       })
     )
     .query(async ({ ctx, input }) => {
-      const { data, error } = await supabase
+      const { data, error } = await ctx.supabase
         .from("images")
         .select(
           "id, url, prompt, figma_user_id, created_at, figma_users:figma_user_id (name, avatar_url)"
@@ -162,6 +186,7 @@ export const images = router({
       z.object({
         image_urls: z.string().array(),
         prompt: z.string(),
+        type: typeSchema,
         user: z.object({
           id: z.string(),
           name: z.string(),
@@ -170,7 +195,7 @@ export const images = router({
       })
     )
     .output(z.void())
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       const {
         image_urls,
         prompt,
@@ -184,13 +209,13 @@ export const images = router({
         });
       }
 
-      const { data: userExists } = await supabase
+      const { data: userExists } = await ctx.supabase
         .from("figma_users")
         .select("*")
         .eq("id", user.id);
 
       if (!userExists?.length) {
-        const { error: userError } = await supabase
+        const { error: userError } = await ctx.supabase
           .from("figma_users")
           .insert({ ...user, avatar_url: photoUrl });
 
@@ -203,10 +228,11 @@ export const images = router({
         }
       }
 
-      const { error } = await supabase.from("images").insert(
+      const { error } = await ctx.supabase.from("images").insert(
         image_urls.map((url) => ({
           url,
           prompt,
+          type: input.type,
           figma_user_id: user.id,
         }))
       );
@@ -220,5 +246,160 @@ export const images = router({
       }
 
       return;
+    }),
+  generateOpenjourneyImage: tokenProcedure
+    .meta({ openapi: { method: "POST", path: "/images/openjourney" } })
+    .input(
+      z.object({
+        width: sizeSchema,
+        height: sizeSchema,
+        num_outputs: z.literal(1).or(z.literal(4)),
+        prompt: z.string(),
+      })
+    )
+    .output(
+      z.object({
+        predictions: z.array(z.string()),
+      })
+    )
+    .mutation(async ({ input: { width, height, ...rest }, ctx }) => {
+      const openjourneyModel = await replicate.models.get(
+        "prompthero/openjourney"
+      );
+      let predictions: string[] = [];
+
+      try {
+        predictions = await openjourneyModel.predict({
+          ...rest,
+          width,
+          height,
+        });
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Image could not be generated",
+        });
+      }
+
+      if (ctx.session.user.id) {
+        const { data, error } = await ctx.supabase.rpc("increment_stats", {
+          table_name: "stats",
+          user_id: ctx.session.user.id,
+          field_name: "openjourney",
+          x: 1,
+        });
+
+        if (error) {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Stats could not be incremented",
+            cause: error,
+          });
+        }
+      }
+
+      return {
+        predictions,
+      };
+    }),
+  restoreImage: tokenProcedure
+    .meta({ openapi: { method: "POST", path: "/images/restore" } })
+    .input(
+      z.object({
+        img: z.string(),
+        scale: z.number().min(1).max(10),
+        version: z.enum(["v1.2", "v1.3", "v1.4", "RestoreFormer"]),
+      })
+    )
+    .output(
+      z.object({
+        prediction: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      let prediction = "";
+
+      const restoreModel = await replicate.models.get("tencentarc/gfpgan");
+
+      try {
+        prediction = (await restoreModel.predict(input)) ?? "";
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Image could not be restored",
+        });
+      }
+
+      if (ctx.session.user.id) {
+        const { data, error } = await ctx.supabase.rpc("increment_stats", {
+          table_name: "stats",
+          user_id: ctx.session.user.id,
+          field_name: "restore",
+          x: 1,
+        });
+
+        if (error) {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Stats could not be incremented",
+            cause: error,
+          });
+        }
+      }
+
+      return {
+        prediction,
+      };
+    }),
+  upscaleImage: tokenProcedure
+    .meta({ openapi: { method: "POST", path: "/images/upscale" } })
+    .input(
+      z.object({
+        image: z.string(),
+        scale: z.number().min(1).max(10),
+        face_enhance: z.boolean(),
+      })
+    )
+    .output(
+      z.object({
+        prediction: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      let prediction = "";
+
+      const upscaleModel = await replicate.models.get(
+        "nightmareai/real-esrgan"
+      );
+
+      try {
+        prediction = (await upscaleModel.predict(input)) ?? "";
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Image could not be upscaled",
+        });
+      }
+
+      if (ctx.session.user.id) {
+        const { data, error } = await ctx.supabase.rpc("increment_stats", {
+          table_name: "stats",
+          user_id: ctx.session.user.id,
+          field_name: "upscale",
+          x: 1,
+        });
+
+        if (error) {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Stats could not be incremented",
+            cause: error,
+          });
+        }
+      }
+
+      return {
+        prediction,
+      };
     }),
 });

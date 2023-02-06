@@ -29,7 +29,6 @@ import { DiscoverTab } from "../components/DiscoverTab";
 import { Editor } from "../components/Editor";
 import { SettingsTab } from "../components/SettingsTab";
 import { FadeIn, SlideOver } from "../components/Transitions";
-import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
 import {
   ClearSettingsHandler,
   CloseHandler,
@@ -42,6 +41,7 @@ import {
 import { apiClient } from "../utils/api";
 import { convertDataURIToBinary, urltoFile } from "../utils/image";
 import { fadeInProps } from "../utils/transitions";
+import { RESOLUTIONS } from "../constants/config";
 
 const RESOLUTION = RESOLUTIONS[1];
 
@@ -68,10 +68,10 @@ const GenerateTab = ({
   const [brushSize, setBrushSize] = useState(75);
 
   useEffect(() => {
-    if (settings.token) {
-      setToken(settings.token);
+    if (settings.openAIToken) {
+      setToken(settings.openAIToken);
     }
-    setTokenExists(!!settings.token);
+    setTokenExists(!!settings.openAIToken);
   }, [settings]);
 
   const handleEdit = useCallback(async () => {
@@ -99,7 +99,7 @@ const GenerateTab = ({
       fetch("https://api.openai.com/v1/images/edits", {
         method: "POST",
         headers: {
-          Authorization: "Bearer " + (OPENAI_API_KEY ?? token),
+          Authorization: "Bearer " + token,
         },
         body: formData,
       })
@@ -126,6 +126,7 @@ const GenerateTab = ({
                   },
                 ],
                 user,
+                "dall-e-2-edit",
                 prompt
               );
             }
@@ -169,13 +170,13 @@ const GenerateTab = ({
         new image, not just the erased area.
       </Text>
       <VerticalSpace space="extraLarge" />
-      <div className="flex w-full justify-between">
+      <div className="flex justify-between w-full">
         <Text as="span">Edit resolution: {RESOLUTION}</Text>
         <Text as="span">Output resolution: {RESOLUTIONS[2]}</Text>
       </div>
       <VerticalSpace space="small" />
       <div
-        className="relative overflow-hidden rounded border border-gray-500"
+        className="relative overflow-hidden border border-gray-500 rounded"
         style={{
           width: size,
           height: size,
@@ -202,7 +203,7 @@ const GenerateTab = ({
                 border: "none !important",
               }}
             />
-            <div className="absolute bottom-3 right-3 flex gap-3">
+            <div className="absolute flex gap-3 bottom-3 right-3">
               <button
                 className="btn secondary"
                 onClick={() => {
@@ -320,16 +321,19 @@ function Plugin(data: unknown) {
   }, [settings]);
 
   const handleSaveSettings = useCallback(
-    ({ token, acceptSaveImage }: WriteSettings) => {
-      emit<SaveSettingsHandler>("SAVE_SETTINGS", { token, acceptSaveImage });
-      setSettings({ ...settings, token, acceptSaveImage });
+    (newSettings: WriteSettings) => {
+      emit<SaveSettingsHandler>("SAVE_SETTINGS", newSettings);
+      setSettings({
+        ...settings,
+        ...newSettings,
+      });
     },
     [settings]
   );
 
   const handleClearSettings = useCallback(() => {
     emit<ClearSettingsHandler>("CLEAR_SETTINGS");
-    setSettings({ ...settings, token: undefined });
+    setSettings({ ...settings, openAIToken: undefined });
   }, [settings]);
 
   return (
@@ -358,8 +362,7 @@ function Plugin(data: unknown) {
             value: "Settings",
             children: (
               <SettingsTab
-                token={settings.token}
-                acceptSaveImage={settings.acceptSaveImage}
+                {...settings}
                 onSaveSettings={handleSaveSettings}
                 onClearSettings={handleClearSettings}
               />

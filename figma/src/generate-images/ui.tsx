@@ -25,7 +25,6 @@ import { AboutTab } from "../components/AboutTab";
 import { DiscoverTab } from "../components/DiscoverTab";
 import { SettingsTab } from "../components/SettingsTab";
 import { SlideOver } from "../components/Transitions";
-import { OPENAI_API_KEY, RESOLUTIONS } from "../constants/config";
 import {
   ClearSettingsHandler,
   CloseHandler,
@@ -36,6 +35,7 @@ import {
 } from "../types";
 import { apiClient } from "../utils/api";
 import { convertDataURIToBinary } from "../utils/image";
+import { RESOLUTIONS } from "../constants/config";
 
 const GenerateTab = ({ settings }: { settings: Settings }) => {
   const [count, setCount] = useState<number | null>(1);
@@ -48,10 +48,10 @@ const GenerateTab = ({ settings }: { settings: Settings }) => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (settings.token) {
-      setToken(settings.token);
+    if (settings.openAIToken) {
+      setToken(settings.openAIToken);
     }
-    setTokenExists(!!settings.token);
+    setTokenExists(!!settings.openAIToken);
   }, [settings]);
 
   const handleGenerateButtonClick = useCallback(
@@ -85,7 +85,7 @@ const GenerateTab = ({ settings }: { settings: Settings }) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + (OPENAI_API_KEY ?? token),
+            Authorization: "Bearer " + token,
           },
           body: JSON.stringify({
             prompt,
@@ -125,6 +125,7 @@ const GenerateTab = ({ settings }: { settings: Settings }) => {
                 apiClient.uploadImages(
                   images.map(({ uintArray, ...rest }) => ({ ...rest })),
                   user,
+                  "dall-e-2-generation",
                   prompt
                 );
               }
@@ -254,16 +255,19 @@ function Plugin() {
   }, [settings]);
 
   const handleSaveSettings = useCallback(
-    ({ token, acceptSaveImage }: WriteSettings) => {
-      emit<SaveSettingsHandler>("SAVE_SETTINGS", { token, acceptSaveImage });
-      setSettings({ ...settings, token, acceptSaveImage });
+    (newSettings: WriteSettings) => {
+      emit<SaveSettingsHandler>("SAVE_SETTINGS", newSettings);
+      setSettings({
+        ...settings,
+        ...newSettings,
+      });
     },
     [settings]
   );
 
   const handleClearSettings = useCallback(() => {
     emit<ClearSettingsHandler>("CLEAR_SETTINGS");
-    setSettings({ ...settings, token: undefined });
+    setSettings({ ...settings, openAIToken: undefined });
   }, [settings]);
 
   return (
@@ -288,8 +292,7 @@ function Plugin() {
             value: "Settings",
             children: (
               <SettingsTab
-                token={settings.token}
-                acceptSaveImage={settings.acceptSaveImage}
+                {...settings}
                 onSaveSettings={handleSaveSettings}
                 onClearSettings={handleClearSettings}
               />

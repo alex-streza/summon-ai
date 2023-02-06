@@ -72,7 +72,10 @@ export const Layout = ({ children, isDark }: LayoutProps) => {
 
       <Navigation isDark={isDark} />
       {children}
-      <Footer className={isDark ? "bg-transparent" : className} />
+      <Footer
+        className={isDark ? "bg-transparent" : className}
+        isDark={isDark}
+      />
     </div>
   );
 };
