@@ -36,7 +36,7 @@ const Home: NextPage = () => {
     <Layout>
       <NextSeo title="Summon AI" />
       <a
-        className="mt-16 mb-3 md:hidden"
+        className="mt-8 mb-3 md:hidden"
         href="https://www.producthunt.com/posts/summon-ai?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-summon&#0045;ai"
         target="_blank"
         rel="noreferrer"
@@ -48,21 +48,24 @@ const Home: NextPage = () => {
           height="54"
         />
       </a>
-      <h1 className="mb-12 text-4xl md:mt-8 md:text-6xl">
+      <h1 className="text-4xl md:mt-8 md:text-6xl">
         <div>
           <span className="mr-3 font-serif text-5xl font-bold italic transition-colors duration-300 hover:text-green-500 md:mr-12 md:text-7xl">
             Evolving
           </span>
           <span className="font-black">imagery</span>
         </div>
-        <div className="mt-3 font-black md:mt-14 md:mb-6">with AI directly</div>
+        <div className="mt-3 font-black md:mt-10 md:mb-4">with AI directly</div>
         <div>
           <span className="font-black">in</span>
-          <span className="ml-3 font-serif text-5xl font-bold italic transition-colors duration-300 hover:text-green-500 md:ml-12 md:text-7xl">
+          <span className="ml-3 font-serif text-5xl font-bold italic transition-colors duration-300 hover:text-green-500 md:ml-8 md:text-7xl">
             Figma
           </span>
         </div>
       </h1>
+      <p className="mt-4 mb-12 max-w-[28ch] md:max-w-none">
+        Get state-of-the-art AI tools directly in your favourite design tool.
+      </p>
       <CircleButton />
       <Link href="/showcase"></Link>
       <div
@@ -71,6 +74,9 @@ const Home: NextPage = () => {
           clipPath: "polygon(100% 0, 0% 100%, 100% 100%)",
         }}
       >
+        <span className="absolute right-1/2 bottom-5 z-50 translate-x-1/2 rounded-full bg-gray-700 p-2 text-xs text-green-500">
+          {imagesQuery.data?.count} images generated
+        </span>
         {rows &&
           rows.map((row, index) => (
             <div key={index} className="flex">
@@ -80,8 +86,8 @@ const Home: NextPage = () => {
                     className="transition-all hover:grayscale"
                     src={image.url}
                     alt={image.id}
-                    width={128}
-                    height={128}
+                    width={124}
+                    height={124}
                   />
                 </Link>
               ))}

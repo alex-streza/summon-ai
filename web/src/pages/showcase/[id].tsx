@@ -64,10 +64,10 @@ const Showcase: NextPage = () => {
       <div ref={parent} className="flex flex-col items-center">
         {!isLoading && (
           <>
-            <div className="relative grid w-full h-full overflow-hidden rounded place-content-center">
+            <div className="relative grid h-full w-full place-content-center overflow-hidden rounded">
               {data && <img src={data?.url} alt={data?.prompt} />}
             </div>
-            <div className="flex gap-2 mx-auto mt-8 text-gray-300">
+            <div className="mx-auto mt-8 flex gap-2 text-gray-300">
               <svg
                 width="28"
                 height="28"
@@ -94,14 +94,14 @@ const Showcase: NextPage = () => {
                 />
               </svg>
             </div>
-            <Button onClick={handleCopy} className="mx-auto mt-8">
+            <Button onClick={handleCopy} className="mx-auto my-8">
               {!copied ? "Share link" : "Link copied"}
               {!copied ? <CopyIcon /> : <CheckIcon />}
             </Button>
           </>
         )}
         {isLoading && (
-          <div className="flex flex-col items-center">
+          <div className="mb-8 flex flex-col items-center">
             <div className="mx-auto mb-8 aspect-square h-full w-full max-w-[768px] animate-[pulse_1s_ease-in-out_infinite] bg-gray-800" />
             <div className="mb-2 h-6 w-[320px] animate-[pulse_1s_ease-in-out_infinite] bg-gray-800" />
             <div className="mb-2 h-6 w-[240px] animate-[pulse_1s_ease-in-out_infinite] bg-gray-800" />

@@ -23,7 +23,7 @@ const CircleButton = () => {
     >
       <button className="relative ml-4 grid h-[100px] w-[100px] place-content-center rounded-full border-2 border-gray-900 bg-white">
         <h5
-          className="absolute inset-0 text-sm uppercase -top-6"
+          className="absolute inset-0 -top-6 text-sm uppercase"
           ref={circleInstance}
         >
           Summon Art * Summon Art * Summon Art *

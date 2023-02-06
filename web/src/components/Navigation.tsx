@@ -8,7 +8,7 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "./buttons/Button";
 
 export interface NavigationProps {
@@ -33,9 +33,21 @@ const Navigation = ({ isDark }: NavigationProps) => {
 
   const handleToggleMenu = useCallback(() => setIsOpen((prev) => !prev), []);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isOpen]);
+
   return (
     <div>
-      <nav className="flex items-center justify-between rounded-xl bg-gray-900 bg-opacity-10 p-4 backdrop-blur-sm">
+      <nav
+        className={`flex items-center justify-between rounded-xl ${
+          isDark ? "bg-gray-900" : "bg-white"
+        }bg-opacity-10 backdrop-blur-sm`}
+      >
         <Link href="/">
           <svg
             height="40"
@@ -162,9 +174,11 @@ const Navigation = ({ isDark }: NavigationProps) => {
         </button>
       </nav>
       <aside
-        className={`fixed right-4 top-[100px] z-50 rounded-xl ${
+        className={`fixed right-0 top-[94px] z-50 rounded-xl ${
           isOpen ? "grid place-content-center opacity-100" : "hidden opacity-0"
-        } h-[calc(100vh-100px)] w-[calc(100vw-32px)] bg-gray-900 bg-opacity-10 backdrop-blur-sm`}
+        } h-[calc(100vh-94px)] w-screen ${
+          isDark ? "bg-gray-900 bg-opacity-25" : "bg-white"
+        } backdrop-blur-sm`}
       >
         <ul
           className={`flex flex-col items-center gap-10 text-center text-lg font-bold ${
