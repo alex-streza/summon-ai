@@ -16,6 +16,7 @@ import Input from "../components/inputs/Input";
 import { Layout } from "../components/Layout";
 import { getServerAuthSession } from "../server/common/get-server-auth-session";
 import getStripe from "../utils/getStripe";
+import Spinner from "../components/loading/Spinner";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);
@@ -124,7 +125,7 @@ const Account: NextPage = () => {
         description="Looking for unique, AI generated imagery? Look no further than Summon AI! Our directory is powered by a free and open-source Figma plugin, making it easy to access a limitless supply of professional-grade visuals. Boost your design skills with Summon AI today!"
       />
       {!profileQuery.isLoading && profileQuery.data && (
-        <div className="flex flex-col p-5 mt-10 text-gray-500 md:flex-row md:items-start md:justify-center md:gap-20">
+        <div className="mt-10 flex flex-col p-5 text-gray-500 md:flex-row md:items-start md:gap-20">
           <div className="flex gap-5 md:flex-col-reverse">
             <img
               src={session?.user?.image ?? ""}
@@ -144,7 +145,7 @@ const Account: NextPage = () => {
             </div>
           </div>
           <div className="grid md:grid-cols-2">
-            <section className="max-w-xs mt-7 md:mt-0">
+            <section className="mt-7 max-w-xs md:mt-0">
               <h2 className="mb-5 text-xl font-semibold text-white">
                 Settings
               </h2>
@@ -175,7 +176,7 @@ const Account: NextPage = () => {
               >
                 Reset token
               </Button>
-              <span className="block mt-2 text-xs">
+              <span className="mt-2 block text-xs">
                 {displayedToken.length > 0
                   ? "Copy this token and paste inside Summon.AI Figma plugin > Settings"
                   : "If you lost your token, you can reset it here (resets can't be undone)."}
@@ -195,7 +196,7 @@ const Account: NextPage = () => {
                   {profileQuery.data?.stats?.dall_e_2}
                 </span>
               </div>
-              <div className="flex items-center gap-2 mt-5">
+              <div className="mt-5 flex items-center gap-2">
                 <h3 className="font-medium text-white">GEN2</h3>
                 <span className="text-xs">
                   {total}/{isPro ? 200 : 10}, reset monthly{" "}
@@ -227,7 +228,7 @@ const Account: NextPage = () => {
               <span className="text-xs">
                 Manage your plan and billing details.
               </span>
-              <h3 className="flex items-center mt-5 mb-2 font-medium text-white">
+              <h3 className="mt-5 mb-2 flex items-center font-medium text-white">
                 Active plan
                 <span
                   className={`ml-2 flex w-fit gap-1 rounded-full border text-xs ${
@@ -244,7 +245,7 @@ const Account: NextPage = () => {
                   : "You get up to 10 images generated using OpenJourney, upscale, and restore models per month."}
               </span>
               {!isPro && plan && (
-                <div className="flex items-center gap-2 mt-2">
+                <div className="mt-2 flex items-center gap-2">
                   <span className="text-green-500">{plan.name}</span>
                   <span className="text-xs">{plan.price}</span>
                 </div>
@@ -252,7 +253,7 @@ const Account: NextPage = () => {
               {isPro ? (
                 <Button
                   intent="text"
-                  className="!text-xs !text-red-500"
+                  className="!text-xs !text-red-700"
                   onClick={handleCancelPlan}
                   loading={loading}
                 >
@@ -269,6 +270,11 @@ const Account: NextPage = () => {
               )}
             </section>
           </div>
+        </div>
+      )}
+      {profileQuery.isLoading && (
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <Spinner />
         </div>
       )}
     </Layout>

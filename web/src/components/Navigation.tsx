@@ -35,7 +35,7 @@ const Navigation = ({ isDark }: NavigationProps) => {
 
   return (
     <div>
-      <nav className="flex items-center justify-between p-4 bg-gray-900 rounded-xl bg-opacity-10 backdrop-blur-sm">
+      <nav className="flex items-center justify-between rounded-xl bg-gray-900 bg-opacity-10 p-4 backdrop-blur-sm">
         <Link href="/">
           <svg
             height="40"
@@ -162,12 +162,12 @@ const Navigation = ({ isDark }: NavigationProps) => {
         </button>
       </nav>
       <aside
-        className={`fixed right-0 top-[83px] z-50 ${
+        className={`fixed right-4 top-[100px] z-50 rounded-xl ${
           isOpen ? "grid place-content-center opacity-100" : "hidden opacity-0"
-        } h-[calc(100vh-46px)] w-screen bg-gray-800 bg-opacity-75 backdrop-blur-sm`}
+        } h-[calc(100vh-100px)] w-[calc(100vw-32px)] bg-gray-900 bg-opacity-10 backdrop-blur-sm`}
       >
         <ul
-          className={`flex flex-col items-center gap-10 text-center text-lg ${
+          className={`flex flex-col items-center gap-10 text-center text-lg font-bold ${
             isDark ? "text-white" : "text-gray-800"
           } uppercase`}
         >
@@ -208,7 +208,7 @@ const Navigation = ({ isDark }: NavigationProps) => {
             )}
           </li>
         </ul>
-        <Button className="flex mt-20" onClick={handleClick}>
+        <Button className="mx-auto mt-20 flex" onClick={handleClick}>
           {isLoggedIn ? <SignOutIcon /> : <SignInIcon />}
           {isLoggedIn ? "Sign out" : "Sign in"}
         </Button>

@@ -6,7 +6,7 @@ const button = cva("button", {
   variants: {
     intent: {
       primary: "bg-gray-800 border border-gray-700 text-gray-400",
-      text: "font-bold w-fit px-0 py-1",
+      text: "font-medium w-fit !px-0 !py-1",
       secondary: "bg-gray-500",
     },
     size: {
