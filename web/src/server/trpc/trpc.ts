@@ -5,6 +5,7 @@ import { OpenApiMeta } from "trpc-openapi";
 import * as argon2d from "argon2";
 
 import { type Context } from "./context";
+import { Database } from "../../types/supabase";
 
 const t = initTRPC
   .context<Context>()
@@ -64,7 +65,9 @@ const isValidToken = t.middleware(async ({ ctx, next }) => {
   let tkn;
 
   if (user) {
-    tkn = user.tokens[0];
+    tkn = (
+      user.tokens as Array<Database["public"]["Tables"]["tokens"]["Row"]>
+    )[0];
     isTokenValid = await argon2d.verify(tkn?.hash as string, token);
   }
 
@@ -75,9 +78,13 @@ const isValidToken = t.middleware(async ({ ctx, next }) => {
     });
   }
 
-  const maxGenerations = user?.subscriptions[0]?.is_subscribed ? 200 : 10;
-  const totalGenerations =
-    user?.stats?.openjourney + user?.stats?.restore + user?.stats?.upscale;
+  const stats = user?.stats as Database["public"]["Tables"]["stats"]["Row"];
+  const maxGenerations = (
+    user?.subscriptions as Database["public"]["Tables"]["subscriptions"]["Row"]
+  ).is_subscribed
+    ? 200
+    : 10;
+  const totalGenerations = stats?.openjourney + stats?.restore + stats?.upscale;
 
   if (totalGenerations >= maxGenerations) {
     throw new TRPCError({
