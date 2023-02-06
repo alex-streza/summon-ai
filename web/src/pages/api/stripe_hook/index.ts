@@ -75,17 +75,18 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const supabase = await getServiceSupabaseClient();
 
+    const subscription = event.data.object as Stripe.Subscription;
+
     // Cast event data to Stripe object.
     if (event.type === "customer.subscription.created") {
-      console.log("event.data.object", event.data.object);
       await supabase
         .from("subscriptions")
         .update({
           is_subscribed: true,
-          subscription_id: event.data.object.id,
-          interval: event.data.object.items.data[0].plan.interval,
+          subscription_id: subscription.id,
+          interval: subscription.items.data[0]?.plan.interval,
         })
-        .eq("stripe_customer", event.data.object.customer);
+        .eq("stripe_customer", subscription.customer);
     } else if (event.type === "customer.subscription.deleted") {
       await supabase
         .from("subscriptions")
@@ -94,16 +95,16 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           subscription_id: null,
           interval: null,
         })
-        .eq("stripe_customer", event.data.object.customer);
+        .eq("stripe_customer", subscription.customer);
     } else if (event.type === "customer.subscription.updated") {
-      const cancelAt = event.data.object.cancel_at;
+      const cancelAt = subscription.cancel_at;
 
       await supabase
         .from("subscriptions")
         .update({
           cancel_at: cancelAt ? new Date(cancelAt * 1000).toISOString() : null,
         })
-        .eq("stripe_customer", event.data.object.customer);
+        .eq("stripe_customer", subscription.customer);
     } else {
       console.warn(`🤷‍♀️ Unhandled event type: ${event.type}`);
     }
