@@ -61,13 +61,13 @@ const Account: NextPage = () => {
 
   const total = profileQuery.isLoading
     ? 0
-    : profileQuery.data?.stats?.openjourney +
-      profileQuery.data?.stats?.restore +
-      profileQuery.data?.stats?.upscale;
+    : (profileQuery.data?.stats?.openjourney ?? 0) +
+      (profileQuery.data?.stats?.restore ?? 0) +
+      (profileQuery.data?.stats?.upscale ?? 0);
 
   const isPro = profileQuery.isLoading
     ? false
-    : profileQuery.data?.profile[0]?.is_subscribed;
+    : (profileQuery.data?.profile as any[])[0]?.is_subscribed;
 
   const handleCopy = useCallback(() => {
     setCopied(true);

@@ -36,6 +36,7 @@ const Home: NextPage = () => {
         className="mt-16 mb-3 md:hidden"
         href="https://www.producthunt.com/posts/summon-ai?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-summon&#0045;ai"
         target="_blank"
+        rel="noreferrer"
       >
         <img
           src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=366943&theme=dark"
@@ -68,13 +69,12 @@ const Home: NextPage = () => {
         }}
       >
         {rows.map((row, index) => (
-          <div className="flex">
+          <div key={index} className="flex">
             {row.map((image) => (
-              <Link href={`/showcase/${image.id}`}>
+              <Link key={image.id} href={`/showcase/${image.id}`}>
                 <Image
                   className="transition-all hover:grayscale"
                   src={image.url}
-                  key={image.id}
                   alt={image.id}
                   width={128}
                   height={128}

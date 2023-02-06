@@ -66,6 +66,7 @@ const Footer = ({ isDark, className = "bg-white" }: FooterProps) => {
         className="hidden md:block"
         href="https://www.producthunt.com/posts/summon-ai?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-summon&#0045;ai"
         target="_blank"
+        rel="noopener noreferrer"
       >
         <img
           src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=366943&theme=dark"
@@ -101,13 +102,14 @@ const Footer = ({ isDark, className = "bg-white" }: FooterProps) => {
           </li>
         )}
       </ul>
-      <div className="flex flex-col justify-between h-full">
+      <div className="flex h-full flex-col justify-between">
         {socialLinks.map(({ href, icon }) => (
           <a
+            key={href}
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex scale-90 rounded-full bg-gray-700 py-1.5 px-3 text-xxs text-white transition-transform hover:rotate-12 hover:scale-100 peer-hover:rotate-12 peer-hover:scale-100"
+            className="flex scale-90 rounded-full bg-gray-700 py-1.5 px-3 text-xxs text-white transition-transform peer-hover:rotate-12 peer-hover:scale-100 hover:rotate-12 hover:scale-100"
           >
             {icon}
           </a>

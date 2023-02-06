@@ -72,7 +72,7 @@ const SignIn = ({ providers }: { providers: Record<string, any> }) => {
             </div>
           ))}
           <p className="mt-10">
-            Don't know whether you need an account? Check the{" "}
+            Don&apos;t know whether you need an account? Check the{" "}
             <a
               href="https://www.figma.com/community/plugin/1172891596048319817"
               className="text-green-500 underline"

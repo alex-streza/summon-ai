@@ -1,4 +1,5 @@
-import fetch, { RequestInit } from "node-fetch";
+import fetch from "node-fetch";
+import type { RequestInit } from "node-fetch";
 
 const fetchClient = <Response>(endpoint: string, config: RequestInit) =>
   fetch([process.env.CLOUDFLARE_API_URL, endpoint].join("/"), {
