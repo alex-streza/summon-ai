@@ -94,7 +94,12 @@ export const images = router({
       return {
         images: data.map(({ figma_users, ...image }) => ({
           ...image,
-          ...figma_users,
+          prompt: image.prompt ?? "",
+          ...(figma_users as {
+            name: string;
+            avatar_url: string;
+            created_at: string;
+          }),
         })),
         count: count ?? 0,
       };
