@@ -24,7 +24,7 @@ export default async function handler(
         user?.subscriptions as Database["public"]["Tables"]["subscriptions"]["Row"]
       )?.stripe_customer;
 
-      if (!customerId) {
+      if (!customerId && user?.id) {
         const customer = await stripe.customers.create({
           email: req.body.email,
         });
@@ -41,7 +41,7 @@ export default async function handler(
       }
 
       const session = await stripe.checkout.sessions.create({
-        customer: customerId,
+        customer: customerId as string,
         line_items: [
           {
             price: priceId,
