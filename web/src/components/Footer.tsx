@@ -76,12 +76,15 @@ const Footer = ({ isDark, className = "bg-white" }: FooterProps) => {
         />
       </a>
       <ul
-        className={`grid grid-cols-2 items-center gap-5 text-sm ${
+        className={`grid grid-cols-3 items-center gap-4 text-sm ${
           isDark ? "text-white" : "text-gray-800"
         } uppercase md:mx-auto md:flex md:gap-16`}
       >
         <li>
           <Link href="/showcase">Showcase</Link>
+        </li>
+        <li>
+          <Link href="/guide">Guide</Link>
         </li>
         <li>
           <a href="https://www.figma.com/community/plugin/1172891596048319817">

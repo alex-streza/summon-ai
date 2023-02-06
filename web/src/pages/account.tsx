@@ -146,7 +146,7 @@ const Account: NextPage = () => {
   return (
     <Layout isDark>
       <NextSeo
-        title="Summon AI - Showcase"
+        title="Summon AI - Account"
         description="Looking for unique, AI generated imagery? Look no further than Summon AI! Our directory is powered by a free and open-source Figma plugin, making it easy to access a limitless supply of professional-grade visuals. Boost your design skills with Summon AI today!"
       />
       {!subscriptionsQuery.isLoading && subscriptionsQuery.data && (

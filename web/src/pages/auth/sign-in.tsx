@@ -31,11 +31,11 @@ const SignIn = ({ providers }: { providers: Record<string, any> }) => {
   return (
     <Layout isDark>
       <NextSeo
-        title="Summon AI - Showcase"
+        title="Summon AI - Sign In"
         description="Looking for unique, AI generated imagery? Look no further than Summon AI! Our directory is powered by a free and open-source Figma plugin, making it easy to access a limitless supply of professional-grade visuals. Boost your design skills with Summon AI today!"
       />
-      <div className="flex flex-col items-center px-5 pt-5 mt-10 text-center text-gray-500">
-        <div className="flex flex-col items-center max-w-sm">
+      <div className="mt-10 flex flex-col items-center px-5 pt-5 text-center text-gray-500">
+        <div className="flex max-w-sm flex-col items-center">
           <h1 className="mb-3 text-3xl font-black text-white">
             Join Summon.AI
           </h1>
@@ -56,7 +56,7 @@ const SignIn = ({ providers }: { providers: Record<string, any> }) => {
               </Button>
             </div>
           ))}
-          <span className="block my-8">or register a new one now</span>
+          <span className="my-8 block">or register a new one now</span>
           {Object.values(providers).map((provider) => (
             <div key={provider.name}>
               <Button
@@ -84,7 +84,7 @@ const SignIn = ({ providers }: { providers: Record<string, any> }) => {
             .
           </p>
         </div>
-        <div className="grid w-screen grid-cols-3 mt-20 md:hidden">
+        <div className="mt-20 grid w-screen grid-cols-3 md:hidden">
           <div className="relative aspect-square">
             <Image
               src="https://replicate.delivery/pbxt/ETIiSJPZfekB00EqmOIGkjtIMECrG6EbmM1ft12n35EyUDvgA/out-0.png"
