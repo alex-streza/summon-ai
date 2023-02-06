@@ -56,7 +56,7 @@ const isValidToken = t.middleware(async ({ ctx, next }) => {
 
   const { data: user } = await getServiceSupabaseClient()
     .from("users")
-    .select("*, stats (*), tokens (*), profile (*)")
+    .select("*, stats (*), tokens (*), subscriptions (*)")
     .eq("id", userId)
     .single();
 
@@ -75,7 +75,7 @@ const isValidToken = t.middleware(async ({ ctx, next }) => {
     });
   }
 
-  const maxGenerations = user?.profile[0]?.is_subscribed ? 200 : 10;
+  const maxGenerations = user?.subscriptions[0]?.is_subscribed ? 200 : 10;
   const totalGenerations =
     user?.stats?.openjourney + user?.stats?.restore + user?.stats?.upscale;
 

@@ -79,7 +79,7 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (event.type === "customer.subscription.created") {
       console.log("event.data.object", event.data.object);
       await supabase
-        .from("profile")
+        .from("subscriptions")
         .update({
           is_subscribed: true,
           subscription_id: event.data.object.id,
@@ -88,11 +88,20 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         .eq("stripe_customer", event.data.object.customer);
     } else if (event.type === "customer.subscription.deleted") {
       await supabase
-        .from("profile")
+        .from("subscriptions")
         .update({
           is_subscribed: false,
           subscription_id: null,
           interval: null,
+        })
+        .eq("stripe_customer", event.data.object.customer);
+    } else if (event.type === "customer.subscription.updated") {
+      const cancelAt = event.data.object.cancel_at;
+
+      await supabase
+        .from("subscriptions")
+        .update({
+          cancel_at: cancelAt ? new Date(cancelAt * 1000).toISOString() : null,
         })
         .eq("stripe_customer", event.data.object.customer);
     } else {
@@ -102,6 +111,7 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.setHeader("Allow", "POST");
     res.status(405).end("Method Not Allowed");
   }
+  res.status(200).json({ received: true });
 };
 
 export default cors(webhookHandler as any);

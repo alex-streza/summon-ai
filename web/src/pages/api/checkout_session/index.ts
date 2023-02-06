@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { Database } from "../../../types/supabase";
 import { stripe } from "../../../utils/stripe";
 import { getServiceSupabaseClient } from "../../../utils/supabase";
 
@@ -13,13 +14,15 @@ export default async function handler(
       const priceId = req.body.priceId;
       const origin = req.headers.origin as string;
 
-      const { data: user, error } = await supabase
+      const { data: user } = await supabase
         .from("users")
-        .select("*, profile (*)")
+        .select("*, subscriptions (*)")
         .like("email", req.body.email)
         .single();
 
-      let customerId = user?.profile[0]?.stripe_customer;
+      let customerId = (
+        user?.subscriptions as Database["public"]["Tables"]["subscriptions"]["Row"]
+      )?.stripe_customer;
 
       if (!customerId) {
         const customer = await stripe.customers.create({
@@ -27,7 +30,7 @@ export default async function handler(
         });
 
         await supabase
-          .from("profile")
+          .from("subscriptions")
           .insert({
             stripe_customer: customer.id,
             user_id: user?.id,

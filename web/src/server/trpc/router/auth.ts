@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import Stripe from "stripe";
 import { z } from "zod";
+import { Database } from "../../../types/supabase";
 import { generateToken } from "../../../utils/generateToken";
 import { stripe } from "../../../utils/stripe";
 import { formatAmountForDisplay } from "../../../utils/stripe-utils";
@@ -10,25 +11,29 @@ export const authRouter = router({
   getSession: publicProcedure.query(({ ctx }) => {
     return ctx.session;
   }),
-  getProfile: protectedProcedure.query(async ({ ctx }) => {
+  getSubscription: protectedProcedure.query(async ({ ctx }) => {
     const { data, error } = await ctx.supabase
       .from("users")
-      .select("*, stats (*), tokens (*), profile (*)")
+      .select("*, stats (*), tokens (*), subscriptions (*)")
       .like("email", ctx.session?.user?.email ?? "");
 
     if (error || !data || data?.length == 0) {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
-        message: "Profile could not be retrieved",
+        message: "Subscription could not be retrieved",
         cause: error,
       });
     }
 
-    const user = data[0];
+    const user = data[0] as {
+      tokens: Database["public"]["Tables"]["tokens"]["Row"];
+      stats: Database["public"]["Tables"]["stats"]["Row"];
+      subscriptions: Database["public"]["Tables"]["subscriptions"]["Row"];
+    } & Database["public"]["Tables"]["users"]["Row"];
 
     let token;
 
-    if (!user.tokens[0]) {
+    if (!user?.tokens) {
       const tokens = await generateToken(16);
       token = tokens.token + "-" + Buffer.from(user.id).toString("base64");
 
@@ -130,8 +135,23 @@ export const authRouter = router({
   cancelPlan: protectedProcedure
     .input(z.object({ subscriptionId: z.string() }))
     .mutation(async ({ ctx, input: { subscriptionId } }) => {
-      const subscription = await stripe.subscriptions.del(subscriptionId);
+      const subscription = await stripe.subscriptions.update(subscriptionId, {
+        cancel_at_period_end: true,
+      });
 
-      return subscription;
+      return {
+        message: "Subscription cancelled",
+      };
+    }),
+  reactivatePlan: protectedProcedure
+    .input(z.object({ subscriptionId: z.string() }))
+    .mutation(async ({ ctx, input: { subscriptionId } }) => {
+      const subscription = await stripe.subscriptions.update(subscriptionId, {
+        cancel_at_period_end: false,
+      });
+
+      return {
+        message: "Subscription reactivated",
+      };
     }),
 });

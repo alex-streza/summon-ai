@@ -42,7 +42,7 @@ const Account: NextPage = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const profileQuery = trpc.auth.getProfile.useQuery(undefined, {
+  const subscriptionsQuery = trpc.auth.getSubscription.useQuery(undefined, {
     refetchOnWindowFocus: false,
   });
   const plansQuery = trpc.auth.getSubscriptionPlans.useQuery(undefined, {
@@ -54,20 +54,35 @@ const Account: NextPage = () => {
     onSuccess: ({ token }) => setToken(token ?? ""),
   });
   const cancelPlan = trpc.auth.cancelPlan.useMutation({
-    onSuccess: () => profileQuery.refetch(),
+    onSuccess: () => setTimeout(() => subscriptionsQuery.refetch(), 1000),
+  });
+  const reactivatePlan = trpc.auth.reactivatePlan.useMutation({
+    onSuccess: () => setTimeout(() => subscriptionsQuery.refetch(), 1000),
   });
 
-  const displayedToken = (token != "" ? token : profileQuery.data?.token) ?? "";
+  const displayedToken =
+    (token != "" ? token : subscriptionsQuery.data?.token) ?? "";
 
-  const total = profileQuery.isLoading
+  const subscription = subscriptionsQuery.data?.subscriptions;
+  const stats = subscriptionsQuery.data?.stats ?? {
+    openjourney: 0,
+    restore: 0,
+    upscale: 0,
+  };
+
+  const cancelAt = subscription?.cancel_at
+    ? spacetime(subscription.cancel_at).format(
+        "{month-short} {date-ordinal} {year}"
+      )
+    : null;
+
+  const total = subscriptionsQuery.isLoading
     ? 0
-    : (profileQuery.data?.stats?.openjourney ?? 0) +
-      (profileQuery.data?.stats?.restore ?? 0) +
-      (profileQuery.data?.stats?.upscale ?? 0);
+    : stats?.openjourney + stats?.restore + stats?.upscale;
 
-  const isPro = profileQuery.isLoading
+  const isPro = subscriptionsQuery.isLoading
     ? false
-    : (profileQuery.data?.profile as any[])[0]?.is_subscribed;
+    : subscription?.is_subscribed;
 
   const handleCopy = useCallback(() => {
     setCopied(true);
@@ -79,14 +94,24 @@ const Account: NextPage = () => {
     resetToken.mutate();
   }, [resetToken]);
 
-  const handleCancelPlan = useCallback(
-    () =>
+  const handleCancelPlan = useCallback(() => {
+    if (subscription?.subscription_id) {
       window.confirm("Are you sure you want to cancel your subscription?") &&
-      cancelPlan.mutate({
-        subscriptionId: profileQuery.data?.profile[0].subscription_id,
-      }),
-    [cancelPlan, profileQuery.data?.profile]
-  );
+        cancelPlan.mutate({
+          subscriptionId: subscription?.subscription_id,
+        });
+    }
+  }, [cancelPlan, subscription]);
+
+  const handleReactivatePlan = useCallback(() => {
+    if (subscription?.subscription_id) {
+      reactivatePlan.mutate({
+        subscriptionId: subscription?.subscription_id,
+      });
+    }
+  }, [reactivatePlan, subscription]);
+
+  const reachedLimit = total >= (!isPro ? 10 : 200);
 
   const handleCheckoutSession = useCallback(() => {
     setLoading(true);
@@ -124,7 +149,7 @@ const Account: NextPage = () => {
         title="Summon AI - Showcase"
         description="Looking for unique, AI generated imagery? Look no further than Summon AI! Our directory is powered by a free and open-source Figma plugin, making it easy to access a limitless supply of professional-grade visuals. Boost your design skills with Summon AI today!"
       />
-      {!profileQuery.isLoading && profileQuery.data && (
+      {!subscriptionsQuery.isLoading && subscriptionsQuery.data && (
         <div className="mt-10 flex flex-col p-5 text-gray-500 md:flex-row md:items-start md:gap-20">
           <div className="flex gap-5 md:flex-col-reverse">
             <img
@@ -138,7 +163,7 @@ const Account: NextPage = () => {
               </h1>
               <span>
                 member since{" "}
-                {spacetime(profileQuery.data.created_at ?? "").format(
+                {spacetime(subscriptionsQuery.data.created_at ?? "").format(
                   "{month-short} {date-ordinal}"
                 )}
               </span>
@@ -184,44 +209,46 @@ const Account: NextPage = () => {
             </section>
             <section className="mt-7 md:mt-0">
               <h2 className="mb-5 text-xl font-semibold text-white">Stats</h2>
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2">
                 <h3 className="font-medium text-white">GEN1</h3>
                 <span className="text-xs">
                   limited by your own DALL-E-2 token
                 </span>
-              </div>
-              <div className="mt-2 flex max-w-[148] items-center gap-9">
+              </div> */}
+              {/* <div className="mt-2 flex max-w-[148] items-center gap-9">
                 <h4>DALL-E-2 images:</h4>
                 <span className="text-green-500">
-                  {profileQuery.data?.stats?.dall_e_2}
+                  {subscriptionsQuery.data?.stats?.dall_e_2}
                 </span>
-              </div>
+              </div> */}
               <div className="mt-5 flex items-center gap-2">
-                <h3 className="font-medium text-white">GEN2</h3>
-                <span className="text-xs">
-                  {total}/{isPro ? 200 : 10}, reset monthly{" "}
+                <h3 className="font-medium text-white">PRO GEN</h3>
+                <span
+                  className={`text-xs ${reachedLimit ? "text-red-500" : ""}`}
+                >
+                  {total}/{isPro ? 200 : 10}, resets monthly{" "}
                 </span>
               </div>
               <div className="mt-2 flex max-w-[148] items-center gap-9">
                 <h4>OpenJourney images:</h4>
                 <span className="text-green-500">
-                  {profileQuery.data?.stats?.openjourney}
+                  {subscriptionsQuery.data?.stats?.openjourney}
                 </span>
               </div>
               <div className="mt-2 flex max-w-[148] items-center gap-9">
                 <h4>Restored images:</h4>
                 <span className="text-green-500">
-                  {profileQuery.data?.stats?.restore}
+                  {subscriptionsQuery.data?.stats?.restore}
                 </span>
               </div>
               <div className="mt-2 flex max-w-[148] items-center gap-9">
                 <h4>Upscaled images:</h4>
                 <span className="text-green-500">
-                  {profileQuery.data?.stats?.upscale}
+                  {subscriptionsQuery.data?.stats?.upscale}
                 </span>
               </div>
             </section>
-            <section className="mt-7 md:mt-0">
+            <section className="mt-7 md:mt-5">
               <h2 className="mb-1.5 text-xl font-semibold text-white">
                 Billing
               </h2>
@@ -229,17 +256,23 @@ const Account: NextPage = () => {
                 Manage your plan and billing details.
               </span>
               <h3 className="mt-5 mb-2 flex items-center font-medium text-white">
-                Active plan
+                <span className={`${cancelAt ? "line-through" : ""}`}>
+                  Active plan
+                </span>
                 <span
                   className={`ml-2 flex w-fit gap-1 rounded-full border text-xs ${
-                    isPro ? "border-green-500 text-green-500" : ""
+                    cancelAt
+                      ? "border-red-500 text-red-500"
+                      : isPro
+                      ? "border-green-500 text-green-500"
+                      : ""
                   } bg-gray-800 px-3 py-1.5`}
                 >
                   {isPro && <NorthStarIcon />}
-                  {isPro ? "Pro" : "Free"}
+                  {cancelAt ? "Canceled" : isPro ? "Pro" : "Free"}
                 </span>
               </h3>
-              <span className="max-w-xs text-xs">
+              <span className="block max-w-md text-xs">
                 {isPro
                   ? "You get up to 200 images generated using OpenJourney, upscale, and restore models per month."
                   : "You get up to 10 images generated using OpenJourney, upscale, and restore models per month."}
@@ -250,29 +283,46 @@ const Account: NextPage = () => {
                   <span className="text-xs">{plan.price}</span>
                 </div>
               )}
-              {isPro ? (
-                <Button
-                  intent="text"
-                  className="!text-xs !text-red-700"
-                  onClick={handleCancelPlan}
-                  loading={loading}
-                >
-                  Cancel plan
-                </Button>
-              ) : (
+              {cancelAt && (
+                <span className="mt-2 block max-w-xs text-xs text-red-500">
+                  We are sorry to see you go 😢. Your pro plan will end on{" "}
+                  {cancelAt}.
+                </span>
+              )}
+              {!cancelAt &&
+                (isPro ? (
+                  <Button
+                    intent="text"
+                    className="!text-xs !text-red-700"
+                    onClick={handleCancelPlan}
+                    loading={cancelPlan.isLoading}
+                  >
+                    Cancel plan
+                  </Button>
+                ) : (
+                  <Button
+                    className="mt-4 !text-green-500"
+                    onClick={handleCheckoutSession}
+                    loading={loading}
+                  >
+                    Upgrade now <ArrowUpRightIcon size={28} />
+                  </Button>
+                ))}
+              {cancelAt && (
                 <Button
                   className="mt-4 !text-green-500"
-                  onClick={handleCheckoutSession}
-                  loading={loading}
+                  onClick={handleReactivatePlan}
+                  loading={reactivatePlan.isLoading}
+                  size="small"
                 >
-                  Upgrade now <ArrowUpRightIcon size={28} />
+                  Reactivate plan <ArrowUpRightIcon />
                 </Button>
               )}
             </section>
           </div>
         </div>
       )}
-      {profileQuery.isLoading && (
+      {subscriptionsQuery.isLoading && (
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <Spinner />
         </div>
