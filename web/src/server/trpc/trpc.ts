@@ -82,7 +82,7 @@ const isValidToken = t.middleware(async ({ ctx, next }) => {
   const maxGenerations = (
     user?.subscriptions as Database["public"]["Tables"]["subscriptions"]["Row"]
   ).is_subscribed
-    ? 200
+    ? 120
     : 10;
   const totalGenerations = stats?.openjourney + stats?.restore + stats?.upscale;
 

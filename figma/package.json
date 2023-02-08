@@ -18,6 +18,7 @@
     "@figma/plugin-typings": "1.54.0",
     "@types/node": "^18.0.0",
     "@types/react": "^18.0.25",
+    "@types/sharp": "^0.31.1",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
     "eslint": "^8.27.0",

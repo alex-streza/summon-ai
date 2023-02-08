@@ -286,7 +286,7 @@ export const images = router({
           table_name: "stats",
           user_id: ctx.session.user.id,
           field_name: "openjourney",
-          x: 1,
+          x: rest.num_outputs,
         });
 
         if (error) {

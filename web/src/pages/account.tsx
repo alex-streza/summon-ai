@@ -111,7 +111,7 @@ const Account: NextPage = () => {
     }
   }, [reactivatePlan, subscription]);
 
-  const reachedLimit = total >= (!isPro ? 10 : 200);
+  const reachedLimit = total >= (!isPro ? 10 : 120);
 
   const handleCheckoutSession = useCallback(() => {
     setLoading(true);
@@ -226,7 +226,7 @@ const Account: NextPage = () => {
                 <span
                   className={`text-xs ${reachedLimit ? "text-red-500" : ""}`}
                 >
-                  {total}/{isPro ? 200 : 10}, resets monthly{" "}
+                  {total}/{isPro ? 120 : 10}, resets monthly{" "}
                 </span>
               </div>
               <div className="mt-2 flex max-w-[148] items-center gap-9">
@@ -274,7 +274,7 @@ const Account: NextPage = () => {
               </h3>
               <span className="block max-w-md text-xs">
                 {isPro
-                  ? "You get up to 200 images generated using OpenJourney, upscale, and restore models per month."
+                  ? "You get up to 120 images generated using OpenJourney, upscale, and restore models per month."
                   : "You get up to 10 images generated using OpenJourney, upscale, and restore models per month."}
               </span>
               {!isPro && plan && (

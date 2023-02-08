@@ -9,7 +9,6 @@ import { LoadSettingsHandler, SelectImageHandler } from "../types";
 import { convertToBytes } from "../utils/image";
 import { pasteImages } from "../utils/pasteImages";
 import registerCommonEvents from "../utils/registerCommonEvents";
-
 import { GenerateHandler } from "./types";
 
 export default function () {
@@ -35,9 +34,12 @@ export default function () {
     const currentSelection = figma.currentPage.selection[0];
     if (currentSelection && currentSelection.id !== selection?.id) {
       selection = currentSelection;
-      convertToBytes(selection, true).then((image) => {
+      convertToBytes(selection, true).then(async (image) => {
         if (image) {
-          emit<SelectImageHandler>("SELECT_IMAGE", figma.base64Encode(image));
+          emit<SelectImageHandler>(
+            "SELECT_IMAGE",
+            figma.base64Encode(compressedImage)
+          );
         }
       });
     }

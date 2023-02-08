@@ -99,7 +99,7 @@ export const apiClient = {
     width?: number;
     height?: number;
     num_outputs?: number;
-    token?: string;
+    token: string;
   }) => {
     const res = await fetch(`${API_URL}/images/openjourney`, {
       method: "POST",
@@ -113,15 +113,20 @@ export const apiClient = {
 
     return data;
   },
-  restoreImage: async (body: {
+  restoreImage: async ({
+    token,
+    ...body
+  }: {
     img: string;
     scale: number;
     version: string;
+    token: string;
   }) => {
     const res = await fetch(`${API_URL}/images/restore`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: token || "",
       },
       body: JSON.stringify(body),
     });
@@ -129,7 +134,11 @@ export const apiClient = {
 
     return data;
   },
-  upscaleImage: async (body: {
+  upscaleImage: async ({
+    token,
+    ...body
+  }: {
+    token: string;
     image: string;
     scale: number;
     face_enhance: boolean;
@@ -138,6 +147,7 @@ export const apiClient = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: token || "",
       },
       body: JSON.stringify(body),
     });

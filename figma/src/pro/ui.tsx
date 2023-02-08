@@ -63,12 +63,13 @@ const GenerateTab = ({ settings, hasToken }: TabProps) => {
   const [error, setError] = useState("");
 
   const handleGenerateButtonClick = useCallback(async () => {
+    if (settings.summonAIToken === "" || !settings.summonAIToken) return;
+
     if (count !== null && prompt != null) {
       setError("");
       setLoading(true);
 
       const { color, sessionId, ...user } = settings.user as User;
-
       try {
         const { predictions, message } = await apiClient.generateOpenjourney({
           prompt,
@@ -251,6 +252,8 @@ const RestoreTab = ({
   const [error, setError] = useState("");
 
   const handleRestoreButtonClick = useCallback(async () => {
+    if (settings.summonAIToken === "" || !settings.summonAIToken) return;
+
     setLoading(true);
     setError("");
 
@@ -261,6 +264,7 @@ const RestoreTab = ({
         img: image,
         version,
         scale,
+        token: settings.summonAIToken,
       });
 
       if (!prediction && message) {
@@ -302,7 +306,14 @@ const RestoreTab = ({
       setError(error?.message);
     }
     setLoading(false);
-  }, [settings.user, image, version, scale, settings.acceptSaveImage]);
+  }, [
+    settings.user,
+    image,
+    version,
+    scale,
+    settings.acceptSaveImage,
+    settings.summonAIToken,
+  ]);
 
   const handleCloseButtonClick = useCallback(function () {
     emit<CloseHandler>("CLOSE");
@@ -433,6 +444,8 @@ const UpscaleTab = ({
   const [error, setError] = useState("");
 
   const handleUpscaleButtonClick = useCallback(async () => {
+    if (settings.summonAIToken === "" || !settings.summonAIToken) return;
+
     setLoading(true);
     setError("");
 
@@ -442,6 +455,7 @@ const UpscaleTab = ({
       const { prediction, message } = await apiClient.upscaleImage({
         image,
         face_enhance: faceEnhance,
+        token: settings.summonAIToken,
         scale,
       });
 
@@ -484,7 +498,14 @@ const UpscaleTab = ({
       setError(error?.message);
     }
     setLoading(false);
-  }, [settings.user, image, faceEnhance, scale, settings.acceptSaveImage]);
+  }, [
+    settings.user,
+    image,
+    faceEnhance,
+    scale,
+    settings.acceptSaveImage,
+    settings.summonAIToken,
+  ]);
 
   const handleCloseButtonClick = useCallback(function () {
     emit<CloseHandler>("CLOSE");

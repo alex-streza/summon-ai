@@ -14,7 +14,7 @@ import { LoadSettingsHandler, SelectImageHandler } from "./../types/index";
 import { ExportHandler } from "./types";
 
 export default function () {
-  on<ExportHandler>("EXPORT", function (img, prompt, token) {
+  on<ExportHandler>("EXPORT", function (img, prompt, openAIToken) {
     Promise.all([
       figma.loadFontAsync({ family: "Inter", style: "Regular" }),
       figma.loadFontAsync({ family: "Inter", style: "Semi Bold" }),
@@ -27,10 +27,10 @@ export default function () {
         pasteCenterViewport: true,
       });
 
-      saveSettingsAsync({ token });
+      saveSettingsAsync({ openAIToken });
 
       emit<LoadSettingsHandler>("LOAD_SETTINGS", {
-        token,
+        openAIToken,
       });
 
       figma.notify("🎉 Edited image succesful! 🎉");

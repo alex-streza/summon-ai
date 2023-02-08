@@ -11,7 +11,7 @@ import { GenerateHandler } from "./types";
 import { LoadSettingsHandler, SelectImageHandler } from "../types";
 
 export default function () {
-  on<GenerateHandler>("GENERATE", function (resolution, images, token) {
+  on<GenerateHandler>("GENERATE", function (resolution, images, openAIToken) {
     Promise.all([
       figma.loadFontAsync({ family: "Inter", style: "Regular" }),
       figma.loadFontAsync({ family: "Inter", style: "Semi Bold" }),
@@ -23,10 +23,10 @@ export default function () {
         pasteCenterViewport: true,
       });
 
-      saveSettingsAsync({ token });
+      saveSettingsAsync({ openAIToken });
 
       emit<LoadSettingsHandler>("LOAD_SETTINGS", {
-        token,
+        openAIToken,
       });
 
       figma.notify("🎉 Generated " + images.length + " variants! 🎉");
