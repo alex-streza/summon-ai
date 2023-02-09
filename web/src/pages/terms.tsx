@@ -3,14 +3,12 @@ import React from "react";
 
 const Terms = () => (
   <div data-custom-class="body" className="p-10">
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div
-        align="center"
         className="MsoNormal"
         data-custom-class="title"
         style={{ textAlign: "left", lineHeight: "1.5" }}
       >
-        <a name="_gm5sejt4p02f" />
         <strong>
           <span
             style={{
@@ -19,21 +17,17 @@ const Terms = () => (
               fontSize: "26px",
             }}
           >
-            <bdt className="block-component" />
+            <span className="block-component" />
             TERMS OF USE
-            <bdt className="else-block" />
+            <span className="else-block" />
           </span>
         </strong>
       </div>
       <div
-        align="center"
         className="MsoNormal"
         style={{ textAlign: "center", lineHeight: "1.5" }}
-      >
-        <a name="_7m5b3xg56u7y" />
-      </div>
+      ></div>
       <div
-        align="center"
         className="MsoNormal"
         data-custom-class="subtitle"
         style={{ textAlign: "left", lineHeight: "1.5" }}
@@ -41,7 +35,6 @@ const Terms = () => (
         <br />
       </div>
       <div
-        align="center"
         className="MsoNormal"
         data-custom-class="subtitle"
         style={{ textAlign: "left", lineHeight: "1.5" }}
@@ -52,8 +45,6 @@ const Terms = () => (
             lineHeight: "150%",
             fontFamily: "Arial",
             color: "#A6A6A6",
-            msoThemecolor: "background1",
-            msoThemeshade: 166,
           }}
         >
           <span
@@ -83,109 +74,109 @@ const Terms = () => (
               textAlign: "justify",
             }}
           >
-            <bdt
+            <span
               className="block-container question question-in-editor"
               data-id="0d5ae8ae-7749-9afb-1fed-6556cb563dc0"
               data-type="question"
             >
               <strong>__________</strong>
-            </bdt>
+            </span>
           </span>
         </span>
       </div>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <strong>
         <span data-custom-class="heading_1">TABLE OF CONTENTS</span>
       </strong>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <a data-custom-class="link" href="#agreement">
         <span style={{ fontSize: "15px" }}>
           <span data-custom-class="body_text">1. AGREEMENT TO TERMS</span>
         </span>
       </a>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <a data-custom-class="link" href="#ip">
         <span data-custom-class="body_text">
           2. INTELLECTUAL PROPERTY RIGHTS
         </span>
       </a>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <a data-custom-class="link" href="#userreps">
         <span data-custom-class="body_text">3. USER REPRESENTATIONS</span>
       </a>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
-      <bdt className="block-component">
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
+      <span className="block-component">
         <span data-custom-class="body_text" />
-      </bdt>
+      </span>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <a data-custom-class="link" href="#payment">
         <span data-custom-class="body_text">4. FEES AND PAYMENT</span>
       </a>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
-      <bdt className="block-component">
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
+      <span className="block-component">
         <span data-custom-class="body_text" />
-      </bdt>
+      </span>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <a data-custom-class="link" href="#cancel">
         <span data-custom-class="body_text">5. CANCELLATION</span>
       </a>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
-      <bdt className="block-component">
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
+      <span className="block-component">
         <span data-custom-class="body_text" />
-      </bdt>
+      </span>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <a data-custom-class="link" href="#prohibited">
         <span data-custom-class="body_text">6. PROHIBITED ACTIVITIES</span>
       </a>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <a data-custom-class="link" href="#ugc">
         <span data-custom-class="body_text">
           7. USER GENERATED CONTRIBUTIONS
         </span>
       </a>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <a data-custom-class="link" href="#license">
         <span data-custom-class="body_text">8. CONTRIBUTION LICENSE</span>
       </a>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
-      <bdt className="block-component">
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
+      <span className="block-component">
         <span data-custom-class="body_text" />
-      </bdt>
+      </span>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
-      <bdt className="block-component">
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
+      <span className="block-component">
         <span data-custom-class="body_text" />
-      </bdt>
+      </span>
     </div>
     <div style={{ lineHeight: "1.5" }}>
-      <bdt className="block-component">
+      <span className="block-component">
         <span data-custom-class="body_text" />
-      </bdt>
+      </span>
     </div>
     <div style={{ lineHeight: "1.5" }}>
       <a data-custom-class="link" href="#submissions">
@@ -193,19 +184,19 @@ const Terms = () => (
       </a>
     </div>
     <div style={{ lineHeight: "1.5" }}>
-      <bdt className="block-component">
+      <span className="block-component">
         <span data-custom-class="body_text" />
-      </bdt>
+      </span>
     </div>
     <div style={{ lineHeight: "1.5" }}>
-      <bdt className="block-component">
+      <span className="block-component">
         <span data-custom-class="body_text" />
-      </bdt>
+      </span>
     </div>
     <div style={{ lineHeight: "1.5" }}>
-      <bdt className="block-component">
+      <span className="block-component">
         <span data-custom-class="body_text" />
-      </bdt>
+      </span>
     </div>
     <div style={{ lineHeight: "1.5" }}>
       <a data-custom-class="link" href="#sitemanage">
@@ -213,22 +204,22 @@ const Terms = () => (
       </a>
     </div>
     <div style={{ lineHeight: "1.5" }}>
-      <bdt className="block-component">
+      <span className="block-component">
         <span data-custom-class="body_text" />
-      </bdt>
-      <bdt className="block-component">
+      </span>
+      <span className="block-component">
         <span data-custom-class="body_text" />
-      </bdt>
+      </span>
     </div>
     <div style={{ lineHeight: "1.5" }}>
-      <bdt className="block-component">
+      <span className="block-component">
         <span data-custom-class="body_text" />
-      </bdt>
+      </span>
     </div>
     <div style={{ lineHeight: "1.5" }}>
-      <bdt className="block-component">
+      <span className="block-component">
         <span data-custom-class="body_text" />
-      </bdt>
+      </span>
     </div>
     <div style={{ lineHeight: "1.5" }}>
       <a data-custom-class="link" href="#terms">
@@ -285,9 +276,9 @@ const Terms = () => (
       </a>
     </div>
     <div style={{ lineHeight: "1.5" }}>
-      <bdt className="block-component">
+      <span className="block-component">
         <span data-custom-class="body_text" />
-      </bdt>
+      </span>
     </div>
     <div style={{ lineHeight: "1.5" }}>
       <a data-custom-class="link" href="#misc">
@@ -299,20 +290,19 @@ const Terms = () => (
         <span data-custom-class="body_text">22. CONTACT US</span>
       </a>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div
         className="MsoNormal"
         data-custom-class="heading_1"
         id="agreement"
         style={{ lineHeight: "1.5" }}
       >
-        <a name="_6aa3gkhykvst" />
         <strong>
           <span
             style={{
@@ -326,10 +316,10 @@ const Terms = () => (
         </strong>
       </div>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div
         className="MsoNormal"
         data-custom-class="body_text"
@@ -343,18 +333,18 @@ const Terms = () => (
             color: "rgb(89, 89, 89)",
           }}
         >
-          These <bdt className="block-component" />
+          These <span className="block-component" />
           Terms of Use
-          <bdt className="else-block" /> constitute a legally binding agreement
+          <span className="else-block" /> constitute a legally binding agreement
           made between you, whether personally or on behalf of an entity
           (&quot;you&quot;) and{" "}
-          <bdt
+          <span
             className="block-container question question-in-editor"
             data-id="9d459c4e-c548-e5cb-7729-a118548965d2"
             data-type="question"
           >
             __________
-          </bdt>
+          </span>
         </span>
         <span
           style={{
@@ -362,11 +352,9 @@ const Terms = () => (
             lineHeight: "115%",
             fontFamily: "Arial",
             color: "#595959",
-            msoThemecolor: "text1",
-            msoThemetint: 166,
           }}
         >
-          <bdt className="block-component" />
+          <span className="block-component" />
           &nbsp;
         </span>
         <span
@@ -378,19 +366,19 @@ const Terms = () => (
           }}
         >
           ("
-          <bdt className="block-component" />
+          <span className="block-component" />
           <strong>Company</strong>
-          <bdt className="statement-end-if-in-editor" />
+          <span className="statement-end-if-in-editor" />
           ", &quot;<strong>we</strong>&quot;, &quot;<strong>us</strong>&quot;,
           or &quot;
           <strong>our</strong>&quot;), concerning your access to and use of the{" "}
-          <bdt
+          <span
             className="block-container question question-in-editor"
             data-id="fdf30452-99b8-c68b-5cdf-34af764cd1fd"
             data-type="question"
           >
             __________
-          </bdt>{" "}
+          </span>{" "}
           website as well as any other media form, media channel, mobile website
           or mobile application related, linked, or otherwise connected thereto
           (collectively, the &quot;Site&quot;).
@@ -398,68 +386,62 @@ const Terms = () => (
             style={{
               fontSize: "11.0pt",
               lineHeight: "115%",
-              msoFareastFontFamily: "Calibri",
+
               color: "#595959",
-              msoThemecolor: "text1",
-              msoThemetint: 166,
             }}
           >
             <span
               style={{
                 fontSize: "11.0pt",
                 lineHeight: "115%",
-                msoFareastFontFamily: "Calibri",
+
                 color: "#595959",
-                msoThemecolor: "text1",
-                msoThemetint: 166,
               }}
             >
               <span
                 style={{
                   fontSize: "11.0pt",
                   lineHeight: "115%",
-                  msoFareastFontFamily: "Calibri",
+
                   color: "#595959",
-                  msoThemecolor: "text1",
-                  msoThemetint: 166,
                 }}
               >
-                <bdt className="question">
-                  <bdt className="block-component" />
-                </bdt>
+                <span className="question">
+                  <span className="block-component" />
+                </span>
               </span>
-              <bdt className="block-component" />
+              <span className="block-component" />
             </span>
           </span>
         </span>{" "}
         You agree that by accessing the Site, you have read, understood, and
-        agree to be bound by all of these <bdt className="block-component" />
+        agree to be bound by all of these <span className="block-component" />
         Terms of Use
-        <bdt className="else-block" />
-        <bdt
+        <span className="else-block" />
+        <span
           className="block-container if"
           data-type="if"
           id="c4a4c609-d962-97d8-9b96-d3492402adad"
         >
-          <bdt data-type="conditional-block">
-            <bdt
+          <span data-type="conditional-block">
+            <span
               className="block-component"
               data-record-question-key="separate_agreement_option"
               data-type="statement"
             />
-          </bdt>
+          </span>
           . IF YOU DO NOT AGREE WITH ALL OF THESE{" "}
-          <bdt className="block-component" />
+          <span className="block-component" />
           TERMS OF USE
-          <bdt className="else-block" />, THEN YOU ARE EXPRESSLY PROHIBITED FROM
-          USING THE SITE AND YOU MUST DISCONTINUE USE IMMEDIATELY.
-        </bdt>
+          <span className="else-block" />, THEN YOU ARE EXPRESSLY PROHIBITED
+          FROM USING THE SITE AND YOU MUST DISCONTINUE USE IMMEDIATELY.
+        </span>
       </div>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div
         className="MsoNormal"
         data-custom-class="body_text"
@@ -477,33 +459,33 @@ const Terms = () => (
             the Site from time to time are hereby expressly incorporated herein
             by reference. We reserve the right, in our sole discretion, to make
             changes or modifications to these{" "}
-            <bdt className="block-component" />
+            <span className="block-component" />
             Terms of Use
-            <bdt className="else-block" /> <bdt className="block-component" />
+            <span className="else-block" /> <span className="block-component" />
             at any time and for any reason
-            <bdt className="statement-end-if-in-editor" />. We will alert you
+            <span className="statement-end-if-in-editor" />. We will alert you
             about any changes by updating the &quot;Last updated&quot; date of
-            these <bdt className="block-component" />
+            these <span className="block-component" />
             Terms of Use
-            <bdt className="else-block" />, and you waive any right to receive
+            <span className="else-block" />, and you waive any right to receive
             specific notice of each such change. Please ensure that you check
             the applicable Terms every time you use our Site so that you
             understand which Terms apply. You will be subject to, and will be
             deemed to have been made aware of and to have accepted, the changes
-            in any revised <bdt className="block-component" />
+            in any revised <span className="block-component" />
             Terms of Use
-            <bdt className="else-block" /> by your continued use of the Site
-            after the date such revised <bdt className="block-component" />
+            <span className="else-block" /> by your continued use of the Site
+            after the date such revised <span className="block-component" />
             Terms of Use
-            <bdt className="else-block" /> are posted.
+            <span className="else-block" /> are posted.
           </span>
         </span>
       </div>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div
         className="MsoNormal"
         data-custom-class="body_text"
@@ -538,11 +520,9 @@ const Terms = () => (
             lineHeight: "115%",
             fontFamily: "Arial",
             color: "#595959",
-            msoThemecolor: "text1",
-            msoThemetint: 166,
           }}
         >
-          <bdt className="block-component" />
+          <span className="block-component" />
         </span>
       </div>
       <div
@@ -557,27 +537,27 @@ const Terms = () => (
         data-custom-class="body_text"
         style={{ lineHeight: "1.5" }}
       >
-        <bdt
+        <span
           className="block-container if"
           data-type="if"
           id="a2595956-7028-dbe5-123e-d3d3a93ed076"
         >
-          <bdt data-type="conditional-block">
+          <span data-type="conditional-block">
             <span style={{ fontSize: "15px" }}>
-              <bdt
+              <span
                 className="block-component"
                 data-record-question-key="user_o18_option"
                 data-type="statement"
               />
             </span>
-          </bdt>
-        </bdt>
+          </span>
+        </span>
       </div>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div className="MsoNormal" style={{ lineHeight: "1.5" }}>
         <br />
       </div>
@@ -587,7 +567,6 @@ const Terms = () => (
         id="ip"
         style={{ lineHeight: "1.5" }}
       >
-        <a name="_b6y29mp52qvx" />
         <strong>
           <span
             style={{
@@ -601,10 +580,10 @@ const Terms = () => (
         </strong>
       </div>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div
         className="MsoNormal"
         data-custom-class="body_text"
@@ -629,9 +608,9 @@ const Terms = () => (
           laws, and international conventions. The Content and the Marks are
           provided on the Site &quot;AS IS&quot; for your information and
           personal use only. Except as expressly provided in these{" "}
-          <bdt className="block-component" />
+          <span className="block-component" />
           Terms of Use
-          <bdt className="else-block" />, no part of the Site and no Content or
+          <span className="else-block" />, no part of the Site and no Content or
           Marks may be copied, reproduced, aggregated, republished, uploaded,
           posted, publicly displayed, encoded, translated, transmitted,
           distributed, sold, licensed, or otherwise exploited for any commercial
@@ -639,10 +618,10 @@ const Terms = () => (
         </span>
       </div>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div
         className="MsoNormal"
         data-custom-class="body_text"
@@ -665,10 +644,10 @@ const Terms = () => (
         </span>
       </div>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div className="MsoNormal" style={{ lineHeight: "1.5" }}>
         <br />
       </div>
@@ -678,7 +657,6 @@ const Terms = () => (
         id="userreps"
         style={{ lineHeight: "1.5" }}
       >
-        <a name="_5hg7kgyv9l8z" />
         <strong>
           <span
             style={{
@@ -692,10 +670,10 @@ const Terms = () => (
         </strong>
       </div>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div
         className="MsoNormal"
         data-custom-class="body_text"
@@ -711,52 +689,53 @@ const Terms = () => (
         >
           By using the Site, you represent and warrant that:
         </span>
-        <bdt
+        <span
           className="block-container if"
           data-type="if"
           id="d2d82ca8-275f-3f86-8149-8a5ef8054af6"
         >
-          <bdt data-type="conditional-block">
-            <bdt
+          <span data-type="conditional-block">
+            <span
               className="block-component"
               data-record-question-key="user_account_option"
               data-type="statement"
             >
               <span style={{ fontSize: "15px" }} />
-            </bdt>
+            </span>
             &nbsp;
-          </bdt>
+          </span>
           <span style={{ color: "rgb(89, 89, 89)", fontSize: "15px" }}>(</span>
           <span style={{ fontSize: "15px" }}>
             <span style={{ color: "rgb(89, 89, 89)" }}>1</span>
           </span>
           <span style={{ color: "rgb(89, 89, 89)", fontSize: "15px" }}>
             ) you have the legal capacity and you agree to comply with these{" "}
-            <bdt className="block-component" />
+            <span className="block-component" />
             Terms of Use
-            <bdt className="else-block" />; <bdt className="block-component" />
+            <span className="else-block" />;{" "}
+            <span className="block-component" />
           </span>
-        </bdt>
+        </span>
         <span style={{ color: "rgb(89, 89, 89)", fontSize: "15px" }}>(</span>
         <span style={{ fontSize: "15px" }}>
           <span style={{ color: "rgb(89, 89, 89)" }}>2</span>
         </span>
         <span style={{ color: "rgb(89, 89, 89)", fontSize: "15px" }}>
           ) you are not a minor in the jurisdiction in which you reside
-          <bdt
+          <span
             className="block-container if"
             data-type="if"
             id="76948fab-ec9e-266a-bb91-948929c050c9"
           >
-            <bdt data-type="conditional-block">
-              <bdt
+            <span data-type="conditional-block">
+              <span
                 className="block-component"
                 data-record-question-key="user_o18_option"
                 data-type="statement"
               />
-            </bdt>
+            </span>
             ;
-          </bdt>
+          </span>
         </span>
         <span style={{ color: "rgb(89, 89, 89)", fontSize: "11pt" }}>
           &nbsp;
@@ -789,10 +768,10 @@ const Terms = () => (
         </span>
       </div>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div
         className="MsoNormal"
         data-custom-class="body_text"
@@ -828,19 +807,19 @@ const Terms = () => (
         className="MsoNormal"
         style={{ textAlign: "justify", lineHeight: 1 }}
       >
-        <bdt
+        <span
           className="block-container if"
           data-type="if"
           id="d13abc62-cc6f-e059-7fd6-cb6208085aa7"
         >
-          <bdt data-type="conditional-block">
-            <bdt
+          <span data-type="conditional-block">
+            <span
               className="block-component"
               data-record-question-key="user_account_option"
               data-type="statement"
             />
-          </bdt>
-        </bdt>
+          </span>
+        </span>
       </div>
       <div
         className="MsoNormal"
@@ -848,7 +827,6 @@ const Terms = () => (
         id="payment"
         style={{ lineHeight: "1.5" }}
       >
-        <a name="_ynub0jdx8pob" />
         <strong>
           <span
             style={{
@@ -868,8 +846,6 @@ const Terms = () => (
             lineHeight: "115%",
             fontFamily: "Arial",
             color: "#595959",
-            msoThemecolor: "text1",
-            msoThemetint: 166,
           }}
         >
           <br />
@@ -913,19 +889,19 @@ const Terms = () => (
                 color: "rgb(89, 89, 89)",
               }}
             >
-              <bdt
+              <span
                 className="block-container forloop"
                 data-type="forloop"
                 id="a6e21b8e-b955-c546-15dd-bb6eda2fe88a"
               >
-                <bdt data-type="conditional-block">
-                  <bdt
+                <span data-type="conditional-block">
+                  <span
                     className="forloop-component"
                     data-record-question-key="payment_list"
                     data-type="statement"
                   />
-                </bdt>
-              </bdt>
+                </span>
+              </span>
             </span>
           </div>
         </div>
@@ -935,8 +911,6 @@ const Terms = () => (
             lineHeight: "115%",
             fontFamily: "Arial",
             color: "#595959",
-            msoThemecolor: "text1",
-            msoThemetint: 166,
           }}
         >
           <div
@@ -970,7 +944,7 @@ const Terms = () => (
               account for purchases made via the Site. Sales tax will be added
               to the price of purchases as deemed required by us. We may change
               prices at any time. All payments shall be in{" "}
-              <bdt className="question">__________</bdt>.
+              <span className="question">__________</span>.
             </span>
           </div>
         </span>
@@ -980,8 +954,6 @@ const Terms = () => (
             lineHeight: "115%",
             fontFamily: "Arial",
             color: "#595959",
-            msoThemecolor: "text1",
-            msoThemetint: 166,
           }}
         >
           <div
@@ -1005,19 +977,19 @@ const Terms = () => (
               You agree to pay all charges or fees at the prices then in effect
               for your purchases, and you authorize us to charge your chosen
               payment provider for any such amounts upon making your purchase.{" "}
-              <bdt
+              <span
                 className="block-container if"
                 data-type="if"
                 id="2955e4e9-b2fc-b1ce-6d2e-99ed4a0c390d"
               >
-                <bdt data-type="conditional-block">
-                  <bdt
+                <span data-type="conditional-block">
+                  <span
                     className="block-component"
                     data-record-question-key="recurring_charge_option"
                     data-type="statement"
                   />
-                </bdt>
-              </bdt>
+                </span>
+              </span>
             </span>
           </div>
           <br />
@@ -1062,28 +1034,25 @@ const Terms = () => (
         <div
           className="MsoNormal"
           style={{ lineHeight: "1.5", textAlign: "left" }}
-        >
-          <a name="_drzjqilz2ujm" />
-        </div>
-        <bdt
+        ></div>
+        <span
           className="block-container if"
           data-type="if"
           id="4380167d-5abe-b98f-f389-f707429e6c52"
         >
-          <bdt data-type="conditional-block">
-            <bdt
+          <span data-type="conditional-block">
+            <span
               className="block-component"
               data-record-question-key="free_trial_option"
               data-type="statement"
             />
-          </bdt>
+          </span>
           <div
             className="MsoNormal"
             data-custom-class="heading_1"
             id="cancel"
             style={{ textAlign: "left", lineHeight: "1.5" }}
           >
-            <a name="_e993diqrk0qx" />
             <strong>
               <span
                 style={{
@@ -1096,7 +1065,7 @@ const Terms = () => (
               </span>
             </strong>
           </div>
-        </bdt>
+        </span>
       </div>
       <div
         className="MsoNormal"
@@ -1120,28 +1089,26 @@ const Terms = () => (
               color: "rgb(89, 89, 89)",
             }}
           >
-            <bdt
+            <span
               className="block-container if"
               data-type="if"
               id="cef55cf6-3a65-8031-d0c3-cffe36e64f10"
             >
-              <bdt data-type="conditional-block">
-                <bdt
+              <span data-type="conditional-block">
+                <span
                   className="block-component"
                   data-record-question-key="return_option"
                   data-type="statement"
                 />
-              </bdt>
+              </span>
               You can cancel your subscription at any time
-            </bdt>
+            </span>
           </span>
           <span
             style={{
               fontSize: "11.0pt",
               lineHeight: "115%",
               color: "#595959",
-              msoThemecolor: "text1",
-              msoThemetint: 166,
             }}
           >
             &nbsp;
@@ -1153,43 +1120,43 @@ const Terms = () => (
               color: "rgb(89, 89, 89)",
             }}
           >
-            <bdt
+            <span
               className="block-container if"
               data-type="if"
               id="1a40a488-252c-f087-02cc-5e0de451aa88"
             >
-              <bdt data-type="conditional-block">
-                <bdt
+              <span data-type="conditional-block">
+                <span
                   className="block-component"
                   data-record-question-key="cancel_how"
                   data-type="statement"
                 />
-              </bdt>
-            </bdt>
-            <bdt
+              </span>
+            </span>
+            <span
               className="block-container if"
               data-type="if"
               id="1a40a488-252c-f087-02cc-5e0de451aa88"
             >
-              <bdt data-type="conditional-block">
-                <bdt data-type="body">
-                  <bdt
+              <span data-type="conditional-block">
+                <span data-type="body">
+                  <span
                     className="block-container question question-in-editor"
                     data-id="860fd49a-dd88-3553-0f1b-0b5419dea7e6"
                     data-type="question"
                   >
                     __________
-                  </bdt>
-                </bdt>
-              </bdt>
-            </bdt>
-            <bdt
+                  </span>
+                </span>
+              </span>
+            </span>
+            <span
               className="block-container if"
               data-type="if"
               id="1a40a488-252c-f087-02cc-5e0de451aa88"
             >
-              <bdt className="statement-end-if-in-editor" data-type="close" />
-            </bdt>
+              <span className="statement-end-if-in-editor" data-type="close" />
+            </span>
             . Your cancellation will take effect at the end of the current paid
             term.
           </span>
@@ -1218,14 +1185,14 @@ const Terms = () => (
             }}
           >
             If you are unsatisfied with our services, please email us at{" "}
-            <bdt
+            <span
               className="block-container question question-in-editor"
               data-id="7c40698b-5cc8-bb58-245d-2fbd1b57dfba"
               data-type="question"
             >
               __________
-            </bdt>
-            <bdt className="block-component" />
+            </span>
+            <span className="block-component" />
           </span>
           .
         </div>
@@ -1236,19 +1203,19 @@ const Terms = () => (
           <br />
         </div>
         <div className="MsoNormal" style={{ lineHeight: 1 }}>
-          <bdt
+          <span
             className="block-container if"
             data-type="if"
             id="b671a946-ab46-9fff-9cee-e88149335e8e"
           >
-            <bdt data-type="conditional-block">
-              <bdt
+            <span data-type="conditional-block">
+              <span
                 className="block-component"
                 data-record-question-key="software_option"
                 data-type="statement"
               />
-            </bdt>
-          </bdt>
+            </span>
+          </span>
         </div>
         <div
           className="MsoNormal"
@@ -1256,7 +1223,6 @@ const Terms = () => (
           id="prohibited"
           style={{ lineHeight: "1.5", textAlign: "left" }}
         >
-          <a name="_h284p8mrs3r7" />
           <strong>
             <span
               style={{
@@ -2799,25 +2765,22 @@ const Terms = () => (
                 color: "rgb(89, 89, 89)",
               }}
             >
-              <bdt className="forloop-component" />
+              <span className="forloop-component" />
             </span>
           </li>
         </ul>
       </div>
-      <div className="MsoNormal" style={{ lineHeight: "1.5" }}>
-        <a name="_zbbv9tgty199" />
-      </div>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
-      <bdt className="block-container if" data-type="if">
-        <bdt data-type="conditional-block">
-          <bdt data-type="body">
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
+      <span className="block-container if" data-type="if">
+        <span data-type="conditional-block">
+          <span data-type="body">
             <div
               className="MsoNormal"
               data-custom-class="heading_1"
@@ -2836,17 +2799,17 @@ const Terms = () => (
                 </span>
               </strong>
             </div>
-          </bdt>
-        </bdt>
-      </bdt>
+          </span>
+        </span>
+      </span>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
-      <bdt className="block-container if" data-type="if">
-        <bdt data-type="conditional-block">
-          <bdt data-type="body">
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
+      <span className="block-container if" data-type="if">
+        <span data-type="conditional-block">
+          <span data-type="body">
             <div
               className="MsoNormal"
               style={{ textAlign: "justify", lineHeight: "115%" }}
@@ -2863,21 +2826,21 @@ const Terms = () => (
                     color: "rgb(89, 89, 89)",
                   }}
                 >
-                  <bdt
+                  <span
                     className="block-container if"
                     data-type="if"
                     id="24327c5d-a34f-f7e7-88f1-65a2f788484f"
                   >
-                    <bdt data-type="conditional-block">
-                      <bdt
+                    <span data-type="conditional-block">
+                      <span
                         className="block-component"
                         data-record-question-key="user_post_content_option"
                         data-type="statement"
                       >
                         <span style={{ fontSize: "15px" }} />
-                      </bdt>
+                      </span>
                       The Site does not offer users to submit or post content.
-                      <bdt className="block-component" /> We may provide you
+                      <span className="block-component" /> We may provide you
                       with the opportunity to create, submit, post, display,
                       transmit, perform, publish, distribute, or broadcast
                       content and materials to us or on the Site, including but
@@ -2890,37 +2853,37 @@ const Terms = () => (
                       with the Site Privacy Policy. When you create or make
                       available any Contributions, you thereby represent and
                       warrant that:
-                      <bdt
+                      <span
                         className="block-container if"
                         data-type="if"
                         id="b671a946-ab46-9fff-9cee-e88149335e8e"
                       >
-                        <bdt
+                        <span
                           className="statement-end-if-in-editor"
                           data-type="close"
                         >
-                          <bdt className="block-component" />
-                        </bdt>
-                      </bdt>
-                    </bdt>
-                  </bdt>
+                          <span className="block-component" />
+                        </span>
+                      </span>
+                    </span>
+                  </span>
                 </span>
               </div>
             </div>
-          </bdt>
-        </bdt>
-      </bdt>
+          </span>
+        </span>
+      </span>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
-      <bdt className="block-container if" data-type="if">
-        <bdt data-type="conditional-block">
-          <bdt data-type="body">
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
+      <span className="block-container if" data-type="if">
+        <span data-type="conditional-block">
+          <span data-type="body">
             <div
               className="MsoNormal"
               data-custom-class="heading_1"
@@ -2939,17 +2902,17 @@ const Terms = () => (
                 </span>
               </strong>
             </div>
-          </bdt>
-        </bdt>
-      </bdt>
+          </span>
+        </span>
+      </span>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
-      <bdt className="block-container if" data-type="if">
-        <bdt data-type="conditional-block">
-          <bdt data-type="body">
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
+      <span className="block-container if" data-type="if">
+        <span data-type="conditional-block">
+          <span data-type="body">
             <div
               className="MsoNormal"
               data-custom-class="body_text"
@@ -2963,19 +2926,19 @@ const Terms = () => (
                   color: "rgb(89, 89, 89)",
                 }}
               >
-                <bdt
+                <span
                   className="block-container if"
                   data-type="if"
                   id="a088ddfb-d8c1-9e58-6f21-958c3f4f0709"
                 >
-                  <bdt data-type="conditional-block">
-                    <bdt
+                  <span data-type="conditional-block">
+                    <span
                       className="block-component"
                       data-record-question-key="user_post_content_option"
                       data-type="statement"
                     />
-                  </bdt>
-                </bdt>
+                  </span>
+                </span>
               </span>
             </div>
             <div
@@ -2997,7 +2960,7 @@ const Terms = () => (
                 settings).
               </span>
             </div>
-            <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+            <div style={{ textAlign: "left", lineHeight: 1 }}>
               <br />
             </div>
             <div
@@ -3016,10 +2979,10 @@ const Terms = () => (
                 By submitting suggestions or other feedback regarding the Site,
                 you agree that we can use and share &nbsp;such feedback for any
                 purpose without compensation to you.
-                <bdt className="block-component" />
+                <span className="block-component" />
               </span>
             </div>
-            <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+            <div style={{ textAlign: "left", lineHeight: 1 }}>
               <br />
             </div>
             <div
@@ -3046,67 +3009,60 @@ const Terms = () => (
                 action against us regarding your Contributions.
               </span>
             </div>
-            <div
-              align="center"
-              style={{ textAlign: "left", lineHeight: "1.5" }}
-            >
+            <div style={{ textAlign: "left", lineHeight: "1.5" }}>
               <br />
             </div>
-            <div
-              align="center"
-              style={{ textAlign: "left", lineHeight: "1.5" }}
-            >
+            <div style={{ textAlign: "left", lineHeight: "1.5" }}>
               <br />
             </div>
-            <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
-              <bdt className="block-container if" data-type="if">
-                <bdt className="statement-end-if-in-editor" data-type="close">
+            <div style={{ textAlign: "left", lineHeight: 1 }}>
+              <span className="block-container if" data-type="if">
+                <span className="statement-end-if-in-editor" data-type="close">
                   <span style={{ fontSize: "15px" }} />
-                </bdt>
-              </bdt>
-              <bdt
+                </span>
+              </span>
+              <span
                 className="block-container if"
                 data-type="if"
                 id="a378120a-96b1-6fa3-279f-63d5b96341d3"
               >
-                <bdt data-type="conditional-block">
-                  <bdt
+                <span data-type="conditional-block">
+                  <span
                     className="block-component"
                     data-record-question-key="review_option"
                     data-type="statement"
                   />
-                </bdt>
-                <bdt
+                </span>
+                <span
                   className="block-container if"
                   data-type="if"
                   id="c954892f-02b9-c743-d1e8-faf0d59a4b70"
                 >
-                  <bdt data-type="conditional-block">
-                    <bdt
+                  <span data-type="conditional-block">
+                    <span
                       className="block-component"
                       data-record-question-key="mobile_app_option"
                       data-type="statement"
                     />
-                  </bdt>
-                  <bdt
+                  </span>
+                  <span
                     className="block-container if"
                     data-type="if"
                     id="e9981d4e-3a93-85dd-654b-7ecdf4bfe7d2"
                   >
-                    <bdt data-type="conditional-block">
-                      <bdt
+                    <span data-type="conditional-block">
+                      <span
                         className="block-component"
                         data-record-question-key="socialnetwork_link_option"
                         data-type="statement"
                       />
-                    </bdt>
+                    </span>
                     <div
                       className="MsoNormal"
                       data-custom-class="heading_1"
                       id="submissions"
                       style={{ lineHeight: "1.5" }}
                     >
-                      <a name="_wfq2hvrw11j4" />
                       <strong>
                         <span
                           style={{
@@ -3119,17 +3075,14 @@ const Terms = () => (
                         </span>
                       </strong>
                     </div>
-                  </bdt>
-                </bdt>
-              </bdt>
+                  </span>
+                </span>
+              </span>
             </div>
-            <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+            <div style={{ textAlign: "left", lineHeight: 1 }}>
               <br />
             </div>
-            <div
-              align="center"
-              style={{ textAlign: "left", lineHeight: "1.5" }}
-            >
+            <div style={{ textAlign: "left", lineHeight: "1.5" }}>
               <div
                 className="MsoNormal"
                 data-custom-class="body_text"
@@ -3166,34 +3119,34 @@ const Terms = () => (
                 <br />
               </div>
               <div className="MsoNormal" style={{ lineHeight: 1 }}>
-                <bdt
+                <span
                   className="block-container if"
                   data-type="if"
                   id="36ce5a69-4560-4947-dc72-46e53e2d562a"
                 >
-                  <bdt data-type="conditional-block">
-                    <bdt
+                  <span data-type="conditional-block">
+                    <span
                       className="block-component"
                       data-record-question-key="3rd_party_option"
                       data-type="statement"
                     />
-                  </bdt>
-                  <bdt
+                  </span>
+                  <span
                     className="block-container if"
                     data-type="if"
                     id="14038561-dad7-be9d-370f-f8aa487b2570"
                   >
-                    <bdt data-type="conditional-block">
-                      <bdt
+                    <span data-type="conditional-block">
+                      <span
                         className="block-component"
                         data-record-question-key="advertiser_option"
                         data-type="statement"
                       >
-                        <bdt className="block-component" />
-                      </bdt>
-                    </bdt>
-                  </bdt>
-                </bdt>
+                        <span className="block-component" />
+                      </span>
+                    </span>
+                  </span>
+                </span>
               </div>
             </div>
             <div
@@ -3202,7 +3155,6 @@ const Terms = () => (
               id="sitemanage"
               style={{ lineHeight: "1.5" }}
             >
-              <a name="_wj13r09u8u3u" />
               <strong>
                 <span
                   style={{
@@ -3215,14 +3167,14 @@ const Terms = () => (
                 </span>
               </strong>
             </div>
-          </bdt>
-        </bdt>
-      </bdt>
+          </span>
+        </span>
+      </span>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div
         className="MsoNormal"
         data-custom-class="body_text"
@@ -3237,13 +3189,13 @@ const Terms = () => (
           }}
         >
           We reserve the right, but not the obligation, to: (1) monitor the Site
-          for violations of these <bdt className="block-component" />
+          for violations of these <span className="block-component" />
           Terms of Use
-          <bdt className="else-block" />; (2) take appropriate legal action
+          <span className="else-block" />; (2) take appropriate legal action
           against anyone who, in our sole discretion, violates the law or these{" "}
-          <bdt className="block-component" />
+          <span className="block-component" />
           Terms of Use
-          <bdt className="else-block" />, including without limitation,
+          <span className="else-block" />, including without limitation,
           reporting such user to law enforcement authorities; (3) in our sole
           discretion and without limitation, refuse, restrict access to, limit
           the availability of, or disable (to the extent technologically
@@ -3256,53 +3208,49 @@ const Terms = () => (
           Site.
         </span>
       </div>
-      <div className="MsoNormal" style={{ lineHeight: "1.5" }}>
-        <a name="_jugvcvcw0oj9" />
-      </div>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
-      <bdt className="block-container if" data-type="if">
-        <bdt data-type="conditional-block">
-          <bdt
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
+      <span className="block-container if" data-type="if">
+        <span data-type="conditional-block">
+          <span
             className="block-component"
             data-record-question-key="privacy_policy_option"
             data-type="statement"
           />
-          <bdt
+          <span
             className="block-container if"
             data-type="if"
             id="7371467a-f2b5-2aff-cd0f-3379e970551e"
           >
-            <bdt data-type="conditional-block">
-              <bdt
+            <span data-type="conditional-block">
+              <span
                 className="block-component"
                 data-record-question-key="privacy_policy_followup"
                 data-type="statement"
                 style={{ fontSize: "14.6667px" }}
               >
-                <bdt className="block-component">
-                  <bdt className="block-component" />
-                </bdt>
-              </bdt>
-            </bdt>
-          </bdt>
-        </bdt>
-      </bdt>
+                <span className="block-component">
+                  <span className="block-component" />
+                </span>
+              </span>
+            </span>
+          </span>
+        </span>
+      </span>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div
         className="MsoNormal"
         data-custom-class="heading_1"
         id="terms"
         style={{ lineHeight: "1.5" }}
       >
-        <a name="_k3mndam4w6w1" />
         <strong>
           <span
             style={{
@@ -3316,10 +3264,10 @@ const Terms = () => (
         </strong>
       </div>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div
         className="MsoNormal"
         data-custom-class="body_text"
@@ -3333,43 +3281,44 @@ const Terms = () => (
             color: "rgb(89, 89, 89)",
           }}
         >
-          These <bdt className="block-component" />
+          These <span className="block-component" />
           Terms of Use
-          <bdt className="else-block" /> shall remain in full force and effect
+          <span className="else-block" /> shall remain in full force and effect
           while you use the Site. WITHOUT LIMITING ANY OTHER PROVISION OF THESE{" "}
-          <bdt className="block-component" />
+          <span className="block-component" />
           TERMS OF USE
-          <bdt className="else-block" />, WE RESERVE THE RIGHT TO, IN OUR SOLE
+          <span className="else-block" />, WE RESERVE THE RIGHT TO, IN OUR SOLE
           DISCRETION AND WITHOUT NOTICE OR LIABILITY, DENY ACCESS TO AND USE OF
           THE SITE (INCLUDING BLOCKING CERTAIN IP ADDRESSES), TO ANY PERSON FOR
           ANY REASON OR FOR NO REASON, INCLUDING WITHOUT LIMITATION FOR BREACH
           OF ANY REPRESENTATION, WARRANTY, OR COVENANT CONTAINED IN THESE{" "}
-          <bdt className="block-component" />
+          <span className="block-component" />
           TERMS OF USE
-          <bdt className="else-block" /> OR OF ANY APPLICABLE LAW OR REGULATION.
-          WE MAY TERMINATE YOUR USE OR PARTICIPATION IN THE SITE OR DELETE{" "}
-          <bdt
+          <span className="else-block" /> OR OF ANY APPLICABLE LAW OR
+          REGULATION. WE MAY TERMINATE YOUR USE OR PARTICIPATION IN THE SITE OR
+          DELETE{" "}
+          <span
             className="block-container if"
             data-type="if"
             id="a6e121c2-36b4-5066-bf9f-a0a33512e768"
           >
-            <bdt data-type="conditional-block">
-              <bdt
+            <span data-type="conditional-block">
+              <span
                 className="block-component"
                 data-record-question-key="user_account_option"
                 data-type="statement"
               />
-            </bdt>
+            </span>
             ANY CONTENT OR INFORMATION THAT YOU POSTED AT ANY TIME, WITHOUT
             WARNING, IN OUR SOLE DISCRETION.
-          </bdt>
+          </span>
         </span>
       </div>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div
         className="MsoNormal"
         data-custom-class="body_text"
@@ -3394,10 +3343,10 @@ const Terms = () => (
         </span>
       </div>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div className="MsoNormal" style={{ lineHeight: "1.5" }}>
         <br />
       </div>
@@ -3407,7 +3356,6 @@ const Terms = () => (
         id="modifications"
         style={{ lineHeight: "1.5" }}
       >
-        <a name="_e2dep1hfgltt" />
         <strong>
           <span style={{ lineHeight: "115%", fontFamily: "Arial" }}>
             <span style={{ fontSize: "19px" }}>
@@ -3417,10 +3365,10 @@ const Terms = () => (
         </strong>
       </div>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div
         className="MsoNormal"
         data-custom-class="body_text"
@@ -3444,10 +3392,10 @@ const Terms = () => (
         </span>
       </div>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: 1 }}>
+    <div style={{ textAlign: "left", lineHeight: 1 }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div
         className="MsoNormal"
         data-custom-class="body_text"
@@ -3470,18 +3418,18 @@ const Terms = () => (
           whatsoever for any loss, damage, or inconvenience caused by your
           inability to access or use the Site during any downtime or
           discontinuance of the Site. Nothing in these{" "}
-          <bdt className="block-component" />
+          <span className="block-component" />
           Terms of Use
-          <bdt className="else-block" /> will be construed to obligate us to
+          <span className="else-block" /> will be construed to obligate us to
           maintain and support the Site or to supply any corrections, updates,
           or releases in connection therewith.
         </span>
       </div>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div className="MsoNormal" style={{ lineHeight: "1.5" }}>
         <br />
       </div>
@@ -3491,7 +3439,6 @@ const Terms = () => (
         id="law"
         style={{ lineHeight: "1.5" }}
       >
-        <a name="_p6vbf8atcwhs" />
         <strong>
           <span style={{ lineHeight: "115%", fontFamily: "Arial" }}>
             <span style={{ fontSize: "19px" }}>13. GOVERNING LAW</span>
@@ -3508,11 +3455,9 @@ const Terms = () => (
             lineHeight: "115%",
             fontFamily: "Arial",
             color: "#595959",
-            msoThemecolor: "text1",
-            msoThemetint: 166,
           }}
         >
-          <bdt className="block-component" />
+          <span className="block-component" />
         </span>
       </div>
       <div
@@ -3522,30 +3467,30 @@ const Terms = () => (
       >
         <span style={{ fontSize: "15px" }}>
           These Terms shall be governed by and defined following the laws of{" "}
-          <bdt className="block-component" />
-          <bdt className="question">__________</bdt>
-          <bdt className="statement-end-if-in-editor" />.{" "}
-          <bdt className="question">__________</bdt> and yourself irrevocably
+          <span className="block-component" />
+          <span className="question">__________</span>
+          <span className="statement-end-if-in-editor" />.{" "}
+          <span className="question">__________</span> and yourself irrevocably
           consent that the courts of{" "}
           <span style={{ fontSize: "15px" }}>
-            <bdt className="block-component" />
-            <bdt className="question">__________</bdt>
-            <bdt className="statement-end-if-in-editor" />
+            <span className="block-component" />
+            <span className="question">__________</span>
+            <span className="statement-end-if-in-editor" />
           </span>{" "}
           shall have exclusive jurisdiction to resolve any dispute which may
           arise in connection with these terms.
           <span style={{ fontSize: "15px" }}>
             <span style={{ fontSize: "15px" }}>
-              <bdt className="statement-end-if-in-editor" />
+              <span className="statement-end-if-in-editor" />
             </span>
           </span>
         </span>
       </div>
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <br />
     </div>
-    <div align="center" style={{ textAlign: "left", lineHeight: "1.5" }}>
+    <div style={{ textAlign: "left", lineHeight: "1.5" }}>
       <div className="MsoNormal" style={{ lineHeight: "1.5" }}>
         <br />
       </div>
@@ -3555,7 +3500,6 @@ const Terms = () => (
         id="disputes"
         style={{ lineHeight: "1.5" }}
       >
-        <a name="_v5i5tjw62cyw" />
         <strong>
           <span
             style={{
@@ -3572,28 +3516,28 @@ const Terms = () => (
         <br />
       </div>
       <div className="MsoNormal" style={{ lineHeight: "1.5" }}>
-        <bdt className="block-container if" data-type="if">
-          <bdt data-type="conditional-block">
-            <bdt className="block-component" />
-          </bdt>
-        </bdt>
+        <span className="block-container if" data-type="if">
+          <span data-type="conditional-block">
+            <span className="block-component" />
+          </span>
+        </span>
       </div>
     </div>
     <div className="MsoNormal" style={{ lineHeight: "1.5" }}>
-      <bdt className="block-container if" data-type="if">
-        <bdt data-type="conditional-block">
-          <bdt data-type="body">
+      <span className="block-container if" data-type="if">
+        <span data-type="conditional-block">
+          <span data-type="body">
             <div className="MsoNormal" style={{ lineHeight: "1.5" }}>
-              <bdt className="block-component" />
+              <span className="block-component" />
             </div>
-          </bdt>
-        </bdt>
-      </bdt>
+          </span>
+        </span>
+      </span>
     </div>
     <div className="MsoNormal" style={{ lineHeight: "1.5" }}>
-      <bdt className="block-container if" data-type="if">
-        <bdt data-type="conditional-block">
-          <bdt data-type="body">
+      <span className="block-container if" data-type="if">
+        <span data-type="conditional-block">
+          <span data-type="body">
             <div
               className="MsoNormal"
               data-custom-class="heading_2"
@@ -3601,17 +3545,17 @@ const Terms = () => (
             >
               <strong>Informal Negotiations</strong>
             </div>
-          </bdt>
-        </bdt>
-      </bdt>
+          </span>
+        </span>
+      </span>
     </div>
     <div className="MsoNormal" style={{ lineHeight: 1 }}>
       <br />
     </div>
     <div className="MsoNormal" style={{ lineHeight: "1.5" }}>
-      <bdt className="block-container if" data-type="if">
-        <bdt data-type="conditional-block">
-          <bdt data-type="body">
+      <span className="block-container if" data-type="if">
+        <span data-type="conditional-block">
+          <span data-type="body">
             <div
               className="MsoNormal"
               data-custom-class="body_text"
@@ -3626,43 +3570,43 @@ const Terms = () => (
                 }}
               >
                 esolution and control the cost of any dispute, controversy, or
-                claim related to these <bdt className="block-component" />
+                claim related to these <span className="block-component" />
                 Terms of Use
-                <bdt className="else-block" /> (each "Dispute" and collectively,
-                the &quot;Disputes&quot;) brought by either you or us
-                (individually, a &quot;Party&quot; and collectively, the
+                <span className="else-block" /> (each "Dispute" and
+                collectively, the &quot;Disputes&quot;) brought by either you or
+                us (individually, a &quot;Party&quot; and collectively, the
                 &quot;Parties&quot;), the Parties agree to first attempt to
                 negotiate any Dispute (except those Disputes expressly provided
                 below) informally for at least{" "}
-                <bdt
+                <span
                   className="block-container question question-in-editor"
                   data-id="33108d82-92fb-fbe9-6ef5-01cac7097351"
                   data-type="question"
                 >
                   __________
-                </bdt>{" "}
+                </span>{" "}
                 days before initiating arbitration. Such informal negotiations
                 commence upon written notice from one Party to the other Party.
               </span>
             </div>
-          </bdt>
-        </bdt>
-      </bdt>
+          </span>
+        </span>
+      </span>
     </div>
     <div className="MsoNormal" style={{ lineHeight: 1 }}>
       <br />
     </div>
     <div className="MsoNormal" style={{ lineHeight: 1 }}>
-      <bdt className="block-container if" data-type="if">
-        <bdt data-type="conditional-block">
-          <bdt data-type="body">
+      <span className="block-container if" data-type="if">
+        <span data-type="conditional-block">
+          <span data-type="body">
             <div className="MsoNormal" style={{ lineHeight: "1.5" }} />
-          </bdt>
-        </bdt>
-      </bdt>
-      <bdt className="block-container if" data-type="if">
-        <bdt data-type="conditional-block">
-          <bdt data-type="body">
+          </span>
+        </span>
+      </span>
+      <span className="block-container if" data-type="if">
+        <span data-type="conditional-block">
+          <span data-type="body">
             <div
               className="MsoNormal"
               data-custom-class="heading_2"
@@ -3678,9 +3622,9 @@ const Terms = () => (
                 <strong>Binding Arbitration</strong>
               </span>
             </div>
-          </bdt>
-        </bdt>
-      </bdt>
+          </span>
+        </span>
+      </span>
     </div>
     <div className="MsoNormal" style={{ lineHeight: 1 }}>
       <br />
@@ -3690,9 +3634,9 @@ const Terms = () => (
       data-custom-class="body_text"
       style={{ lineHeight: "1.5" }}
     >
-      <bdt className="block-component">
+      <span className="block-component">
         <span style={{ fontSize: "15px" }} />
-      </bdt>
+      </span>
     </div>
     <div
       className="MsoNormal"
@@ -3707,28 +3651,28 @@ const Terms = () => (
         Arbitration Chamber (Belgium, Brussels, Avenue Louise, 146)
         &nbsp;according to the Rules of this ICAC, which, as a result of
         referring to it, is considered as the part of this clause. The number of
-        arbitrators shall be <bdt className="question">__________</bdt>. The
+        arbitrators shall be <span className="question">__________</span>. The
         seat, or legal place, of arbitration shall be{" "}
-        <bdt className="block-component" />
-        <bdt className="block-component" />
-        <bdt className="block-component" />
-        <bdt className="question">__________</bdt>
-        <bdt className="statement-end-if-in-editor" />
-        <bdt className="statement-end-if-in-editor">
-          <bdt className="statement-end-if-in-editor" />
-        </bdt>
+        <span className="block-component" />
+        <span className="block-component" />
+        <span className="block-component" />
+        <span className="question">__________</span>
+        <span className="statement-end-if-in-editor" />
+        <span className="statement-end-if-in-editor">
+          <span className="statement-end-if-in-editor" />
+        </span>
         . The language to be used in the arbitral proceedings shall be{" "}
-        <bdt className="question">__________</bdt>. The governing law of the
+        <span className="question">__________</span>. The governing law of the
         contract shall be the substantive law of{" "}
-        <bdt className="block-component" />
-        <bdt className="block-component" />
-        <bdt className="question">__________</bdt>
-        <bdt className="statement-end-if-in-editor" />
-        <bdt className="statement-end-if-in-editor" />.
+        <span className="block-component" />
+        <span className="block-component" />
+        <span className="question">__________</span>
+        <span className="statement-end-if-in-editor" />
+        <span className="statement-end-if-in-editor" />.
       </span>
-      <bdt className="statement-end-if-in-editor">
+      <span className="statement-end-if-in-editor">
         <span style={{ fontSize: "15px" }} />
-      </bdt>
+      </span>
     </div>
     <div className="MsoNormal" style={{ lineHeight: 1 }}>
       <br />
@@ -3767,15 +3711,15 @@ const Terms = () => (
       data-custom-class="heading_2"
       style={{ lineHeight: "1.5" }}
     >
-      <bdt className="block-component">
+      <span className="block-component">
         <span style={{ fontSize: "15px" }}>
           <strong />
         </span>
-      </bdt>
+      </span>
       <strong>Exceptions to Informal Negotiations and Arbitration</strong>
-      <bdt className="statement-end-if-in-editor">
+      <span className="statement-end-if-in-editor">
         <strong />
-      </bdt>
+      </span>
     </div>
     <div className="MsoNormal" style={{ lineHeight: 1 }}>
       <br />
@@ -3786,7 +3730,7 @@ const Terms = () => (
       style={{ lineHeight: "1.5" }}
     >
       <span style={{ fontSize: "15px" }}>
-        <bdt className="block-component" />
+        <span className="block-component" />
         The Parties agree that the following Disputes are not subject to the
         above provisions concerning informal negotiations and binding
         arbitration: (a) any Disputes seeking to enforce or protect, or
@@ -3806,7 +3750,7 @@ const Terms = () => (
             color: "rgb(89, 89, 89)",
           }}
         >
-          <bdt className="statement-end-if-in-editor" />
+          <span className="statement-end-if-in-editor" />
         </span>
       </span>
     </div>
@@ -3826,7 +3770,7 @@ const Terms = () => (
               color: "rgb(89, 89, 89)",
             }}
           >
-            <bdt className="statement-end-if-in-editor">
+            <span className="statement-end-if-in-editor">
               <span style={{ fontSize: "15px" }}>
                 <span
                   style={{
@@ -3842,11 +3786,11 @@ const Terms = () => (
                       color: "rgb(89, 89, 89)",
                     }}
                   >
-                    <bdt className="statement-end-if-in-editor" />
+                    <span className="statement-end-if-in-editor" />
                   </span>
                 </span>
               </span>
-            </bdt>
+            </span>
           </span>
         </span>
       </span>
@@ -3985,28 +3929,28 @@ const Terms = () => (
               color: "rgb(89, 89, 89)",
             }}
           >
-            <bdt
+            <span
               className="block-container if"
               data-type="if"
               id="3c3071ce-c603-4812-b8ca-ac40b91b9943"
             >
-              <bdt data-type="conditional-block">
-                <bdt
+              <span data-type="conditional-block">
+                <span
                   className="block-component"
                   data-record-question-key="limitations_liability_option"
                   data-type="statement"
                 />
-              </bdt>
-            </bdt>
-            <bdt
+              </span>
+            </span>
+            <span
               className="block-container if"
               data-type="if"
               id="3c3071ce-c603-4812-b8ca-ac40b91b9943"
             >
-              <bdt data-type="conditional-block">
-                <bdt data-type="body">NOTWITHSTANDING</bdt>
-              </bdt>
-            </bdt>
+              <span data-type="conditional-block">
+                <span data-type="body">NOTWITHSTANDING</span>
+              </span>
+            </span>
           </span>
           <span
             style={{
@@ -4014,19 +3958,17 @@ const Terms = () => (
               lineHeight: "115%",
               fontFamily: "Arial",
               color: "#595959",
-              msoThemecolor: "text1",
-              msoThemetint: 166,
             }}
           >
-            <bdt
+            <span
               className="block-container if"
               data-type="if"
               id="3c3071ce-c603-4812-b8ca-ac40b91b9943"
             >
-              <bdt data-type="conditional-block">
-                <bdt data-type="body">&nbsp;</bdt>
-              </bdt>
-            </bdt>
+              <span data-type="conditional-block">
+                <span data-type="body">&nbsp;</span>
+              </span>
+            </span>
           </span>
           <span
             style={{
@@ -4036,13 +3978,13 @@ const Terms = () => (
               color: "rgb(89, 89, 89)",
             }}
           >
-            <bdt
+            <span
               className="block-container if"
               data-type="if"
               id="3c3071ce-c603-4812-b8ca-ac40b91b9943"
             >
-              <bdt data-type="conditional-block">
-                <bdt data-type="body">
+              <span data-type="conditional-block">
+                <span data-type="body">
                   ANYTHING TO THE CONTRARY CONTAINED HEREIN, OUR LIABILITY TO
                   YOU FOR ANY CAUSE WHATSOEVER AND REGARDLESS OF THE FORM OF THE
                   ACTION, WILL AT ALL TIMES BE LIMITED TO{" "}
@@ -4054,43 +3996,43 @@ const Terms = () => (
                       color: "rgb(89, 89, 89)",
                     }}
                   >
-                    <bdt
+                    <span
                       className="block-container if"
                       data-type="if"
                       id="3c3071ce-c603-4812-b8ca-ac40b91b9943"
                     >
-                      <bdt data-type="conditional-block">
-                        <bdt data-type="body">
-                          <bdt
+                      <span data-type="conditional-block">
+                        <span data-type="body">
+                          <span
                             className="block-container if"
                             data-type="if"
                             id="73189d93-ed3a-d597-3efc-15956fa8e04e"
                           >
-                            <bdt data-type="conditional-block">
-                              <bdt
+                            <span data-type="conditional-block">
+                              <span
                                 className="block-component"
                                 data-record-question-key="limitations_liability_option"
                                 data-type="statement"
                               />
-                            </bdt>
-                          </bdt>
-                        </bdt>
-                      </bdt>
-                    </bdt>
-                    <bdt
+                            </span>
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span
                       className="block-container if"
                       data-type="if"
                       id="3c3071ce-c603-4812-b8ca-ac40b91b9943"
                     >
-                      <bdt data-type="conditional-block">
-                        <bdt data-type="body">
-                          <bdt
+                      <span data-type="conditional-block">
+                        <span data-type="body">
+                          <span
                             className="block-container if"
                             data-type="if"
                             id="73189d93-ed3a-d597-3efc-15956fa8e04e"
                           >
-                            <bdt data-type="conditional-block">
-                              <bdt data-type="body">
+                            <span data-type="conditional-block">
+                              <span data-type="body">
                                 &nbsp;THE LESSER OF THE AMOUNT PAID, IF ANY, BY
                                 YOU TO US{" "}
                                 <span
@@ -4101,44 +4043,44 @@ const Terms = () => (
                                     color: "rgb(89, 89, 89)",
                                   }}
                                 >
-                                  <bdt
+                                  <span
                                     className="block-container if"
                                     data-type="if"
                                     id="3c3071ce-c603-4812-b8ca-ac40b91b9943"
                                   >
-                                    <bdt data-type="conditional-block">
-                                      <bdt data-type="body">
-                                        <bdt
+                                    <span data-type="conditional-block">
+                                      <span data-type="body">
+                                        <span
                                           className="block-container if"
                                           data-type="if"
                                           id="73189d93-ed3a-d597-3efc-15956fa8e04e"
                                         >
-                                          <bdt data-type="conditional-block">
-                                            <bdt data-type="body">
-                                              <bdt data-type="conditional-block">
-                                                <bdt
+                                          <span data-type="conditional-block">
+                                            <span data-type="body">
+                                              <span data-type="conditional-block">
+                                                <span
                                                   className="block-component"
                                                   data-record-question-key="limilation_liability_time_option"
                                                   data-type="statement"
                                                 />
-                                              </bdt>
-                                            </bdt>
-                                          </bdt>
-                                        </bdt>
-                                      </bdt>
-                                    </bdt>
-                                  </bdt>
+                                              </span>
+                                            </span>
+                                          </span>
+                                        </span>
+                                      </span>
+                                    </span>
+                                  </span>
                                 </span>
-                              </bdt>
-                            </bdt>
-                          </bdt>
-                        </bdt>
-                      </bdt>
-                    </bdt>
+                              </span>
+                            </span>
+                          </span>
+                        </span>
+                      </span>
+                    </span>
                   </span>
-                </bdt>
-              </bdt>
-            </bdt>
+                </span>
+              </span>
+            </span>
           </span>{" "}
           OR{" "}
           <span
@@ -4149,53 +4091,53 @@ const Terms = () => (
               color: "rgb(89, 89, 89)",
             }}
           >
-            <bdt
+            <span
               className="block-container if"
               data-type="if"
               id="3c3071ce-c603-4812-b8ca-ac40b91b9943"
             >
-              <bdt data-type="conditional-block">
-                <bdt data-type="body">
-                  <bdt
+              <span data-type="conditional-block">
+                <span data-type="body">
+                  <span
                     className="block-container if"
                     data-type="if"
                     id="73189d93-ed3a-d597-3efc-15956fa8e04e"
                   >
-                    <bdt data-type="conditional-block">
-                      <bdt data-type="body">
-                        <bdt
+                    <span data-type="conditional-block">
+                      <span data-type="body">
+                        <span
                           className="block-container question question-in-editor"
                           data-id="243ad246-9e92-b24d-beee-940be6aa7854"
                           data-type="question"
                         >
                           __________
-                        </bdt>
-                      </bdt>
-                    </bdt>
-                  </bdt>
-                </bdt>
-              </bdt>
-            </bdt>
-            <bdt
+                        </span>
+                      </span>
+                    </span>
+                  </span>
+                </span>
+              </span>
+            </span>
+            <span
               className="block-container if"
               data-type="if"
               id="3c3071ce-c603-4812-b8ca-ac40b91b9943"
             >
-              <bdt data-type="conditional-block">
-                <bdt data-type="body">
-                  <bdt
+              <span data-type="conditional-block">
+                <span data-type="body">
+                  <span
                     className="block-container if"
                     data-type="if"
                     id="73189d93-ed3a-d597-3efc-15956fa8e04e"
                   >
-                    <bdt
+                    <span
                       className="statement-end-if-in-editor"
                       data-type="close"
                     />
-                  </bdt>
-                </bdt>
-              </bdt>
-            </bdt>
+                  </span>
+                </span>
+              </span>
+            </span>
           </span>
           .{" "}
           <span
@@ -4206,28 +4148,28 @@ const Terms = () => (
               color: "rgb(89, 89, 89)",
             }}
           >
-            <bdt
+            <span
               className="block-container if"
               data-type="if"
               id="3c3071ce-c603-4812-b8ca-ac40b91b9943"
             >
-              <bdt data-type="conditional-block">
-                <bdt data-type="body">
+              <span data-type="conditional-block">
+                <span data-type="body">
                   CERTAIN US STATE LAWS AND INTERNATIONAL LAWS DO NOT ALLOW
                   LIMITATIONS ON IMPLIED WARRANTIES OR THE EXCLUSION OR
                   LIMITATION OF CERTAIN DAMAGES. IF THESE LAWS APPLY TO YOU,
                   SOME OR ALL OF THE ABOVE DISCLAIMERS OR LIMITATIONS MAY NOT
                   APPLY TO YOU, AND YOU MAY HAVE ADDITIONAL RIGHTS.
-                </bdt>
-              </bdt>
-            </bdt>
-            <bdt
+                </span>
+              </span>
+            </span>
+            <span
               className="block-container if"
               data-type="if"
               id="3c3071ce-c603-4812-b8ca-ac40b91b9943"
             >
-              <bdt className="statement-end-if-in-editor" data-type="close" />
-            </bdt>
+              <span className="statement-end-if-in-editor" data-type="close" />
+            </span>
           </span>
         </span>
       </span>
@@ -4270,27 +4212,27 @@ const Terms = () => (
             color: "rgb(89, 89, 89)",
           }}
         >
-          <bdt
+          <span
             className="block-container if"
             data-type="if"
             id="475fffa5-05ca-def8-ac88-f426b238903c"
           >
-            <bdt data-type="conditional-block">
-              <bdt
+            <span data-type="conditional-block">
+              <span
                 className="block-component"
                 data-record-question-key="user_post_content_option"
                 data-type="statement"
               />
-            </bdt>
-          </bdt>
+            </span>
+          </span>
         </span>
         (1) use of the Site; (2) breach of these{" "}
-        <bdt className="block-component" />
+        <span className="block-component" />
         Terms of Use
-        <bdt className="else-block" />; (3) any breach of your representations
-        and warranties set forth in these <bdt className="block-component" />
+        <span className="else-block" />; (3) any breach of your representations
+        and warranties set forth in these <span className="block-component" />
         Terms of Use
-        <bdt className="else-block" />; (4) your violation of the rights of a
+        <span className="else-block" />; (4) your violation of the rights of a
         third party, including but not limited to intellectual property rights;
         or (5) any overt harmful act toward any other user of the Site with whom
         you connected via the Site. Notwithstanding the foregoing, we reserve
@@ -4396,7 +4338,7 @@ const Terms = () => (
       <br />
     </div>
     <div className="MsoNormal" style={{ lineHeight: "1.5" }}>
-      <bdt className="block-component" />
+      <span className="block-component" />
     </div>
     <div
       className="MsoNormal"
@@ -4417,45 +4359,45 @@ const Terms = () => (
       style={{ lineHeight: "1.5" }}
     >
       <span style={{ fontSize: "15px" }}>
-        These <bdt className="block-component" />
+        These <span className="block-component" />
         Terms of Use
-        <bdt className="else-block" /> and any policies or operating rules
+        <span className="else-block" /> and any policies or operating rules
         posted by us on the Site or in respect to the Site constitute the entire
         agreement and understanding between you and us. Our failure to exercise
         or enforce any right or provision of these{" "}
-        <bdt className="block-component" />
+        <span className="block-component" />
         Terms of Use
-        <bdt className="else-block" /> shall not operate as a waiver of such
-        right or provision. These <bdt className="block-component" />
+        <span className="else-block" /> shall not operate as a waiver of such
+        right or provision. These <span className="block-component" />
         Terms of Use
-        <bdt className="else-block" /> operate to the fullest extent permissible
-        by law. We may assign any or all of our rights and obligations to others
-        at any time. We shall not be responsible or liable for any loss, damage,
-        delay, or failure to act caused by any cause beyond our reasonable
-        control. If any provision or part of a provision of these{" "}
-        <bdt className="block-component" />
+        <span className="else-block" /> operate to the fullest extent
+        permissible by law. We may assign any or all of our rights and
+        obligations to others at any time. We shall not be responsible or liable
+        for any loss, damage, delay, or failure to act caused by any cause
+        beyond our reasonable control. If any provision or part of a provision
+        of these <span className="block-component" />
         Terms of Use
-        <bdt className="else-block" /> is determined to be unlawful, void, or
+        <span className="else-block" /> is determined to be unlawful, void, or
         unenforceable, that provision or part of the provision is deemed
-        severable from these <bdt className="block-component" />
+        severable from these <span className="block-component" />
         Terms of Use
-        <bdt className="else-block" /> and does not affect the validity and
+        <span className="else-block" /> and does not affect the validity and
         enforceability of any remaining provisions. There is no joint venture,
         partnership, employment or agency relationship created between you and
-        us as a result of these <bdt className="block-component" />
+        us as a result of these <span className="block-component" />
         Terms of Use
-        <bdt className="else-block" /> or use of the Site. You agree that these{" "}
-        <bdt className="block-component" />
+        <span className="else-block" /> or use of the Site. You agree that these{" "}
+        <span className="block-component" />
         Terms of Use
-        <bdt className="else-block" /> will not be construed against us by
+        <span className="else-block" /> will not be construed against us by
         virtue of having drafted them. You hereby waive any and all defenses you
         may have based on the electronic form of these{" "}
-        <bdt className="block-component" />
+        <span className="block-component" />
         Terms of Use
-        <bdt className="else-block" /> and the lack of signing by the parties
-        hereto to execute these <bdt className="block-component" />
+        <span className="else-block" /> and the lack of signing by the parties
+        hereto to execute these <span className="block-component" />
         Terms of Use
-        <bdt className="else-block" />.<bdt className="block-component" />
+        <span className="else-block" />.<span className="block-component" />
       </span>
     </div>
     <div className="MsoNormal" style={{ lineHeight: "1.5" }}>
@@ -4505,11 +4447,11 @@ const Terms = () => (
       data-custom-class="body_text"
       style={{ lineHeight: "1.5" }}
     >
-      <bdt className="question">
+      <span className="question">
         <strong>
           <span style={{ fontSize: "15px" }}>alex.streza@snowfox.art</span>
         </strong>
-      </bdt>
+      </span>
     </div>
   </div>
 );
