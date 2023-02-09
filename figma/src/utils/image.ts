@@ -1,3 +1,6 @@
+import imageCompression from "browser-image-compression";
+import Compressor from "compressorjs";
+
 export const convertDataURIToBinary = (dataURI: string) =>
   Uint8Array.from(window.atob(dataURI.replace(/^data[^,]+,/, "")), (v) =>
     v.charCodeAt(0)
@@ -90,3 +93,38 @@ export const convertToBytes = async (node: SceneNode, ignoreSize?: boolean) => {
     }
   }
 };
+
+export const compressImage = async (image: File) => {
+  console.log("originalFile instanceof Blob", image instanceof Blob); // true
+  console.log(`originalFile size ${image.size / 1024 / 1024} MB`);
+
+  const options = {
+    // maxSizeMB: 1,
+    // maxWidthOrHeight: 1920,
+    // useWebWorker: false,
+  };
+  try {
+    const compressedImage = await imageCompression(image, options);
+    console.log(
+      "compressedFile instanceof Blob",
+      compressedImage instanceof Blob
+    ); // true
+    console.log(`compressedFile size ${compressedImage.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+    return compressedImage;
+  } catch (error) {
+    console.log(error);
+  }
+
+  return image;
+};
+
+export const compressImage2 = async (
+  image: File,
+  success: (image: File) => void
+) =>
+  new Compressor(image, {
+    quality: 0.6,
+    // The compression process is asynchronous,
+    // which means you have to access the `result` in the `success` hook function.
+    success,
+  });

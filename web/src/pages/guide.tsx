@@ -33,7 +33,7 @@ const SignIn = ({ providers }: { providers: Record<string, any> }) => {
         title="Summon AI - Guide"
         description="Looking for unique, AI generated imagery? Look no further than Summon AI! Our directory is powered by a free and open-source Figma plugin, making it easy to access a limitless supply of professional-grade visuals. Boost your design skills with Summon AI today!"
       />
-      <div className="my-10 flex flex-col text-gray-500">
+      <div className="flex flex-col my-10 text-gray-500">
         <div className="mx-auto flex max-w-[60ch] flex-col">
           <h1 className="mb-3 text-3xl font-black text-white">
             Guide - Summon.AI
@@ -90,7 +90,7 @@ const SignIn = ({ providers }: { providers: Record<string, any> }) => {
             </Link>
             <br />
             <br />
-            You'll be redirected to the account page where you can copy the
+            You&apos;ll be redirected to the account page where you can copy the
             SummonAI token.
             <br />
             <br />

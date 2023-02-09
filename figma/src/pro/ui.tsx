@@ -43,6 +43,8 @@ import {
 } from "../types";
 import { apiClient } from "../utils/api";
 import {
+  compressImage,
+  compressImage2,
   convertDataURIToBinary,
   fileToBase64,
   urlToBase64,
@@ -329,8 +331,10 @@ const RestoreTab = ({
 
   const handleSelectedFiles = useCallback(
     async (files: File[]) => {
-      const base64 = await fileToBase64(files[0]);
-      setImage(base64);
+      compressImage2(files[0], async (compressedImage) => {
+        const base64 = await fileToBase64(compressedImage);
+        setImage(base64);
+      });
     },
     [setImage]
   );
@@ -529,8 +533,10 @@ const UpscaleTab = ({
 
   const handleSelectedFiles = useCallback(
     async (files: File[]) => {
-      const base64 = await fileToBase64(files[0]);
-      setImage(base64);
+      compressImage2(files[0], async (compressedImage) => {
+        const base64 = await fileToBase64(compressedImage);
+        setImage(base64);
+      });
     },
     [setImage]
   );

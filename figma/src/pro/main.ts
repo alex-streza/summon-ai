@@ -38,7 +38,7 @@ export default function () {
         if (image) {
           emit<SelectImageHandler>(
             "SELECT_IMAGE",
-            figma.base64Encode(compressedImage)
+            figma.base64Encode(image)
           );
         }
       });
