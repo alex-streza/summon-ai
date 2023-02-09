@@ -306,23 +306,28 @@ export const images = router({
     .meta({ openapi: { method: "POST", path: "/images/restore" } })
     .input(
       z.object({
-        img: z.string(),
-        scale: z.number().min(1).max(10),
-        version: z.enum(["v1.2", "v1.3", "v1.4", "RestoreFormer"]),
+        image: z.string(),
+        task: z.enum([
+          "Face Restoration",
+          "Face Colorization",
+          "Face Inpainting",
+        ]),
+        output_individual: z.boolean(),
+        broken_image: z.boolean(),
       })
     )
     .output(
       z.object({
-        prediction: z.string(),
+        predictions: z.string().array(),
       })
     )
     .mutation(async ({ input, ctx }) => {
-      let prediction = "";
+      let predictions = [];
 
-      const restoreModel = await replicate.models.get("tencentarc/gfpgan");
+      const restoreModel = await replicate.models.get("yangxy/gpen");
 
       try {
-        prediction = (await restoreModel.predict(input)) ?? "";
+        predictions = (await restoreModel.predict(input)) ?? [];
       } catch (error) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
@@ -348,7 +353,7 @@ export const images = router({
       }
 
       return {
-        prediction,
+        predictions,
       };
     }),
   upscaleImage: tokenProcedure

@@ -36,10 +36,7 @@ export default function () {
       selection = currentSelection;
       convertToBytes(selection, true).then(async (image) => {
         if (image) {
-          emit<SelectImageHandler>(
-            "SELECT_IMAGE",
-            figma.base64Encode(image)
-          );
+          emit<SelectImageHandler>("SELECT_IMAGE", figma.base64Encode(image));
         }
       });
     }
@@ -48,7 +45,7 @@ export default function () {
   registerCommonEvents();
 
   showUI({
-    height: 520,
+    height: 580,
     width: 600,
   });
 }

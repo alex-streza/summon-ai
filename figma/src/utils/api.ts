@@ -117,10 +117,11 @@ export const apiClient = {
     token,
     ...body
   }: {
-    img: string;
-    scale: number;
-    version: string;
     token: string;
+    image: string;
+    task: string;
+    output_individual: boolean;
+    broken_image: boolean;
   }) => {
     const res = await fetch(`${API_URL}/images/restore`, {
       method: "POST",

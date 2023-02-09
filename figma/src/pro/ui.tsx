@@ -30,7 +30,7 @@ import { SlideOver } from "../components/Transitions";
 import {
   MIDJOURNEY_HEIGHTS,
   MIDJOURNEY_WIDTHS,
-  RESTORE_VERSIONS,
+  RESTORE_TASKS,
 } from "../constants/config";
 import {
   ClearSettingsHandler,
@@ -44,10 +44,10 @@ import {
 import { apiClient } from "../utils/api";
 import {
   compressImage,
-  compressImage2,
   convertDataURIToBinary,
   fileToBase64,
   urlToBase64,
+  urltoFile,
 } from "../utils/image";
 import { GenerateHandler } from "./types";
 
@@ -248,9 +248,10 @@ const RestoreTab = ({
   image: string;
   setImage: (image: string) => void;
 } & TabProps) => {
-  const [version, setVersion] = useState(RESTORE_VERSIONS[2]);
-  const [scale, setScale] = useState(2);
+  const [task, setTask] = useState(RESTORE_TASKS[0]);
   const [loading, setLoading] = useState(false);
+  const [outputIndividual, setOutputIndividual] = useState(false);
+  const [brokenImage, setBrokenImage] = useState(false);
   const [error, setError] = useState("");
 
   const handleRestoreButtonClick = useCallback(async () => {
@@ -262,32 +263,35 @@ const RestoreTab = ({
     const { color, sessionId, ...user } = settings.user as User;
 
     try {
-      const { prediction, message } = await apiClient.restoreImage({
-        img: image,
-        version,
-        scale,
+      const { predictions, message } = await apiClient.restoreImage({
+        broken_image: brokenImage,
         token: settings.summonAIToken,
+        output_individual: outputIndividual,
+        image,
+        task,
       });
 
-      if (!prediction && message) {
+      if (!predictions && message) {
         throw new Error(message);
       }
 
       const images: {
         b64: string;
         uintArray: Uint8Array;
-        filename: string;
         url: string;
+        filename: string;
       }[] = [];
 
-      const base64 = await urlToBase64(prediction);
+      for (let i = 0; i < predictions.length; i++) {
+        const base64 = await urlToBase64(predictions[i]);
 
-      images.push({
-        b64: base64,
-        url: prediction,
-        uintArray: convertDataURIToBinary(base64),
-        filename: "restored",
-      });
+        images.push({
+          b64: base64,
+          url: predictions[i],
+          uintArray: convertDataURIToBinary(base64),
+          filename: prompt + " " + i,
+        });
+      }
 
       emit<GenerateHandler>(
         "GENERATE",
@@ -295,14 +299,13 @@ const RestoreTab = ({
         "512x512",
         images.map(({ uintArray }) => uintArray)
       );
-
-      if (settings.acceptSaveImage) {
-        apiClient.uploadImages(
-          images.map(({ uintArray, ...rest }) => ({ ...rest })),
-          user,
-          "restored"
-        );
-      }
+      // if (settings.acceptSaveImage) {
+      //   apiClient.uploadImages(
+      //     images.map(({ uintArray, ...rest }) => ({ ...rest })),
+      //     user,
+      //     "restored"
+      //   );
+      // }
     } catch (error: any) {
       emit<NotifyHandler>("NOTIFY", error.message);
       setError(error?.message);
@@ -311,8 +314,7 @@ const RestoreTab = ({
   }, [
     settings.user,
     image,
-    version,
-    scale,
+    task,
     settings.acceptSaveImage,
     settings.summonAIToken,
   ]);
@@ -321,25 +323,42 @@ const RestoreTab = ({
     emit<CloseHandler>("CLOSE");
   }, []);
 
-  const handleChangeScale = useCallback(
+  const handleChangeOutputIndividual = useCallback(
     (event: h.JSX.TargetedEvent<HTMLInputElement>) => {
       const newValue = event.currentTarget.value;
-      setScale(parseInt(newValue));
+      setOutputIndividual(Boolean(newValue));
+    },
+    []
+  );
+
+  const handleChangeBrokenImage = useCallback(
+    (event: h.JSX.TargetedEvent<HTMLInputElement>) => {
+      const newValue = event.currentTarget.value;
+      setBrokenImage(Boolean(newValue));
     },
     []
   );
 
   const handleSelectedFiles = useCallback(
     async (files: File[]) => {
-      compressImage2(files[0], async (compressedImage) => {
-        const base64 = await fileToBase64(compressedImage);
-        setImage(base64);
-      });
+      const compressedImage = await compressImage(files[0]);
+      const base64 = await fileToBase64(compressedImage);
+      setImage(base64);
     },
     [setImage]
   );
 
   const handleRemoveImage = useCallback(() => setImage(""), [setImage]);
+
+  const handleSetTask = useCallback(
+    (task: string) => {
+      if (task == "Face Inpainting") setBrokenImage(true);
+      else setBrokenImage(false);
+
+      setTask(task);
+    },
+    [setTask]
+  );
 
   return (
     <SlideOver show>
@@ -380,31 +399,49 @@ const RestoreTab = ({
         <Columns space="medium">
           <div>
             <Text>
-              <Muted>Version</Muted>
+              <Muted>Task</Muted>
             </Text>
             <VerticalSpace space="small" />
             <Dropdown
-              options={RESTORE_VERSIONS.map((v) => ({
+              options={RESTORE_TASKS.map((v) => ({
                 text: v,
                 value: v,
               }))}
-              onValueChange={setVersion}
-              value={version}
+              onValueChange={handleSetTask}
+              value={task}
               variant="border"
             />
           </div>
+        </Columns>
+        <VerticalSpace space="medium" />
+        <Columns space="medium">
           <div>
-            <Text>
-              <Muted>Scale</Muted>
-            </Text>
             <VerticalSpace space="small" />
-            <TextboxNumeric
-              onInput={handleChangeScale}
-              variant="border"
-              value={scale + ""}
-              max={10}
-              min={1}
-            />
+            <Checkbox
+              onInput={handleChangeBrokenImage}
+              checked={brokenImage}
+              value={brokenImage}
+            >
+              <Text>
+                <Muted>
+                  Broken Image (input image is broken - face inpainting)
+                </Muted>
+              </Text>
+            </Checkbox>
+          </div>
+          <div>
+            <VerticalSpace space="small" />
+            <Checkbox
+              onInput={handleChangeOutputIndividual}
+              checked={outputIndividual}
+              value={outputIndividual}
+            >
+              <Text>
+                <Muted>
+                  Output individual (whether outputs individual enhanced faces.)
+                </Muted>
+              </Text>
+            </Checkbox>
           </div>
         </Columns>
         <VerticalSpace space="medium" />
@@ -490,13 +527,13 @@ const UpscaleTab = ({
         images.map(({ uintArray }) => uintArray)
       );
 
-      if (settings.acceptSaveImage) {
-        apiClient.uploadImages(
-          images.map(({ uintArray, ...rest }) => ({ ...rest })),
-          user,
-          "upscaled"
-        );
-      }
+      // if (settings.acceptSaveImage) {
+      //   apiClient.uploadImages(
+      //     images.map(({ uintArray, ...rest }) => ({ ...rest })),
+      //     user,
+      //     "upscaled"
+      //   );
+      // }
     } catch (error: any) {
       emit<NotifyHandler>("NOTIFY", error.message);
       setError(error?.message);
@@ -533,10 +570,9 @@ const UpscaleTab = ({
 
   const handleSelectedFiles = useCallback(
     async (files: File[]) => {
-      compressImage2(files[0], async (compressedImage) => {
-        const base64 = await fileToBase64(compressedImage);
-        setImage(base64);
-      });
+      const compressedImage = await compressImage(files[0]);
+      const base64 = await fileToBase64(compressedImage);
+      setImage(base64);
     },
     [setImage]
   );
@@ -642,8 +678,16 @@ function Plugin() {
   const [image, setImage] = useState("");
 
   useEffect(() => {
-    return on<SelectImageHandler>("SELECT_IMAGE", (image) => {
-      setImage("data:image/png;base64," + image);
+    return on<SelectImageHandler>("SELECT_IMAGE", async (image) => {
+      const file = await urltoFile(
+        "data:image/png;base64," + image,
+        "image.png",
+        "image/png"
+      );
+      const compressedImage = await compressImage(file);
+      const base64 = await fileToBase64(compressedImage);
+
+      setImage(base64);
     });
   }, []);
 

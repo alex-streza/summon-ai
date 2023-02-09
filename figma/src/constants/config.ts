@@ -5,4 +5,8 @@ export const MIDJOURNEY_OUTPUTS = [1, 4];
 export const MIDJOURNEY_WIDTHS = [256, 512, 768];
 export const MIDJOURNEY_HEIGHTS = [256, 512, 768];
 
-export const RESTORE_VERSIONS = ["v1.2", "v1.3", "v1.4", "RestoreFormer"];
+export const RESTORE_TASKS = [
+  "Face Restoration",
+  "Face Colorization",
+  "Face Inpainting",
+];
