@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities*/
 import React from "react";
 
 const Terms = () => (
@@ -345,8 +346,8 @@ const Terms = () => (
           These <bdt className="block-component" />
           Terms of Use
           <bdt className="else-block" /> constitute a legally binding agreement
-          made between you, whether personally or on behalf of an entity (“you”)
-          and{" "}
+          made between you, whether personally or on behalf of an entity
+          (&quot;you&quot;) and{" "}
           <bdt
             className="block-container question question-in-editor"
             data-id="9d459c4e-c548-e5cb-7729-a118548965d2"
@@ -380,8 +381,9 @@ const Terms = () => (
           <bdt className="block-component" />
           <strong>Company</strong>
           <bdt className="statement-end-if-in-editor" />
-          ", “<strong>we</strong>”, “<strong>us</strong>”, or “
-          <strong>our</strong>”), concerning your access to and use of the{" "}
+          ", &quot;<strong>we</strong>&quot;, &quot;<strong>us</strong>&quot;,
+          or &quot;
+          <strong>our</strong>&quot;), concerning your access to and use of the{" "}
           <bdt
             className="block-container question question-in-editor"
             data-id="fdf30452-99b8-c68b-5cdf-34af764cd1fd"
@@ -391,7 +393,7 @@ const Terms = () => (
           </bdt>{" "}
           website as well as any other media form, media channel, mobile website
           or mobile application related, linked, or otherwise connected thereto
-          (collectively, the “Site”).
+          (collectively, the &quot;Site&quot;).
           <span
             style={{
               fontSize: "11.0pt",
@@ -480,8 +482,8 @@ const Terms = () => (
             <bdt className="else-block" /> <bdt className="block-component" />
             at any time and for any reason
             <bdt className="statement-end-if-in-editor" />. We will alert you
-            about any changes by updating the “Last updated” date of these{" "}
-            <bdt className="block-component" />
+            about any changes by updating the &quot;Last updated&quot; date of
+            these <bdt className="block-component" />
             Terms of Use
             <bdt className="else-block" />, and you waive any right to receive
             specific notice of each such change. Please ensure that you check
@@ -619,14 +621,15 @@ const Terms = () => (
           Unless otherwise indicated, the Site is our proprietary property and
           all source code, databases, functionality, software, website designs,
           audio, video, text, photographs, and graphics on the Site
-          (collectively, the “Content”) and the trademarks, service marks, and
-          logos contained therein (the “Marks”) are owned or controlled by us or
-          licensed to us, and are protected by copyright and trademark laws and
-          various other intellectual property rights and unfair competition laws
-          of the United States, international copyright laws, and international
-          conventions. The Content and the Marks are provided on the Site “AS
-          IS” for your information and personal use only. Except as expressly
-          provided in these <bdt className="block-component" />
+          (collectively, the &quot;Content&quot;) and the trademarks, service
+          marks, and logos contained therein (the &quot;Marks&quot;) are owned
+          or controlled by us or licensed to us, and are protected by copyright
+          and trademark laws and various other intellectual property rights and
+          unfair competition laws of the United States, international copyright
+          laws, and international conventions. The Content and the Marks are
+          provided on the Site &quot;AS IS&quot; for your information and
+          personal use only. Except as expressly provided in these{" "}
+          <bdt className="block-component" />
           Terms of Use
           <bdt className="else-block" />, no part of the Site and no Content or
           Marks may be copied, reproduced, aggregated, republished, uploaded,
@@ -2164,10 +2167,11 @@ const Terms = () => (
                       Upload or transmit (or attempt to upload or to transmit)
                       any material that acts as a passive or active information
                       collection or transmission mechanism, including without
-                      limitation, clear graphics interchange formats (“gifs”),
-                      1×1 pixels, web bugs, cookies, or other similar devices
-                      (sometimes referred to as “spyware” or “passive collection
-                      mechanisms” or “pcms”).
+                      limitation, clear graphics interchange formats
+                      (&quot;gifs&quot;), 1×1 pixels, web bugs, cookies, or
+                      other similar devices (sometimes referred to as
+                      &quot;spyware&quot; or &quot;passive collection
+                      mechanisms&quot; or &quot;pcms&quot;).
                     </span>
                   </span>
                 </span>
@@ -3625,10 +3629,11 @@ const Terms = () => (
                 claim related to these <bdt className="block-component" />
                 Terms of Use
                 <bdt className="else-block" /> (each "Dispute" and collectively,
-                the “Disputes”) brought by either you or us (individually, a
-                “Party” and collectively, the “Parties”), the Parties agree to
-                first attempt to negotiate any Dispute (except those Disputes
-                expressly provided below) informally for at least{" "}
+                the &quot;Disputes&quot;) brought by either you or us
+                (individually, a &quot;Party&quot; and collectively, the
+                &quot;Parties&quot;), the Parties agree to first attempt to
+                negotiate any Dispute (except those Disputes expressly provided
+                below) informally for at least{" "}
                 <bdt
                   className="block-container question question-in-editor"
                   data-id="33108d82-92fb-fbe9-6ef5-01cac7097351"

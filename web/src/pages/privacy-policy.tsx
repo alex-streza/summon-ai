@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities*/
 import React from "react";
 
 const PrivacyPolicy = () => (
@@ -83,6 +84,7 @@ const PrivacyPolicy = () => (
                 <a
                   href="https://www.summon-ai.com/"
                   target="_blank"
+                  rel="noopener noreferrer"
                   data-custom-class="link"
                 >
                   https://www.summon-ai.com/
@@ -984,6 +986,7 @@ const PrivacyPolicy = () => (
                       <a
                         href="https://stripe.com/en-gb-ro/privacy"
                         target="_blank"
+                        rel="noopener noreferrer"
                         data-custom-class="link"
                       >
                         https://stripe.com/en-gb-ro/privacy
