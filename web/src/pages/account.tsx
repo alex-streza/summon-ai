@@ -301,7 +301,7 @@ const Account: NextPage = () => {
                   </Button>
                 ) : (
                   <Button
-                    className="mt-4 !text-green-500"
+                    className="mt-4 !border-green-500 !text-green-500"
                     onClick={handleCheckoutSession}
                     loading={loading}
                   >

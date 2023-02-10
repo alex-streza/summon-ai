@@ -11,7 +11,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-const GoogleIcon = () => (
+const FigmaIcon = () => (
   <svg
     width="24"
     height="24"
@@ -33,7 +33,7 @@ const SignIn = ({ providers }: { providers: Record<string, any> }) => {
         title="Summon AI - Guide"
         description="Looking for unique, AI generated imagery? Look no further than Summon AI! Our directory is powered by a free and open-source Figma plugin, making it easy to access a limitless supply of professional-grade visuals. Boost your design skills with Summon AI today!"
       />
-      <div className="flex flex-col my-10 text-gray-500">
+      <div className="my-10 flex flex-col text-gray-500">
         <div className="mx-auto flex max-w-[60ch] flex-col">
           <h1 className="mb-3 text-3xl font-black text-white">
             Guide - Summon.AI
@@ -84,7 +84,7 @@ const SignIn = ({ providers }: { providers: Record<string, any> }) => {
           </h2>
           <h3 className="mt-3 mb-2 text-white">1. Create an account</h3>
           <p>
-            You can create an account with Google in 2 clicks{" "}
+            You can create an account with Figma in 2 clicks{" "}
             <Link href="/sign-in" className="text-green-500 underline">
               here
             </Link>

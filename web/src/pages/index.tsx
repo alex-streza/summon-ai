@@ -74,6 +74,7 @@ const Home: NextPage = () => {
           clipPath: "polygon(100% 0, 0% 100%, 100% 100%)",
         }}
       >
+        <div className="absolute bottom-0 z-[-1] h-screen w-full animate-pulse bg-gray-100" />
         <span className="absolute right-1/2 bottom-5 z-50 translate-x-1/2 rounded-full bg-gray-700 p-2 text-xs text-green-500">
           {imagesQuery.data?.count} images generated
         </span>
