@@ -52,7 +52,7 @@ const GenerateTab = ({
 }: {
   image: string;
   saveImage: (image: string) => void;
-  settings: any;
+  settings: Settings;
 }) => {
   const [token, setToken] = useState("");
   const [tokenExists, setTokenExists] = useState(true);

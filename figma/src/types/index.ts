@@ -1,16 +1,29 @@
 import { EventHandler } from "@create-figma-plugin/utilities";
 
+export type Roles = "assistant" | "user" | "system";
+
+export type MessageProps = {
+  date: Date;
+  children?: any;
+  text?: string;
+  role?: Roles;
+  left?: boolean;
+  hideCopy?: boolean;
+};
+
 export type Settings = {
   openAIToken?: string;
   summonAIToken?: string;
   acceptSaveImage?: boolean;
   user?: User | null;
+  chats?: Record<string, MessageProps[]>;
 } & Record<string, unknown>;
 
 export type WriteSettings = {
   openAIToken?: string;
   summonAIToken?: string;
   acceptSaveImage?: boolean;
+  chats?: Record<string, MessageProps[]>;
 };
 
 type BaseUser = {

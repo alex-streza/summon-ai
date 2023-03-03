@@ -254,16 +254,16 @@
   z-index: 10
 }
 
+.m-0 {
+  margin: 0px
+}
+
 .\!m-4 {
   margin: 1rem !important
 }
 
 .m-4 {
   margin: 1rem
-}
-
-.m-0 {
-  margin: 0px
 }
 
 .\!mx-auto {
@@ -274,6 +274,11 @@
 .mx-auto {
   margin-left: auto;
   margin-right: auto
+}
+
+.my-1 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem
 }
 
 .mt-8 {
@@ -300,6 +305,18 @@
   margin-right: auto
 }
 
+.ml-0 {
+  margin-left: 0px
+}
+
+.mt-2 {
+  margin-top: 0.5rem
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem
+}
+
 .mr-2 {
   margin-right: 0.5rem
 }
@@ -308,8 +325,20 @@
   margin-left: 3.5rem
 }
 
-.mt-2 {
-  margin-top: 0.5rem
+.mt-5 {
+  margin-top: 1.25rem
+}
+
+.-mt-20 {
+  margin-top: -5rem
+}
+
+.-mt-12 {
+  margin-top: -3rem
+}
+
+.-mt-16 {
+  margin-top: -4rem
 }
 
 .inline-block {
@@ -342,6 +371,10 @@
 
 .h-\[256px\] {
   height: 256px
+}
+
+.h-\[550px\] {
+  height: 550px
 }
 
 .h-\[650px\] {
@@ -434,6 +467,14 @@
   max-width: 512px
 }
 
+.max-w-\[60ch\] {
+  max-width: 60ch
+}
+
+.max-w-\[70ch\] {
+  max-width: 70ch
+}
+
 .max-w-sm {
   max-width: 24rem
 }
@@ -516,6 +557,11 @@
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
 }
 
+.-translate-y-\[120px\] {
+  --tw-translate-y: -120px;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+}
+
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
 }
@@ -548,6 +594,10 @@
   resize: both
 }
 
+.list-none {
+  list-style-type: none
+}
+
 .\!grid-cols-3 {
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important
 }
@@ -558,6 +608,10 @@
 
 .flex-col {
   flex-direction: column
+}
+
+.flex-wrap {
+  flex-wrap: wrap
 }
 
 .items-end {
@@ -614,6 +668,10 @@
 
 .overflow-x-auto {
   overflow-x: auto
+}
+
+.whitespace-pre-wrap {
+  white-space: pre-wrap
 }
 
 .rounded-full {
@@ -687,6 +745,11 @@
   background-color: rgb(94 94 94 / var(--tw-bg-opacity))
 }
 
+.bg-green-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(99 222 199 / var(--tw-bg-opacity))
+}
+
 .bg-gray-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(68 68 68 / var(--tw-bg-opacity))
@@ -695,11 +758,6 @@
 .bg-gray-800 {
   --tw-bg-opacity: 1;
   background-color: rgb(31 41 55 / var(--tw-bg-opacity))
-}
-
-.bg-green-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(99 222 199 / var(--tw-bg-opacity))
 }
 
 .bg-slate-800 {
@@ -741,6 +799,22 @@
 
 .bg-opacity-70 {
   --tw-bg-opacity: 0.7
+}
+
+.bg-opacity-30 {
+  --tw-bg-opacity: 0.3
+}
+
+.bg-opacity-10 {
+  --tw-bg-opacity: 0.1
+}
+
+.bg-opacity-50 {
+  --tw-bg-opacity: 0.5
+}
+
+.bg-opacity-40 {
+  --tw-bg-opacity: 0.4
 }
 
 .\!bg-gradient-to-b {
@@ -890,6 +964,10 @@
   font-weight: 700
 }
 
+.italic {
+  font-style: italic
+}
+
 .leading-10 {
   line-height: 2.5rem
 }
@@ -931,6 +1009,16 @@
 .text-black {
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity))
+}
+
+.text-green-500 {
+  --tw-text-opacity: 1;
+  color: rgb(99 222 199 / var(--tw-text-opacity))
+}
+
+.text-gray-300 {
+  --tw-text-opacity: 1;
+  color: rgb(209 213 219 / var(--tw-text-opacity))
 }
 
 .no-underline {
@@ -1250,7 +1338,7 @@ body {
 .chat-container {
   position: relative;
   display: flex;
-  height: 650px;
+  height: 550px;
   flex-direction: column;
   gap: 1.25rem;
   overflow-x: auto;
@@ -1262,16 +1350,49 @@ body {
   margin-left: auto;
   width: -moz-fit-content;
   width: fit-content;
-  max-width: 24rem;
+  max-width: 60ch;
   border-radius: 0.25rem;
-  --tw-bg-opacity: 1;
-  background-color: rgb(68 68 68 / var(--tw-bg-opacity));
+  background-color: rgb(99 222 199 / var(--tw-bg-opacity));
+  --tw-bg-opacity: 0.3;
   padding: 0.75rem
 }
 
 .chat.left {
   margin-right: auto;
-  margin-left: 0px
+  margin-left: 0px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(68 68 68 / var(--tw-bg-opacity))
+}
+
+.markdown-message {
+  margin: 0px;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  white-space: pre-wrap;
+  font-size: 1rem;
+  line-height: 1.5rem
+}
+
+.markdown-message p {
+  margin-bottom: 0.25rem;
+  padding: 0px
+}
+
+.markdown-message ul li {
+  margin-bottom: 0.25rem;
+  list-style-type: none;
+  padding: 0px
+}
+
+.markdown-message pre {
+  margin: 0px;
+  overflow-x: auto;
+  border-radius: 0.25rem;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  --tw-bg-opacity: 0.1;
+  padding: 0.25rem
 }
 
 .hover\:border-spacing-1:hover {
