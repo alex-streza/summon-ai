@@ -5,6 +5,7 @@ import { type AppType } from "next/app";
 import { EB_Garamond, Inter } from "@next/font/google";
 import { trpc } from "../utils/trpc";
 export { reportWebVitals } from "next-axiom";
+import { Analytics } from "@vercel/analytics/react";
 
 import "../styles/globals.css";
 
@@ -26,6 +27,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <main className={[inter.variable, ebGaramond.variable].join(" ")}>
+      <Analytics />;
       <SessionProvider session={session}>
         <Component {...pageProps} />
       </SessionProvider>

@@ -12,8 +12,7 @@ import NotFound from "../../components/NotFound";
 import { useAtom } from "jotai";
 import { searchAtom } from "../../utils/store";
 
-const placeholders = [...Array(15)];
-const filledPositions = [0, 2, 4, 5, 6, 8, 10, 12, 14];
+const placeholders = [...Array(20)];
 
 export const getServersideProps = async () => {
   return {
@@ -27,37 +26,9 @@ const Showcase: NextPage = () => {
 
   const { data, isLoading } = trpc.images.getImages.useQuery({
     page: "1",
-    page_size: "9",
+    page_size: "20",
     search,
   });
-
-  const images = useMemo(() => {
-    const images = [];
-    let j = 0;
-
-    if (data?.images.length == 0) {
-      return [];
-    }
-
-    for (let i = 0; i < 15; i++) {
-      if (filledPositions.includes(i)) {
-        images.push(
-          data?.images
-            ? data?.images[j]
-            : {
-                id: "image-" + i,
-                url: "",
-                prompt: "",
-              }
-        );
-        j++;
-      } else {
-        images.push(null);
-      }
-    }
-
-    return images;
-  }, [data]);
 
   const handleSearch = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,7 +37,7 @@ const Showcase: NextPage = () => {
     []
   );
 
-  const notFound = !isLoading && images.length == 0;
+  const notFound = !isLoading && data?.images?.length == 0;
 
   return (
     <Layout isDark>
@@ -97,32 +68,25 @@ const Showcase: NextPage = () => {
         } my-5 gap-5 md:my-8`}
       >
         {isLoading &&
-          placeholders.map((_, index) =>
-            filledPositions.includes(index) ? (
-              <div
-                key={index}
-                className="aspect-square h-full w-full animate-[pulse_1s_ease-in-out_infinite] bg-gray-800"
-              />
-            ) : (
-              <div key={index} />
-            )
-          )}
+          placeholders.map((_, index) => (
+            <div
+              key={index}
+              className="aspect-square h-full w-full animate-[pulse_1s_ease-in-out_infinite] bg-gray-800"
+            />
+          ))}
         {!isLoading &&
-          images.map((image, index) =>
-            image ? (
-              <Link key={image.id} href={`/showcase/${image.id}`}>
-                <div className="relative w-full h-full overflow-hidden rounded">
-                  <img
-                    src={image.url}
-                    alt={image.prompt}
-                    className="transition-all duration-300 grayscale-0 hover:grayscale"
-                  />
-                </div>
-              </Link>
-            ) : (
-              <div key={index} />
-            )
-          )}
+          data?.images &&
+          data.images.map((image, index) => (
+            <Link key={image.id} href={`/showcase/${image.id}`}>
+              <div className="relative aspect-square h-full w-full overflow-hidden rounded">
+                <img
+                  src={image.url}
+                  alt={image.prompt}
+                  className="block rounded-lg object-cover object-center grayscale-0 transition-all duration-300 hover:grayscale"
+                />
+              </div>
+            </Link>
+          ))}
         {notFound && <NotFound onReset={() => setSearch("")} />}
       </div>
     </Layout>

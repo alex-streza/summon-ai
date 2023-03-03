@@ -23,6 +23,7 @@
     "@trpc/next": "^10.0.0",
     "@trpc/react-query": "^10.0.0",
     "@trpc/server": "^10.0.0",
+    "@vercel/analytics": "^0.1.8",
     "@vercel/og": "^0.0.21",
     "argon2": "^0.30.3",
     "circletype": "^2.3.0",

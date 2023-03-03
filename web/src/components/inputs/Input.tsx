@@ -33,7 +33,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
           }`}
         >
           <div className="absolute h-11 w-4 -translate-x-3.5 bg-gray-800 bg-opacity-50 backdrop-blur-[1px]" />
-          <span className="grid w-6 h-6 text-gray-600 bg-gray-700 border-gray-600 rounded-md place-content-center">
+          <span className="grid h-6 w-6 place-content-center rounded-md border-gray-600 bg-gray-700 text-gray-600">
             {icon}
           </span>
         </div>
