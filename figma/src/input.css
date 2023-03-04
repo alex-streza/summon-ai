@@ -31,7 +31,7 @@ body {
 }
 
 .image-grid {
-  @apply !mb-3 !grid !grid-cols-3 !gap-4;
+  @apply !mb-3 !grid !w-[580px] !grid-cols-3 !gap-4;
 }
 
 .image-grid > .image-container {
@@ -76,4 +76,28 @@ body {
 
 .tooltip {
   @apply absolute -left-[4px] w-[86px] -translate-x-full rounded-md bg-slate-900 bg-opacity-70 p-2 text-[11px] opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100;
+}
+
+.chat-container {
+  @apply relative flex h-[550px] flex-col gap-5 overflow-x-auto pb-28;
+}
+
+.chat {
+  @apply right-0 ml-auto w-fit max-w-[60ch] rounded bg-green-500 bg-opacity-30 p-3;
+}
+.chat.left {
+  @apply mr-auto ml-0 bg-gray-500;
+}
+
+.markdown-message {
+  @apply m-0 mt-2 flex flex-col gap-2 whitespace-pre-wrap text-base;
+}
+.markdown-message p {
+  @apply mb-1 p-0;
+}
+.markdown-message ul li {
+  @apply mb-1 list-none p-0;
+}
+.markdown-message pre {
+  @apply m-0 overflow-x-auto rounded bg-white bg-opacity-10 p-1;
 }
