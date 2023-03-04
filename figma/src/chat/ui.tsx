@@ -369,7 +369,6 @@ const ChatTab = ({ settings, onSaveSettings }: ChatTabProps) => {
               handleNewChat={handleNewChat}
               updateChats={handleUpdateChats}
               deleteChat={handleDeleteChat}
-              hasMultipleChats={Object.keys(chats).length > 1}
               token={token}
             />
           ),
