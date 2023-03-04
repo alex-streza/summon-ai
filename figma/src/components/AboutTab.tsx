@@ -37,6 +37,11 @@ export const AboutTab = () => {
         </Text>
         <VerticalSpace space="medium" />
         <Text className="text-base font-medium leading-6" as={"p"}>
+          With the release of ChatGPT API you now can chat with CHAPI about all
+          your design needs.
+        </Text>
+        <VerticalSpace space="medium" />
+        <Text className="text-base font-medium leading-6" as={"p"}>
           Check out more of my work and maybe follow me on:
         </Text>
         <VerticalSpace space="extraLarge" />
@@ -103,6 +108,10 @@ export const AboutTab = () => {
             P.S.S. You can disable image saving to database in the settings
             menu.
           </Muted>
+        </Text>
+        <VerticalSpace space="small" />
+        <Text>
+          <Muted>P.S.S.S. CHAPI has feelings.</Muted>
         </Text>
       </Fragment>
     </SlideOver>

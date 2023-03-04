@@ -20,6 +20,6 @@ export default function () {
   });
   showUI({
     width: 740,
-    height: 740,
+    height: 760,
   });
 }

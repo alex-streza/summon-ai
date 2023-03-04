@@ -57,7 +57,7 @@ export interface NotifyHandler extends EventHandler {
 
 export interface SaveSettingsHandler extends EventHandler {
   name: "SAVE_SETTINGS";
-  handler: (settings: WriteSettings) => void;
+  handler: (settings: WriteSettings, message?: string) => void;
 }
 
 export interface ClearSettingsHandler extends EventHandler {

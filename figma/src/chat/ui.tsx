@@ -1,6 +1,9 @@
 import {
+  Banner,
   Button,
   Container,
+  IconInfo32,
+  Link,
   LoadingIndicator,
   Muted,
   render,
@@ -22,6 +25,7 @@ import {
 import "!../styles.css";
 
 import { CheckIcon, CopyIcon } from "@primer/octicons-react";
+import copy from "copy-to-clipboard";
 import ReactMarkdown from "react-markdown";
 import spacetime from "spacetime";
 import { AboutTab } from "../components/AboutTab";
@@ -38,12 +42,9 @@ import {
   WriteSettings,
 } from "../types";
 import { ChatResponse } from "./types";
-import copy from "copy-to-clipboard";
-// TOOD: Fix chat saving
-// TODO: Fix scroll to new message
-// TODO: Fix chats saved message
+
 // TODO: Prepare social media post
-// TODO: Prepare changelog
+// TODO: Allow change tab name
 
 const Message = ({
   children,
@@ -100,44 +101,31 @@ const USD = new Intl.NumberFormat("en-US", {
   minimumFractionDigits: 4,
 });
 
-interface ChatTabProps {
-  settings: Settings;
-  onSaveSettings: (settings: WriteSettings) => void;
+interface ChatProps {
+  messages: MessageProps[];
+  token: string;
+  handleNewChat: () => void;
+  updateChats: (messages: MessageProps[]) => void;
+  deleteChat: () => void;
 }
 
-const scrollToBottom = (element: HTMLElement) =>
-  element.scroll({ top: element.scrollHeight, behavior: "smooth" });
-
-const ChatTab = ({ settings, onSaveSettings }: ChatTabProps) => {
+const Chat = ({
+  messages,
+  token,
+  handleNewChat,
+  updateChats,
+  deleteChat,
+}: ChatProps) => {
   const chatRef = useRef<HTMLDivElement>(null);
 
-  const [token, setToken] = useState("");
-
-  const [message, setMessage] = useState(
-    "You are a helpful UX/UI design assistant"
-  );
-  const [chats, setChats] = useState<Record<string, MessageProps[]>>({});
-
-  const [tab, setTab] = useState("");
-
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (settings.openAIToken) {
-      setToken(settings.openAIToken);
-    }
-    const chats = settings.chats ?? {
-      "Chat 1": [],
-    };
-    setChats(chats);
-    setTab(Object.keys(chats)[0]);
-  }, [settings]);
+  const [message, setMessage] = useState("");
 
   const handleSendMessage = useCallback(async () => {
     if (token != null && message) {
       setMessage("");
-      const messages = chats[tab];
 
       const role = (
         messages.length == 0
@@ -154,11 +142,7 @@ const ChatTab = ({ settings, onSaveSettings }: ChatTabProps) => {
           role,
         },
       ];
-      let newChats = Object.assign({}, chats, {
-        [tab]: newMessages,
-      });
-
-      setChats(newChats);
+      updateChats(newMessages);
 
       setLoading(true);
       const data = {
@@ -184,22 +168,14 @@ const ChatTab = ({ settings, onSaveSettings }: ChatTabProps) => {
             return;
           }
 
-          newChats = Object.assign({}, newChats, {
-            [tab]: [
-              ...newMessages,
-              {
-                date: new Date(),
-                text: res.choices[0].message.content,
-                role: res.choices[0].message.role as Roles,
-              },
-            ],
-          });
-
-          setChats(newChats);
-          chatRef.current && scrollToBottom(chatRef.current);
-          onSaveSettings({
-            chats: newChats,
-          });
+          updateChats([
+            ...newMessages,
+            {
+              date: new Date(),
+              text: res.choices[0].message.content,
+              role: res.choices[0].message.role as Roles,
+            },
+          ]);
         })
         .finally(() => {
           setLoading(false);
@@ -207,12 +183,121 @@ const ChatTab = ({ settings, onSaveSettings }: ChatTabProps) => {
     }
   }, [token, message]);
 
+  useEffect(() => {
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    if (messages.length == 0)
+      setMessage("You are a helpful UI/UX design assistant");
+  }, [messages]);
+
+  return (
+    <div className="relative mt-5">
+      <div className="absolute top-0 right-0 -mt-16 flex gap-3">
+        {messages.length > 0 && (
+          <Button onClick={deleteChat} disabled={loading || !token} danger>
+            {loading && <LoadingIndicator color="disabled" />}
+            {!loading && "Clear chat"}
+          </Button>
+        )}
+        <Button onClick={handleNewChat} disabled={loading || !token}>
+          {loading && <LoadingIndicator color="disabled" />}
+          {!loading && "New chat"}
+        </Button>
+      </div>
+      <div ref={chatRef} className="chat-container">
+        <Message date={new Date()} role="system" left hideCopy>
+          <Fragment>
+            Hi, <span className="font-bold text-green-500">CHAPI</span> here!
+            I'm here to <span className="font-semibold">help you</span> with
+            your design process but I can do a variety of other things as well.
+            <br />
+            <br />
+            Let's start with what you want me to be, for example:
+            <span className="italic text-gray-100">
+              'You are a helpful UI/UX design assistant'
+            </span>
+          </Fragment>
+        </Message>
+        {messages.map((m, i) => (
+          <Message {...m} left={i % 2 != 0} text={m.text} />
+        ))}
+      </div>
+      <div className="fixed bottom-0 left-0 flex w-full items-end gap-3 bg-gray-400 p-3">
+        <div className="w-full flex-1">
+          <Text>
+            <Muted>Message</Muted>
+          </Text>
+          <VerticalSpace space="small" />
+          <TextboxMultiline
+            rows={1}
+            placeholder="Type here anything you want to ask CHAPI..."
+            onValueInput={setMessage}
+            value={message}
+            variant="border"
+          />
+          {error && (
+            <Fragment>
+              <VerticalSpace space="extraSmall" />
+              <span className="text-red-500">{error}</span>
+              <VerticalSpace space="small" />
+            </Fragment>
+          )}
+        </div>
+        <Button
+          fullWidth
+          onClick={handleSendMessage}
+          disabled={loading || !message || !token}
+        >
+          {loading && <LoadingIndicator color="disabled" />}
+          {!loading && "Send"}
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+interface ChatTabProps {
+  settings: Settings;
+  onSaveSettings: (settings: WriteSettings) => void;
+}
+
+const ChatTab = ({ settings, onSaveSettings }: ChatTabProps) => {
+  const [token, setToken] = useState("");
+
+  const [chats, setChats] = useState<Record<string, MessageProps[]>>({});
+  const [loaded, setLoaded] = useState(false);
+
+  const [tab, setTab] = useState("");
+
+  useEffect(() => {
+    if (!loaded && Object.keys(settings).length > 0) {
+      if (settings.openAIToken) {
+        setToken(settings.openAIToken);
+      }
+      const chats = settings.chats ?? {
+        "Chat 1": [],
+      };
+      setChats(chats);
+      setTab(Object.keys(chats)[0]);
+      setLoaded(true);
+      console.log("asdasdas");
+    }
+  }, [settings, loaded]);
+
   const handleNewChat = useCallback(() => {
+    const existingIds = Object.keys(chats).map((c) => c.split(" ")[1]);
+    const newId = Math.max(...existingIds.map((i) => parseInt(i))) + 1;
+
+    const newTab = `Chat ${newId}`;
     const newChats = Object.assign({}, chats, {
-      [`Chat ${Object.keys(chats).length + 1}`]: [],
+      [newTab]: [],
     });
     setChats(newChats);
-    setTab(Object.keys(newChats)[Object.keys(newChats).length - 1]);
+    setTab(newTab);
   }, [chats]);
 
   const totalWords = useMemo(() => {
@@ -226,6 +311,30 @@ const ChatTab = ({ settings, onSaveSettings }: ChatTabProps) => {
       );
     }, 0);
   }, [chats]);
+
+  const handleUpdateChats = useCallback(
+    (messages: MessageProps[]) => {
+      let newChats = Object.assign({}, chats, {
+        [tab]: messages,
+      });
+
+      setChats(newChats);
+      onSaveSettings({
+        chats: newChats,
+      });
+    },
+    [chats, tab]
+  );
+
+  const handleDeleteChat = useCallback(() => {
+    const newChats = Object.assign({}, chats);
+    newChats[tab] = [];
+
+    setChats(newChats);
+    onSaveSettings({
+      chats: newChats,
+    });
+  }, [chats, tab]);
 
   return (
     <div>
@@ -255,67 +364,14 @@ const ChatTab = ({ settings, onSaveSettings }: ChatTabProps) => {
         options={Object.keys(chats).map((name) => ({
           value: name,
           children: (
-            <div className="relative mt-5">
-              <div className="absolute top-0 right-0 -mt-16">
-                <Button
-                  onClick={handleNewChat}
-                  disabled={loading || !message || !token}
-                >
-                  {loading && <LoadingIndicator color="disabled" />}
-                  {!loading && "New chat"}
-                </Button>
-              </div>
-              <div ref={chatRef} className="chat-container">
-                <Message date={new Date()} role="system" left hideCopy>
-                  <Fragment>
-                    Hi, <span className="font-bold text-green-500">CHAPI</span>{" "}
-                    here! I'm here to{" "}
-                    <span className="font-semibold">help you</span> with your
-                    design process but I can do a variety of other things as
-                    well.
-                    <br />
-                    <br />
-                    Let's start with what you want me to be, for example:
-                    <span className="italic text-gray-100">
-                      'You are a helpful UX/UI design assistant'
-                    </span>
-                  </Fragment>
-                </Message>
-                {chats[name].map((m, i) => (
-                  <Message {...m} left={i % 2 != 0} text={m.text} />
-                ))}
-              </div>
-              <div className="fixed bottom-0 left-0 flex w-full items-end gap-3 bg-gray-400 p-3">
-                <div className="w-full flex-1">
-                  <Text>
-                    <Muted>Prompt</Muted>
-                  </Text>
-                  <VerticalSpace space="small" />
-                  <TextboxMultiline
-                    rows={1}
-                    placeholder="anything you want to ask"
-                    onValueInput={setMessage}
-                    value={message}
-                    variant="border"
-                  />
-                  <VerticalSpace space="extraSmall" />
-                  {error && (
-                    <Fragment>
-                      <span className="text-red-500">{error}</span>
-                      <VerticalSpace space="small" />
-                    </Fragment>
-                  )}
-                </div>
-                <Button
-                  fullWidth
-                  onClick={handleSendMessage}
-                  disabled={loading || !message || !token}
-                >
-                  {loading && <LoadingIndicator color="disabled" />}
-                  {!loading && "Send"}
-                </Button>
-              </div>
-            </div>
+            <Chat
+              messages={chats[name]}
+              handleNewChat={handleNewChat}
+              updateChats={handleUpdateChats}
+              deleteChat={handleDeleteChat}
+              hasMultipleChats={Object.keys(chats).length > 1}
+              token={token}
+            />
           ),
         }))}
       />
@@ -327,8 +383,11 @@ function Plugin(data: unknown) {
   const [value, setValue] = useState("Chat");
   const [settings, setSettings] = useState<Settings>({});
 
+  const [loaded, setLoaded] = useState(false);
+
   useEffect(() => {
     return on("LOAD_SETTINGS", (newSettings) => {
+      setLoaded(true);
       setSettings({
         ...settings,
         ...newSettings,
@@ -338,7 +397,14 @@ function Plugin(data: unknown) {
 
   const handleSaveSettings = useCallback(
     (newSettings: WriteSettings) => {
-      emit<SaveSettingsHandler>("SAVE_SETTINGS", newSettings);
+      emit<SaveSettingsHandler>(
+        "SAVE_SETTINGS",
+        {
+          ...settings,
+          ...newSettings,
+        },
+        "Chats saved locally."
+      );
       setSettings({
         ...settings,
         ...newSettings,
@@ -354,6 +420,16 @@ function Plugin(data: unknown) {
 
   return (
     <Container space="medium">
+      {!settings.openAIToken && loaded && (
+        <Banner icon={<IconInfo32 />}>
+          Howdy! Don't forget to add your{" "}
+          <Link href="https://beta.openai.com/account/api-keys" target="_blank">
+            OpenAI token
+          </Link>{" "}
+          to settings to be able to chat with CHAPI.
+        </Banner>
+      )}
+
       <Tabs
         value={value}
         onValueChange={setValue}

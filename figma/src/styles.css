@@ -341,6 +341,10 @@
   margin-top: -4rem
 }
 
+.mr-3 {
+  margin-right: 0.75rem
+}
+
 .inline-block {
   display: inline-block
 }
@@ -402,6 +406,10 @@
   height: 66.666667%
 }
 
+.\!w-\[580px\] {
+  width: 580px !important
+}
+
 .\!w-\[172px\] {
   width: 172px !important
 }
@@ -425,6 +433,18 @@
 .w-fit {
   width: -moz-fit-content;
   width: fit-content
+}
+
+.\!w-\[520px\] {
+  width: 520px !important
+}
+
+.\!w-\[650px\] {
+  width: 650px !important
+}
+
+.\!w-\[400px\] {
+  width: 400px !important
 }
 
 .w-\[88px\] {
@@ -469,6 +489,10 @@
 
 .max-w-\[60ch\] {
   max-width: 60ch
+}
+
+.max-w-md {
+  max-width: 28rem
 }
 
 .max-w-\[70ch\] {
@@ -1198,6 +1222,7 @@ body {
 .image-grid {
   margin-bottom: 0.75rem !important;
   display: grid !important;
+  width: 580px !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   gap: 1rem !important
 }

@@ -23,18 +23,27 @@ export default function () {
 
   on<NotifyHandler>("NOTIFY", figma.notify);
 
-  on<SaveSettingsHandler>("SAVE_SETTINGS", (settings) => {
-    saveSettingsAsync(settings);
+  on<SaveSettingsHandler>(
+    "SAVE_SETTINGS",
+    (settings, message = "Settings saved!") => {
+      saveSettingsAsync(settings);
 
-    emit<LoadSettingsHandler>("LOAD_SETTINGS", {
-      ...settings,
-      user: figma.currentUser,
-    });
-    figma.notify("Settings saved!");
-  });
+      emit<LoadSettingsHandler>("LOAD_SETTINGS", {
+        ...settings,
+        user: figma.currentUser,
+      });
+      figma.notify(message);
+    }
+  );
 
   on<ClearSettingsHandler>("CLEAR_SETTINGS", () => {
-    saveSettingsAsync({ user: figma.currentUser, acceptSaveImage: false });
+    saveSettingsAsync({
+      user: figma.currentUser,
+      acceptSaveImage: false,
+      chats: {
+        "Chat 1": [],
+      },
+    });
 
     emit<LoadSettingsHandler>("LOAD_SETTINGS", {
       user: figma.currentUser,
