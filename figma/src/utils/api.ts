@@ -156,4 +156,17 @@ export const apiClient = {
 
     return data;
   },
+  session: async (user: Omit<Settings["user"], "sessionId" | "color">) => {
+    fetch(`${API_URL}/users/session`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  },
 };

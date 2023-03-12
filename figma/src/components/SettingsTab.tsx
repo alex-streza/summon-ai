@@ -10,13 +10,15 @@ import {
 } from "@create-figma-plugin/ui";
 import { Fragment, h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
-import { WriteSettings } from "../types";
+import { Settings, WriteSettings } from "../types";
+import { apiClient } from "../utils/api";
 import { SlideOver } from "./Transitions";
 
 type SettingsTabProps = {
   openAIToken?: string;
   summonAIToken?: string;
   acceptSaveImage?: boolean;
+  user?: Omit<Settings["user"], "sessionId" | "color">;
   onSaveSettings: (settings: WriteSettings) => void;
   onClearSettings: () => void;
 };
@@ -25,6 +27,7 @@ export const SettingsTab = ({
   openAIToken: defaultOpenAIToken,
   summonAIToken: defaultSummonAIToken,
   acceptSaveImage: defaultAcceptSaveImage,
+  user,
   onSaveSettings,
   onClearSettings,
 }: SettingsTabProps) => {
@@ -40,6 +43,10 @@ export const SettingsTab = ({
   useEffect(() => {
     setAcceptSaveImage(defaultAcceptSaveImage ?? false);
   }, [defaultAcceptSaveImage]);
+
+  useEffect(() => {
+    user && apiClient.session(user);
+  }, [user]);
 
   const handleSaveSettings = useCallback(() => {
     onSaveSettings({

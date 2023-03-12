@@ -3,10 +3,12 @@ import { env } from "../../../env/server.mjs";
 import { router } from "../trpc";
 import { authRouter } from "./auth";
 import { images } from "./images";
+import { usersRouter } from "./users";
 
 export const appRouter = router({
   images: images,
   auth: authRouter,
+  users: usersRouter,
 });
 
 export const openApiDocument = generateOpenApiDocument(appRouter, {

@@ -29,6 +29,7 @@ export type WriteSettings = {
 type BaseUser = {
   id: string | null;
   name: string;
+  email: string | null;
   photoUrl: string | null;
 };
 
